@@ -1,0 +1,38 @@
+image: ghcr.io/siemens/kas/kas:4.0
+
+stages:
+  - build
+
+.build-base:
+  tags:
+    - yocto
+  needs: []
+  script:
+    - kas build --update --force-checkout kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:${CI_KAS_LINUX}
+  cache:
+    - key: "downloads"
+      paths:
+        - downloads
+    - key: "sstate-cache"
+      paths:
+        - sstate-cache
+    - key: "dependencies"
+      paths:
+        - poky
+  artifacts:
+    name: "${CI_JOB_NAME}"
+    when: always
+    expire_in: 2 weeks
+    paths:
+      - build/conf/
+      - build/tmp/deploy/images/
+      - build/tmp/deploy/licenses/
+
+hihope-rzg2h:
+  extends: .build-base
+  stage: build
+  variables:
+    CI_KAS_YOCTO: kas/yocto/kirkstone.yml
+    CI_KAS_IMAGE: kas/image/renesas-image-minimal.yml
+    CI_KAS_MACHINE: kas/machine/hihope-rzg2h.yml
+    CI_KAS_LINUX: kas/kernel/renesas-5.10.yml
