@@ -1,0 +1,88 @@
+mainmenu "Renesas RZ Community BSP Configuration"
+
+config KAS_BUILD_SYSTEM
+	string
+	default "openembedded"
+
+menu "Yocto"
+choice
+	prompt "Select the Yocto version to use"
+	default YOCTO_KIRKSTONE
+
+	config YOCTO_KIRKSTONE
+	bool "Yocto Kirkstone"
+	help
+		Select Yocto Kirkstone
+
+	config KAS_INCLUDE_YOCTO_KIRKSTONE
+	string
+	depends on YOCTO_KIRKSTONE
+	default "kas/yocto/kirkstone.yml"
+endchoice
+endmenu
+
+menu "Machine"
+choice
+	prompt "Select the machine to build for"
+	default MACHINE_HIHOPE-RZG2H
+
+	config MACHINE_HIHOPE-RZG2H
+	bool "hihope-rzg2h"
+	help
+		Select the Renesas RZ/G2H reference platform from HopeRun
+
+	config KAS_INCLUDE_MACHINE_HIHOPE-RZG2H
+	string
+	depends on MACHINE_HIHOPE-RZG2H
+	default "kas/machine/hihope-rzg2h.yml"
+
+endchoice
+endmenu
+
+menu "Image"
+choice
+	prompt "Select the image to build"
+	default IMAGE_RENESAS_IMAGE_MINIMAL
+
+	config IMAGE_RENESAS_IMAGE_MINIMAL
+	bool "renesas-image-minimal"
+	help
+		Use a basic image based on core-image
+
+	config KAS_INCLUDE_IMAGE_RENESAS_IMAGE_MINIMAL
+	string
+	depends on IMAGE_RENESAS_IMAGE_MINIMAL
+	default "kas/image/renesas-image-minimal.yml"
+endchoice
+endmenu
+
+menu "Linux"
+choice
+	prompt "Select the Linux kernel version to use"
+	default KERNEL_RENESAS_5.10
+
+	config KERNEL_RENESAS_5.10
+	bool "Renesas v5.10"
+	help
+		Use the Linux kernel from the Renesas BSP based on CIP SLTS v5.10
+
+	config KAS_INCLUDE_KERNEL_RENESAS_5.10
+	string
+	depends on KERNEL_RENESAS_5.10
+	default "kas/kernel/renesas-5.10.yml"
+endchoice
+endmenu
+
+menu "Other"
+
+	config OPT_GITLAB_CI_CACHE
+	bool "GitLab CI cache"
+	help
+		Change the SSTATE_DIR and DL_DIR locations so that they can
+		easily be used with GitLab CI/CD caching
+
+	config KAS_OPT_GITLAB_CI_CACHE
+	string
+	depends on OPT_GITLAB_CI_CACHE
+	default "kas/opt/gitlab-ci-cache.yml"
+endmenu

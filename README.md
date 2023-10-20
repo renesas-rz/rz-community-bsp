@@ -88,6 +88,17 @@ cd rz-community-bsp
 	kas/kernel/renesas-5.10.yml
 ```
 
+## Kas Menu
+Kas supports a Kconfig based menu system which can be accessed with the
+`kas menu` (or `kas-container menu`) command. This allows users to easily select
+between options without having to manually select the kas yaml files required
+for their build.
+
+Follow the instuctions in the menu to select the build configuration and then
+either "Save & Build" to save the configuration to a .config.yaml file and kick
+off a build straight way, or "Save & Exit" to only store the configuration to a
+.config.yaml file for future use.
+
 # Contributions
 Contributions are *very* welcome! Please submit a pull request for review.
 
