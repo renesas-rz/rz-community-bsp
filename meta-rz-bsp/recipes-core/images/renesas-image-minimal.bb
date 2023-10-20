@@ -9,7 +9,6 @@ inherit core-image
 
 # Image features we want to enable
 IMAGE_FEATURES:append = " \
-	debug-tweaks \
 	package-management \
 	splash \
 	ssh-server-openssh \

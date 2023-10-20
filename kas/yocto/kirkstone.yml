@@ -1,0 +1,19 @@
+header:
+  version: 13
+  includes:
+    - kas/base.yml
+
+distro: poky
+
+repos:
+  rz-community-bsp:
+    layers:
+      meta-rz-bsp:
+  poky:
+    url: "https://git.yoctoproject.org/git/poky"
+    # kirkstone-4.0.13
+    commit: e51bf557f596c4da38789a948a3228ba11455e3c
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
