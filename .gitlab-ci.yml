@@ -35,4 +35,8 @@ hihope-rzg2h:
     CI_KAS_YOCTO: kas/yocto/kirkstone.yml
     CI_KAS_IMAGE: kas/image/renesas-image-minimal.yml
     CI_KAS_MACHINE: kas/machine/hihope-rzg2h.yml
-    CI_KAS_LINUX: kas/kernel/renesas-5.10.yml
+  parallel:
+    matrix:
+      - CI_KAS_LINUX:
+        - kas/kernel/renesas-5.10.yml
+        - kas/kernel/cip-6.1.yml

@@ -78,6 +78,16 @@ cd rz-community-bsp
 	kas/machine/hihope-rzg2h.yml:\
 	kas/kernel/renesas-5.10.yml
 
+# Yocto: kirkstone
+# Image: renesas-image-minimal
+# Machine: hihope-rzg2h
+# Linux: linux-cip v6.1
+./kas-container build\
+	kas/yocto/kirkstone.yml:\
+	kas/image/renesas-image-minimal.yml:\
+	kas/machine/hihope-rzg2h.yml:\
+	kas/kernel/cip-6.1.yml
+
 # If you are re-building in the same directory as a previous build it may be
 # prudent to use --update and --force-checkout to ensure that the dependency
 # repositories are correct
@@ -85,7 +95,7 @@ cd rz-community-bsp
 	kas/yocto/kirkstone.yml:\
 	kas/image/renesas-image-minimal.yml:\
 	kas/machine/hihope-rzg2h.yml:\
-	kas/kernel/renesas-5.10.yml
+	kas/kernel/cip-6.1.yml
 ```
 
 ## Kas Menu
