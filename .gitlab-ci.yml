@@ -39,4 +39,5 @@ hihope-rzg2h:
     matrix:
       - CI_KAS_LINUX:
         - kas/kernel/renesas-5.10.yml
+        - kas/kernel/cip-5.10.yml
         - kas/kernel/cip-6.1.yml

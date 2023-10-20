@@ -71,6 +71,16 @@ choice
 	depends on KERNEL_RENESAS_5.10
 	default "kas/kernel/renesas-5.10.yml"
 
+	config KERNEL_CIP_5.10
+	bool "CIP SLTS v5.10"
+	help
+		Use the CIP SLTS Linux kernel v5.10
+
+	config KAS_INCLUDE_KERNEL_CIP_5.10
+	string
+	depends on KERNEL_CIP_5.10
+	default "kas/kernel/cip-5.10.yml"
+
 	config KERNEL_CIP_6.1
 	bool "CIP SLTS v6.1"
 	help
