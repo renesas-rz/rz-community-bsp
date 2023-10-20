@@ -1,0 +1,7 @@
+header:
+  version: 13
+
+local_conf_header:
+  kernel: |
+    PREFERRED_PROVIDER_virtual/kernel = "linux-renesas"
+    PREFERRED_VERSION_linux-renesas = "5.10%"

@@ -19,6 +19,8 @@ IMAGE_INSTALL:append = " \
 	packagegroup-base \
 	packagegroup-core-boot \
 	${CORE_IMAGE_EXTRA_INSTALL} \
+	kernel-image \
+	kernel-devicetree \
 "
 
 IMAGE_LINGUAS = " "
