@@ -1,0 +1,8 @@
+header:
+  version: 13
+
+local_conf_header:
+  debug: |
+    IMAGE_FEATURES:append = " \
+      debug-tweaks \
+    "
