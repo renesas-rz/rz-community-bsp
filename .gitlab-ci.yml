@@ -8,7 +8,7 @@ stages:
     - yocto
   needs: []
   script:
-    - kas build --update --force-checkout kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:${CI_KAS_LINUX}
+    - kas build --update --force-checkout kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:${CI_KAS_LINUX}:${CI_KAS_UBOOT}
   cache:
     - key: "downloads"
       paths:
@@ -41,3 +41,6 @@ hihope-rzg2h:
         - kas/kernel/renesas-5.10.yml
         - kas/kernel/cip-5.10.yml
         - kas/kernel/cip-6.1.yml
+        CI_KAS_UBOOT:
+        - kas/u-boot/renesas-2021.10.yml
+        - kas/u-boot/mainline-2023.10.yml
