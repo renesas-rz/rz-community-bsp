@@ -1,0 +1,7 @@
+header:
+  version: 13
+
+local_conf_header:
+  u-boot: |
+    PREFERRED_PROVIDER_virtual/bootloader = "u-boot-renesas"
+    PREFERRED_VERSION_u-boot-renesas = "2021.10%"
