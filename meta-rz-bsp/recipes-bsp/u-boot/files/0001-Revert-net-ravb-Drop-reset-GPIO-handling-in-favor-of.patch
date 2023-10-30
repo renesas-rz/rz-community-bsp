@@ -1,0 +1,96 @@
+From 699fcedbdb0a14d46532c60d90b51da18891ca32 Mon Sep 17 00:00:00 2001
+From: Lin Hua <linh.hua.jc@renesas.com>
+Date: Thu, 26 Oct 2023 11:49:31 +0100
+Subject: [PATCH] Revert "net: ravb: Drop reset GPIO handling in favor of
+ common code"
+
+This reverts commit 5c80edb26421e2cbe70b4a98274a1c0877b2d137.
+
+We are seeing issues with Ethernet on hihope-rzg2h. Reverting this commit
+gets Ethernet working again.
+
+Upstream-Status: Pending
+
+Signed-off-by: Lin Hua <linh.hua.jc@renesas.com>
+Signed-off-by: Chris Paterson <chris.paterson2@renesas.com>
+---
+ drivers/net/Kconfig |  1 -
+ drivers/net/ravb.c  | 22 ++++++++++++++++++++++
+ 2 files changed, 22 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/net/Kconfig b/drivers/net/Kconfig
+index 0ed39a61e4de..5814555c653c 100644
+--- a/drivers/net/Kconfig
++++ b/drivers/net/Kconfig
+@@ -773,7 +773,6 @@ config RENESAS_RAVB
+ 	bool "Renesas Ethernet AVB MAC"
+ 	depends on RCAR_64
+ 	select PHYLIB
+-	select PHY_ETHERNET_ID
+ 	help
+ 	  This driver implements support for the Ethernet AVB block in
+ 	  Renesas M3 and H3 SoCs.
+diff --git a/drivers/net/ravb.c b/drivers/net/ravb.c
+index 0bcd6cfd3f35..c74c8a81f942 100644
+--- a/drivers/net/ravb.c
++++ b/drivers/net/ravb.c
+@@ -131,6 +131,7 @@ struct ravb_priv {
+ 	struct mii_dev		*bus;
+ 	void __iomem		*iobase;
+ 	struct clk_bulk		clks;
++	struct gpio_desc	reset_gpio;
+ };
+ 
+ static inline void ravb_flush_dcache(u32 addr, u32 len)
+@@ -311,6 +312,13 @@ static int ravb_phy_config(struct udevice *dev)
+ 	struct phy_device *phydev;
+ 	int reg;
+ 
++	if (dm_gpio_is_valid(&eth->reset_gpio)) {
++		dm_gpio_set_value(&eth->reset_gpio, 1);
++		mdelay(20);
++		dm_gpio_set_value(&eth->reset_gpio, 0);
++		mdelay(1);
++	}
++
+ 	phydev = phy_connect(eth->bus, -1, dev, pdata->phy_interface);
+ 	if (!phydev)
+ 		return -ENODEV;
+@@ -495,6 +503,7 @@ static int ravb_probe(struct udevice *dev)
+ {
+ 	struct eth_pdata *pdata = dev_get_plat(dev);
+ 	struct ravb_priv *eth = dev_get_priv(dev);
++	struct ofnode_phandle_args phandle_args;
+ 	struct mii_dev *mdiodev;
+ 	void __iomem *iobase;
+ 	int ret;
+@@ -506,6 +515,17 @@ static int ravb_probe(struct udevice *dev)
+ 	if (ret < 0)
+ 		goto err_mdio_alloc;
+ 
++	ret = dev_read_phandle_with_args(dev, "phy-handle", NULL, 0, 0, &phandle_args);
++	if (!ret) {
++		gpio_request_by_name_nodev(phandle_args.node, "reset-gpios", 0,
++					   &eth->reset_gpio, GPIOD_IS_OUT);
++	}
++
++	if (!dm_gpio_is_valid(&eth->reset_gpio)) {
++		gpio_request_by_name(dev, "reset-gpios", 0, &eth->reset_gpio,
++				     GPIOD_IS_OUT);
++	}
++
+ 	mdiodev = mdio_alloc();
+ 	if (!mdiodev) {
+ 		ret = -ENOMEM;
+@@ -556,6 +576,8 @@ static int ravb_remove(struct udevice *dev)
+ 	free(eth->phydev);
+ 	mdio_unregister(eth->bus);
+ 	mdio_free(eth->bus);
++	if (dm_gpio_is_valid(&eth->reset_gpio))
++		dm_gpio_free(dev, &eth->reset_gpio);
+ 	unmap_physmem(eth->iobase, MAP_NOCACHE);
+ 
+ 	return 0;
+-- 
+2.42.0
+

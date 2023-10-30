@@ -93,6 +93,33 @@ choice
 endchoice
 endmenu
 
+menu "U-Boot"
+choice
+	prompt "Select the U-Boot version to use"
+	default UBOOT_MAINLINE_2023.10
+
+	config UBOOT_RENESAS_2021.10
+	bool "Renesas v2021.10"
+	help
+		Use the U-Boot from the Renesas BSP based on v2021.10
+
+	config KAS_INCLUDE_UBOOT_RENESAS_2021.10
+	string
+	depends on UBOOT_RENESAS_2021.10
+	default "kas/u-boot/renesas-2021.10.yml"
+
+	config UBOOT_MAINLINE_2023.10
+	bool "Mainline v2023.10"
+	help
+		Use mainline U-Boot v2023.10
+
+	config KAS_INCLUDE_UBOOT_MAINLINE_2023.10
+	string
+	depends on UBOOT_MAINLINE_2023.10
+	default "kas/u-boot/mainline-2023.10.yml"
+endchoice
+endmenu
+
 menu "Other"
 
 	config OPT_GITLAB_CI_CACHE

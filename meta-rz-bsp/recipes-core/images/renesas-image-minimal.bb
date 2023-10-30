@@ -23,6 +23,11 @@ IMAGE_INSTALL:append = " \
 	kernel-devicetree \
 "
 
+# Packages that won't be included in the rootfs
+EXTRA_IMAGEDEPENDS:append = " \
+	virtual/bootloader \
+"
+
 IMAGE_LINGUAS = " "
 
 IMAGE_ROOTFS_SIZE ?= "1048576"
