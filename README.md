@@ -11,7 +11,8 @@ official BSPs provided on [renesas.com](https://renesas.com).
 ## Dependencies
 | Name | Layers | Repository | Branch | Revision |
 | --- | --- | --- | --- | --- |
-| Poky | meta<br>meta-poky<br>meta-yocto-bsp | https://git.yoctoproject.org/git/poky | kirkstone | kirkstone-4.0.13 |
+| poky | meta<br>meta-poky<br>meta-yocto-bsp | https://git.yoctoproject.org/git/poky | kirkstone | kirkstone-4.0.13 |
+| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | kirkstone | yocto-4.0.2 |
 
 ## Supported Machines
 | SoC | Reference Platform | Machine Name |
@@ -21,7 +22,7 @@ official BSPs provided on [renesas.com](https://renesas.com).
 ## Provided Images
 | Image Name | Description | Key Features |
 | --- | --- | --- |
-| renesas-image-minimal | Provides a basic image based on Poky's core-image. | Linux kernel<br>U-Boot |
+| renesas-image-minimal | Provides a basic image based on Poky's core-image. | Linux kernel<br>U-Boot<br>Trusted-Firmware-A |
 
 ## Building
 This project is set up to be built with [Kas](https://github.com/siemens/kas).
