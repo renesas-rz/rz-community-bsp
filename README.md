@@ -54,6 +54,9 @@ A selection of files to use to specify which Linux kernel version to build.
 **kas/u-boot/*.yml**\
 A selection of files to use to specify which U-Boot version to build.
 
+**kas/trusted-firmware-a/*.yml**\
+A selection of files to use to specify which Trusted-Firmware-A version to build.
+
 **kas/opt/gitlab-ci-cache.yml**\
 A special option that can be used to configure the sstate and downloads
 directory locations so that they can be used easily with GitLab CI/CD caching.

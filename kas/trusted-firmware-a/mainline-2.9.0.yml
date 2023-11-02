@@ -1,0 +1,7 @@
+header:
+  version: 13
+
+local_conf_header:
+  trusted-firmware-a: |
+    PREFERRED_PROVIDER_trusted-firmware-a = "trusted-firmware-a"
+    PREFERRED_VERSION_trusted-firmware-a = "2.9.0%"
