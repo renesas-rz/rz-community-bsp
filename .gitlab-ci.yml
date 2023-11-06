@@ -8,7 +8,7 @@ stages:
     - yocto
   needs: []
   script:
-    - kas build --update --force-checkout kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:${CI_KAS_LINUX}:${CI_KAS_UBOOT}
+    - kas build --update --force-checkout kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:${CI_KAS_LINUX}:${CI_KAS_UBOOT}:${CI_KAS_TFA}
   cache:
     - key: "downloads"
       paths:
@@ -28,19 +28,28 @@ stages:
       - build/tmp/deploy/images/
       - build/tmp/deploy/licenses/
 
-hihope-rzg2h:
+hihope-rzg2h-mainline:
   extends: .build-base
   stage: build
   variables:
     CI_KAS_YOCTO: kas/yocto/kirkstone.yml
     CI_KAS_IMAGE: kas/image/renesas-image-minimal.yml
     CI_KAS_MACHINE: kas/machine/hihope-rzg2h.yml
+    CI_KAS_UBOOT: kas/u-boot/mainline-2023.10.yml
+    CI_KAS_TFA: kas/trusted-firmware-a/mainline-2.9.0.yml
   parallel:
     matrix:
       - CI_KAS_LINUX:
-        - kas/kernel/renesas-5.10.yml
         - kas/kernel/cip-5.10.yml
         - kas/kernel/cip-6.1.yml
-        CI_KAS_UBOOT:
-        - kas/u-boot/renesas-2021.10.yml
-        - kas/u-boot/mainline-2023.10.yml
+
+hihope-rzg2h-bsp:
+  extends: .build-base
+  stage: build
+  variables:
+    CI_KAS_YOCTO: kas/yocto/kirkstone.yml
+    CI_KAS_IMAGE: kas/image/renesas-image-minimal.yml
+    CI_KAS_MACHINE: kas/machine/hihope-rzg2h.yml
+    CI_KAS_LINUX: kas/kernel/renesas-5.10.yml
+    CI_KAS_UBOOT: kas/u-boot/renesas-2021.10.yml
+    CI_KAS_TFA: kas/trusted-firmware-a/renesas-2.9.0.yml

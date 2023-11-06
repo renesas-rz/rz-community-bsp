@@ -93,31 +93,60 @@ choice
 endchoice
 endmenu
 
-menu "U-Boot"
-choice
-	prompt "Select the U-Boot version to use"
-	default UBOOT_MAINLINE_2023.10
+menu "Bootloaders"
+	menu "U-Boot"
+	choice
+		prompt "Select the U-Boot version to use"
+		default UBOOT_MAINLINE_2023.10
 
-	config UBOOT_RENESAS_2021.10
-	bool "Renesas v2021.10"
-	help
-		Use the U-Boot from the Renesas BSP based on v2021.10
+		config UBOOT_RENESAS_2021.10
+		bool "Renesas v2021.10"
+		help
+			Use the U-Boot from the Renesas BSP based on v2021.10
 
-	config KAS_INCLUDE_UBOOT_RENESAS_2021.10
-	string
-	depends on UBOOT_RENESAS_2021.10
-	default "kas/u-boot/renesas-2021.10.yml"
+		config KAS_INCLUDE_UBOOT_RENESAS_2021.10
+		string
+		depends on UBOOT_RENESAS_2021.10
+		default "kas/u-boot/renesas-2021.10.yml"
 
-	config UBOOT_MAINLINE_2023.10
-	bool "Mainline v2023.10"
-	help
-		Use mainline U-Boot v2023.10
+		config UBOOT_MAINLINE_2023.10
+		bool "Mainline v2023.10"
+		help
+			Use mainline U-Boot v2023.10
 
-	config KAS_INCLUDE_UBOOT_MAINLINE_2023.10
-	string
-	depends on UBOOT_MAINLINE_2023.10
-	default "kas/u-boot/mainline-2023.10.yml"
-endchoice
+		config KAS_INCLUDE_UBOOT_MAINLINE_2023.10
+		string
+		depends on UBOOT_MAINLINE_2023.10
+		default "kas/u-boot/mainline-2023.10.yml"
+	endchoice
+	endmenu
+
+	menu "Trusted-Firmware-A"
+	choice
+		prompt "Select the Trusted-Firmware-A version to use"
+		default TFA_MAINLINE_2.9.0
+
+		config TFA_RENESAS_2.9.0
+		bool "Renesas v2.9.0"
+		help
+			Use the Trusted-Firmware-A v2.9.0 from the Renesas BSP
+
+		config KAS_INCLUDE_TFA_RENESAS_2.9.0
+		string
+		depends on TFA_RENESAS_2.9.0
+		default "kas/trusted-firmware-a/renesas-2.9.0.yml"
+
+		config TFA_MAINLINE_2.9.0
+		bool "Mainline v2.9.0"
+		help
+			Use mainline Trusted-Firmware-A v2.9.0
+
+		config KAS_INCLUDE_TFA_MAINLINE_2.9.0
+		string
+		depends on TFA_MAINLINE_2.9.0
+		default "kas/trusted-firmware-a/mainline-2.9.0.yml"
+	endchoice
+	endmenu
 endmenu
 
 menu "Other"

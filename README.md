@@ -5,13 +5,14 @@ for Renesas RZ reference platforms.
 It is designed to allow users to use the latest upstream open source projects
 and is provided as-is with no support from Renesas.
 
-For fully supported and fully functional software from Renesas please use the
+For supported and fully functional software from Renesas please use the
 official BSPs provided on [renesas.com](https://renesas.com).
 
 ## Dependencies
 | Name | Layers | Repository | Branch | Revision |
 | --- | --- | --- | --- | --- |
-| Poky | meta<br>meta-poky<br>meta-yocto-bsp | https://git.yoctoproject.org/git/poky | kirkstone | kirkstone-4.0.13 |
+| poky | meta<br>meta-poky<br>meta-yocto-bsp | https://git.yoctoproject.org/git/poky | kirkstone | kirkstone-4.0.13 |
+| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | kirkstone | yocto-4.0.2 |
 
 ## Supported Machines
 | SoC | Reference Platform | Machine Name |
@@ -21,7 +22,7 @@ official BSPs provided on [renesas.com](https://renesas.com).
 ## Provided Images
 | Image Name | Description | Key Features |
 | --- | --- | --- |
-| renesas-image-minimal | Provides a basic image based on Poky's core-image. | Linux kernel |
+| renesas-image-minimal | Provides a basic image based on Poky's core-image. | Linux kernel<br>U-Boot<br>Trusted-Firmware-A |
 
 ## Building
 This project is set up to be built with [Kas](https://github.com/siemens/kas).
@@ -50,6 +51,12 @@ A selection of files to use to specify which image to build.
 **kas/kernel/*.yml**\
 A selection of files to use to specify which Linux kernel version to build.
 
+**kas/u-boot/*.yml**\
+A selection of files to use to specify which U-Boot version to build.
+
+**kas/trusted-firmware-a/*.yml**\
+A selection of files to use to specify which Trusted-Firmware-A version to build.
+
 **kas/opt/gitlab-ci-cache.yml**\
 A special option that can be used to configure the sstate and downloads
 directory locations so that they can be used easily with GitLab CI/CD caching.
@@ -72,7 +79,7 @@ cd rz-community-bsp
 # Image: renesas-image-minimal
 # Machine: hihope-rzg2h
 # Linux: linux-renesas v5.10
-./kas-container build\
+./kas-container build \
 	kas/yocto/kirkstone.yml:\
 	kas/image/renesas-image-minimal.yml:\
 	kas/machine/hihope-rzg2h.yml:\
@@ -82,7 +89,7 @@ cd rz-community-bsp
 # Image: renesas-image-minimal
 # Machine: hihope-rzg2h
 # Linux: linux-cip v6.1
-./kas-container build\
+./kas-container build \
 	kas/yocto/kirkstone.yml:\
 	kas/image/renesas-image-minimal.yml:\
 	kas/machine/hihope-rzg2h.yml:\
@@ -91,7 +98,7 @@ cd rz-community-bsp
 # If you are re-building in the same directory as a previous build it may be
 # prudent to use --update and --force-checkout to ensure that the dependency
 # repositories are correct
-./kas-container build --update --force-checkout\
+./kas-container build --update --force-checkout \
 	kas/yocto/kirkstone.yml:\
 	kas/image/renesas-image-minimal.yml:\
 	kas/machine/hihope-rzg2h.yml:\
