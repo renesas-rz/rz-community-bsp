@@ -21,6 +21,12 @@ choice
 endchoice
 endmenu
 
+config FAMILY_G2H
+bool
+
+config FAMILY_G2L
+bool
+
 menu "Machine"
 choice
 	prompt "Select the machine to build for"
@@ -28,6 +34,7 @@ choice
 
 	config MACHINE_HIHOPE-RZG2H
 	bool "hihope-rzg2h"
+	select FAMILY_G2H
 	help
 		Select the Renesas RZ/G2H reference platform from HopeRun
 
@@ -35,6 +42,17 @@ choice
 	string
 	depends on MACHINE_HIHOPE-RZG2H
 	default "kas/machine/hihope-rzg2h.yml"
+
+	config MACHINE_SMARC-RZG2L
+	bool "smarc-rzg2l"
+	select FAMILY_G2L
+	help
+		Select the Renesas RZ/G2L reference platform
+
+	config KAS_INCLUDE_MACHINE_SMARC-RZG2L
+	string
+	depends on MACHINE_SMARC-RZG2L
+	default "kas/machine/smarc-rzg2l.yml"
 
 endchoice
 endmenu
@@ -97,7 +115,8 @@ menu "Bootloaders"
 	menu "U-Boot"
 	choice
 		prompt "Select the U-Boot version to use"
-		default UBOOT_MAINLINE_2023.10
+		default UBOOT_MAINLINE_2023.10 if FAMILY_G2H
+		default UBOOT_RENESAS_2021.10
 
 		config UBOOT_RENESAS_2021.10
 		bool "Renesas v2021.10"
@@ -111,6 +130,7 @@ menu "Bootloaders"
 
 		config UBOOT_MAINLINE_2023.10
 		bool "Mainline v2023.10"
+		depends on FAMILY_G2H
 		help
 			Use mainline U-Boot v2023.10
 
@@ -138,6 +158,7 @@ menu "Bootloaders"
 
 		config TFA_MAINLINE_2.9.0
 		bool "Mainline v2.9.0"
+		depends on FAMILY_G2H
 		help
 			Use mainline Trusted-Firmware-A v2.9.0
 

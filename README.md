@@ -18,6 +18,7 @@ official BSPs provided on [renesas.com](https://renesas.com).
 | SoC | Reference Platform | Machine Name |
 | --- | --- | --- |
 | Renesas RZ/G2H | RZ/G2H HopeRun Evaluation Kit | hihope-rzg2h |
+| Renesas RZ/G2L | RZ/G2L SMARC Evaluation Kit | smarc-rzg2l |
 
 ## Provided Images
 | Image Name | Description | Key Features |
@@ -87,12 +88,12 @@ cd rz-community-bsp
 
 # Yocto: kirkstone
 # Image: renesas-image-minimal
-# Machine: hihope-rzg2h
+# Machine: smarc-rzg2l
 # Linux: linux-cip v6.1
 ./kas-container build \
 	kas/yocto/kirkstone.yml:\
 	kas/image/renesas-image-minimal.yml:\
-	kas/machine/hihope-rzg2h.yml:\
+	kas/machine/smarc-rzg2l.yml:\
 	kas/kernel/cip-6.1.yml
 
 # If you are re-building in the same directory as a previous build it may be
