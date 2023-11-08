@@ -4,10 +4,10 @@ PROVIDES = "trusted-firmware-a"
 
 COMPATIBLE_MACHINE = "hihope-rzg2h"
 
-TFA_PLATFORM = "rzg"
-TFA_BUILD_TARGET = "bl2 bl31 rzg"
-TFA_INSTALL_TARGET = "bl2 bl31"
-EXTRA_OEMAKE:append = " \
+TFA_PLATFORM:hihope-rzg2h = "rzg"
+TFA_BUILD_TARGET:hihope-rzg2h = "bl2 bl31 rzg"
+TFA_INSTALL_TARGET:hihope-rzg2h = "bl2 bl31"
+EXTRA_OEMAKE:append:hihope-rzg2h = " \
 	LSI=G2H RCAR_DRAM_SPLIT=2 RCAR_DRAM_LPDDR4_MEMCONF=1 \
 	RCAR_DRAM_CHANNEL=5 RCAR_AVS_SETTING_ENABLE=0 PMIC_ROHM_BD9571=0 \
 	RCAR_SYSTEM_SUSPEND=0 RCAR_LOSSY_ENABLE=1 \
@@ -15,7 +15,7 @@ EXTRA_OEMAKE:append = " \
 "
 
 # For hihope-rzg2h we need a number of files not installed by the meta-arm recipe
-do_install:append() {
+do_install:append:hihope-rzg2h() {
 	echo "Install bl2.srec"
 	install -m 0644 ${BUILD_DIR}/bl2.srec ${D}/firmware/bl2-${MACHINE}.srec
 
