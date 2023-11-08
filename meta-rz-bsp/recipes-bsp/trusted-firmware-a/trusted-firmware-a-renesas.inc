@@ -5,7 +5,7 @@ PROVIDES = "trusted-firmware-a"
 
 TFA_PLATFORM:hihope-rzg2h = "rzg"
 TFA_BUILD_TARGET:hihope-rzg2h = "bl2 bl31 rzg"
-TFA_INSTALL_TARGET:hihope-rzg2h = "bl2 bl31"
+TFA_INSTALL_TARGET:hihope-rzg2h = ""
 EXTRA_OEMAKE:append:hihope-rzg2h = " \
 	LSI=G2H RCAR_DRAM_SPLIT=2 RCAR_DRAM_LPDDR4_MEMCONF=1 \
 	RCAR_DRAM_CHANNEL=5 RCAR_AVS_SETTING_ENABLE=0 PMIC_ROHM_BD9571=0 \
