@@ -1,6 +1,6 @@
 require trusted-firmware-a-renesas.inc
 
-COMPATIBLE_MACHINE = "hihope-rzg2h"
+COMPATIBLE_MACHINE = "rzg2h-family"
 
 # TF-A v2.9.0
 SRCREV_tfa = "d3e71ead6ea5bc3555ac90a446efec84ef6c6122"

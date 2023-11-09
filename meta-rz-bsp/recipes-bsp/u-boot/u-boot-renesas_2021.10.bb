@@ -1,6 +1,6 @@
 require u-boot-renesas.inc
 
-COMPATIBLE_MACHINE = "(hihope-rzg2h|smarc-rzg2l)"
+COMPATIBLE_MACHINE = "(rzg2h-family|rzg2l-family)"
 
 SRCREV = "7fcc1fdc253400f8b088ea10de30b865a32b957a"
 BRANCH = "v2021.10/rz"
