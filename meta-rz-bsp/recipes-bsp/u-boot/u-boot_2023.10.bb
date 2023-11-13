@@ -1,5 +1,7 @@
 require u-boot-renesas.inc
 
+COMPATIBLE_MACHINE = "rzg2h-family"
+
 SRCREV = "4459ed60cb1e0562bc5b40405e2b4b9bbf766d57"
 BRANCH = "master"
 UBOOT_URL = "git://source.denx.de/u-boot/u-boot.git"

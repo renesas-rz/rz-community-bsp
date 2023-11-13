@@ -4,6 +4,7 @@ stages:
   - build
 
 .build-base:
+  stage: build
   tags:
     - yocto
   needs: []
@@ -28,13 +29,11 @@ stages:
       - build/tmp/deploy/images/
       - build/tmp/deploy/licenses/
 
-hihope-rzg2h-mainline:
+.build-mainline:
   extends: .build-base
-  stage: build
   variables:
     CI_KAS_YOCTO: kas/yocto/kirkstone.yml
     CI_KAS_IMAGE: kas/image/renesas-image-minimal.yml
-    CI_KAS_MACHINE: kas/machine/hihope-rzg2h.yml
     CI_KAS_UBOOT: kas/u-boot/mainline-2023.10.yml
     CI_KAS_TFA: kas/trusted-firmware-a/mainline-2.9.0.yml
   parallel:
@@ -43,13 +42,34 @@ hihope-rzg2h-mainline:
         - kas/kernel/cip-5.10.yml
         - kas/kernel/cip-6.1.yml
 
-hihope-rzg2h-bsp:
+.build-bsp:
   extends: .build-base
-  stage: build
   variables:
     CI_KAS_YOCTO: kas/yocto/kirkstone.yml
     CI_KAS_IMAGE: kas/image/renesas-image-minimal.yml
-    CI_KAS_MACHINE: kas/machine/hihope-rzg2h.yml
     CI_KAS_LINUX: kas/kernel/renesas-5.10.yml
     CI_KAS_UBOOT: kas/u-boot/renesas-2021.10.yml
     CI_KAS_TFA: kas/trusted-firmware-a/renesas-2.9.0.yml
+
+.hihope-rzg2h:
+  variables:
+    CI_KAS_MACHINE: kas/machine/hihope-rzg2h.yml
+
+.smarc-rzg2l:
+  variables:
+    CI_KAS_MACHINE: kas/machine/smarc-rzg2l.yml
+    # Mainline bootloaders do not support this platform yet
+    CI_KAS_UBOOT: kas/u-boot/renesas-2021.10.yml
+    CI_KAS_TFA: kas/trusted-firmware-a/renesas-2.9.0.yml
+
+hihope-rzg2h-mainline:
+  extends: [.build-mainline, .hihope-rzg2h]
+
+hihope-rzg2h-bsp:
+  extends: [.build-bsp, .hihope-rzg2h]
+
+smarc-rzg2l-mainline:
+  extends: [.build-mainline, .smarc-rzg2l]
+
+smarc-rzg2l-bsp:
+  extends: [.build-bsp, .smarc-rzg2l]
