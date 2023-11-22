@@ -1,0 +1,16 @@
+header:
+  version: 13
+
+repos:
+  # meta-linux-mainline supports multiple Yocto Project versions with the main
+  # branch
+  meta-linux-mainline:
+    url: https://github.com/betafive/meta-linux-mainline.git
+    refspec: main
+    path: meta-linux-mainline
+
+local_conf_header:
+  kernel: |
+    PREFERRED_PROVIDER_virtual/kernel = "linux-mainline"
+    KBUILD_DEFCONFIG = "defconfig"
+    KCONFIG_MODE = "alldefconfig"

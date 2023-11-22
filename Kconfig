@@ -108,6 +108,21 @@ choice
 	string
 	depends on KERNEL_CIP_6.1
 	default "kas/kernel/cip-6.1.yml"
+
+	config KERNEL_MAINLINE
+	bool "Mainline"
+	help
+		Use the latest mainline kernel - note that this may be a
+		pre-release kernel. This option is intended for development and
+		testing, not production use.
+
+		The meta-linux-mainline layer is used to provide the mainline
+		kernel recipe.
+
+	config KAS_INCLUDE_KERNEL_MAINLINE
+	string
+	depends on KERNEL_MAINLINE
+	default "kas/kernel/mainline.yml"
 endchoice
 endmenu
 

@@ -14,6 +14,13 @@ official BSPs provided on [renesas.com](https://renesas.com).
 | poky | meta<br>meta-poky<br>meta-yocto-bsp | https://git.yoctoproject.org/git/poky | kirkstone | kirkstone-4.0.14 |
 | meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | kirkstone | yocto-4.0.2 |
 
+### Optional Dependencies
+The following layers are only required when certain options are selected:
+
+| Condition |Name | Layers | Repository | Branch | Revision |
+| --- | --- | --- | --- | --- | --- |
+| Mainline kernel is selected<br>via `kas/kernel/mainline.yml`<br>or `KERNEL_MAINLINE=y` in `kas menu` | meta-linux-mainline | meta-linux-mainline | https://github.com/betafive/meta-linux-mainline | main | HEAD |
+
 ## Supported Machines
 | SoC | Reference Platform | Machine Name |
 | --- | --- | --- |
