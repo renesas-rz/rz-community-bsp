@@ -29,6 +29,15 @@ stages:
       - build/tmp/deploy/images/
       - build/tmp/deploy/licenses/
 
+.build-mainline:
+  extends: .build-base
+  variables:
+    CI_KAS_YOCTO: kas/yocto/kirkstone.yml
+    CI_KAS_IMAGE: kas/image/renesas-image-minimal.yml
+    CI_KAS_LINUX: kas/kernel/mainline.yml
+    CI_KAS_UBOOT: kas/u-boot/mainline-2023.10.yml
+    CI_KAS_TFA: kas/trusted-firmware-a/mainline-2.9.0.yml
+
 .build-cip:
   extends: .build-base
   variables:
@@ -62,11 +71,17 @@ stages:
     CI_KAS_UBOOT: kas/u-boot/renesas-2021.10.yml
     CI_KAS_TFA: kas/trusted-firmware-a/renesas-2.9.0.yml
 
+hihope-rzg2h-mainline:
+  extends: [.build-mainline, .hihope-rzg2h]
+
 hihope-rzg2h-cip:
   extends: [.build-cip, .hihope-rzg2h]
 
 hihope-rzg2h-bsp:
   extends: [.build-bsp, .hihope-rzg2h]
+
+smarc-rzg2l-mainline:
+  extends: [.build-mainline, .smarc-rzg2l]
 
 smarc-rzg2l-cip:
   extends: [.build-cip, .smarc-rzg2l]
