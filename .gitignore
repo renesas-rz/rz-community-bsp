@@ -1,6 +1,6 @@
-build
 .config.yaml
 .config.yaml.old
+build
 meta-arm
-poky
 meta-linux-mainline
+poky
