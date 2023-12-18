@@ -1,0 +1,20 @@
+- test:
+    timeout:
+      minutes: 5
+    definitions:
+    - repository:
+        metadata:
+          format: Lava-Test Test Definition 1.0
+          name: kernel-version-basic
+          description: "Check kernel version"
+          os:
+            - oe
+          scope:
+            - functional
+        run:
+          steps:
+            - lava-test-case uname --shell uname -a
+      from: inline
+      name: kernel-version-inline
+      path: inline/kernel-version-basic.yaml
+

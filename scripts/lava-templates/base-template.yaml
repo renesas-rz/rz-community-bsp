@@ -1,0 +1,40 @@
+device_type: PLACEHOLDER_DEVICE_TYPE
+job_name: PLACEHOLDER_JOB_NAME
+priority: medium
+visibility: public
+
+timeouts:
+  job:
+    minutes: 15
+  action:
+    minutes: 10
+  connection:
+    minutes: 2
+
+actions:
+- deploy:
+    timeout:
+      minutes: 10
+    failure_retry: 3
+    failure_retry_interval: 60
+    to: tftp
+    kernel:
+      url: PLACEHOLDER_KERNEL_URL
+      type: image
+    nfsrootfs:
+      url: PLACEHOLDER_ROOTFS_URL
+      compression: gz
+    dtb:
+      url: PLACEHOLDER_DTB_URL
+
+- boot:
+    timeout:
+      minutes: 5
+    auto_login:
+      login_prompt: "PLACEHOLDER_LOGIN_PROMPT"
+      username: root
+    prompts:
+      - PLACEHOLDER_PROMPT
+    method: u-boot
+    commands: nfs
+
