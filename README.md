@@ -11,7 +11,7 @@ official BSPs provided on [renesas.com](https://renesas.com).
 ## Dependencies
 | Name | Layers | Repository | Branch | Revision |
 | --- | --- | --- | --- | --- |
-| poky | meta<br>meta-poky<br>meta-yocto-bsp | https://git.yoctoproject.org/git/poky | kirkstone | kirkstone-4.0.14 |
+| poky | meta<br>meta-poky<br>meta-yocto-bsp | https://git.yoctoproject.org/poky | kirkstone | kirkstone-4.0.14 |
 | meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | kirkstone | yocto-4.0.2 |
 
 ### Optional Dependencies
