@@ -186,6 +186,18 @@ menu "Bootloaders"
 endmenu
 
 menu "Other"
+	config OPT_DEBUG
+	bool "Debug"
+	help
+		Enable the debug-tweaks image feature that enabled features
+		helpfull for development (e.g. allows root logins, logins
+		without passwords —including root ones, and enables
+		post-installation logging)
+
+	config KAS_OPT_DEBUG
+	string
+	depends on OPT_DEBUG
+	default "kas/opt/debug.yml"
 
 	config OPT_GITLAB_CI_CACHE
 	bool "GitLab CI cache"

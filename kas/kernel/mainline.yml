@@ -1,12 +1,12 @@
 header:
-  version: 13
+  version: 14
 
 repos:
   # meta-linux-mainline supports multiple Yocto Project versions with the main
   # branch
   meta-linux-mainline:
     url: https://github.com/betafive/meta-linux-mainline.git
-    refspec: main
+    branch: main
     path: meta-linux-mainline
 
 local_conf_header:
