@@ -70,7 +70,10 @@ A special option that can be used to configure the sstate and downloads
 directory locations so that they can be used easily with GitLab CI/CD caching.
 
 **kas/opt/debug.yml**\
-Add various features to the image to help with development and debugging.
+Add various features to the image to help with development and debugging.\
+Specifically, it enables the *debug-tweaks* image feature that allows users to\
+be able to login without a password. More information can be found\
+[here](https://docs.yoctoproject.org/dev/ref-manual/features.html#:~:text=debug%2Dtweaks%3A%20Makes%20an%20image,enables%20post%2Dinstallation%20logging).
 
 ### kas-container
 The easiest way to use Kas is to use `kas-container`. This script will run the
@@ -87,30 +90,18 @@ cd rz-community-bsp
 # Image: renesas-image-minimal
 # Machine: hihope-rzg2h
 # Linux: linux-renesas v5.10
-./kas-container build \
-	kas/yocto/kirkstone.yml:\
-	kas/image/renesas-image-minimal.yml:\
-	kas/machine/hihope-rzg2h.yml:\
-	kas/kernel/renesas-5.10.yml
+./kas-container build kas/yocto/kirkstone.yml:kas/opt/debug.yml:kas/image/renesas-image-minimal.yml:kas/machine/hihope-rzg2h.yml:kas/kernel/renesas-5.10.yml
 
 # Yocto: kirkstone
 # Image: renesas-image-minimal
 # Machine: smarc-rzg2l
 # Linux: linux-cip v6.1
-./kas-container build \
-	kas/yocto/kirkstone.yml:\
-	kas/image/renesas-image-minimal.yml:\
-	kas/machine/smarc-rzg2l.yml:\
-	kas/kernel/cip-6.1.yml
+./kas-container build kas/yocto/kirkstone.yml:kas/opt/debug.yml:kas/image/renesas-image-minimal.yml:kas/machine/smarc-rzg2l.yml:kas/kernel/cip-6.1.yml
 
 # If you are re-building in the same directory as a previous build it may be
 # prudent to use --update and --force-checkout to ensure that the dependency
 # repositories are correct
-./kas-container build --update --force-checkout \
-	kas/yocto/kirkstone.yml:\
-	kas/image/renesas-image-minimal.yml:\
-	kas/machine/hihope-rzg2h.yml:\
-	kas/kernel/cip-6.1.yml
+./kas-container build --update --force-checkout kas/yocto/kirkstone.yml:kas/opt/debug.yml:kas/image/renesas-image-minimal.yml:kas/machine/hihope-rzg2h.yml:kas/kernel/cip-6.1.yml
 ```
 
 ## Kas Menu
