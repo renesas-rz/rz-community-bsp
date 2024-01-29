@@ -19,6 +19,7 @@ stages:
         - sstate-cache
     - key: "dependencies"
       paths:
+        - meta-arm
         - poky
   artifacts:
     name: "${CI_JOB_NAME}"
