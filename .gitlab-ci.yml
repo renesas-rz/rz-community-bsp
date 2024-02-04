@@ -21,6 +21,7 @@ stages:
       paths:
         - meta-arm
         - poky
+  retry: 2
   artifacts:
     name: "${CI_JOB_NAME}"
     when: always
