@@ -1,15 +1,19 @@
-image: ghcr.io/siemens/kas/kas:4.0
-
 stages:
   - build
+  - test
 
+### BUILDING ###
 .build-base:
+  image: ghcr.io/siemens/kas/kas:4.0
   stage: build
   tags:
     - yocto
   needs: []
   script:
     - kas build --update --force-checkout kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:${CI_KAS_LINUX}:${CI_KAS_UBOOT}:${CI_KAS_TFA}
+  after_script:
+    - echo "BUILD_JOB_ID=${CI_JOB_ID}" >> job.env
+    - echo "BITBAKE_MACHINE=${CI_BITBAKE_MACHINE}" >> job.env
   cache:
     - key: "downloads"
       paths:
@@ -26,6 +30,8 @@ stages:
     name: "${CI_JOB_NAME}"
     when: always
     expire_in: 2 weeks
+    reports:
+      dotenv: job.env
     paths:
       - build/conf/
       - build/tmp/deploy/images/
@@ -40,18 +46,23 @@ stages:
     CI_KAS_UBOOT: kas/u-boot/mainline-2023.10.yml
     CI_KAS_TFA: kas/trusted-firmware-a/mainline-2.9.0.yml
 
-.build-cip:
+.build-cip-5.10:
   extends: .build-base
   variables:
     CI_KAS_YOCTO: kas/yocto/kirkstone.yml
     CI_KAS_IMAGE: kas/image/renesas-image-minimal.yml
     CI_KAS_UBOOT: kas/u-boot/mainline-2023.10.yml
     CI_KAS_TFA: kas/trusted-firmware-a/mainline-2.9.0.yml
-  parallel:
-    matrix:
-      - CI_KAS_LINUX:
-        - kas/kernel/cip-5.10.yml
-        - kas/kernel/cip-6.1.yml
+    CI_KAS_LINUX: kas/kernel/cip-5.10.yml
+
+.build-cip-6.1:
+  extends: .build-base
+  variables:
+    CI_KAS_YOCTO: kas/yocto/kirkstone.yml
+    CI_KAS_IMAGE: kas/image/renesas-image-minimal.yml
+    CI_KAS_UBOOT: kas/u-boot/mainline-2023.10.yml
+    CI_KAS_TFA: kas/trusted-firmware-a/mainline-2.9.0.yml
+    CI_KAS_LINUX: kas/kernel/cip-6.1.yml
 
 .build-bsp:
   extends: .build-base
@@ -64,29 +75,95 @@ stages:
 
 .hihope-rzg2h:
   variables:
+    CI_BITBAKE_MACHINE: hihope-rzg2h
     CI_KAS_MACHINE: kas/machine/hihope-rzg2h.yml
 
 .smarc-rzg2l:
   variables:
+    CI_BITBAKE_MACHINE: smarc-rzg2l
     CI_KAS_MACHINE: kas/machine/smarc-rzg2l.yml
     # Mainline bootloaders do not support this platform yet
     CI_KAS_UBOOT: kas/u-boot/renesas-2021.10.yml
     CI_KAS_TFA: kas/trusted-firmware-a/renesas-2.9.0.yml
 
-hihope-rzg2h-mainline:
+# Build jobs
+build:hihope-rzg2h-mainline:
   extends: [.build-mainline, .hihope-rzg2h]
 
-hihope-rzg2h-cip:
-  extends: [.build-cip, .hihope-rzg2h]
+build:hihope-rzg2h-cip-5.10:
+  extends: [.build-cip-5.10, .hihope-rzg2h]
 
-hihope-rzg2h-bsp:
+build:hihope-rzg2h-cip-6.1:
+  extends: [.build-cip-5.10, .hihope-rzg2h]
+
+build:hihope-rzg2h-bsp:
   extends: [.build-bsp, .hihope-rzg2h]
 
-smarc-rzg2l-mainline:
+build:smarc-rzg2l-mainline:
   extends: [.build-mainline, .smarc-rzg2l]
 
-smarc-rzg2l-cip:
-  extends: [.build-cip, .smarc-rzg2l]
+build:smarc-rzg2l-cip-5.10:
+  extends: [.build-cip-5.10, .smarc-rzg2l]
 
-smarc-rzg2l-bsp:
+build:smarc-rzg2l-cip-6.1:
+  extends: [.build-cip-6.1, .smarc-rzg2l]
+
+build:smarc-rzg2l-bsp:
   extends: [.build-bsp, .smarc-rzg2l]
+
+
+### TESTING ###
+# BUILD_JOB_ID AND BITBAKE_MACHINE come from job.env shared from the build job
+.test-base:
+  image: gitlab.renesas.solutions:5050/spl2/continuous-integration/dockerfiles:ubuntu-20.04-latest
+  stage: test
+  tags:
+    - lava-job
+  script:
+    - mkdir results
+    - scripts/submit-lava-job.sh -d -u spl2-bot -b scripts/lava-templates/base-template.yaml -e scripts/lava-env/${BITBAKE_MACHINE}.env -j results -g ${BUILD_JOB_ID} -m ${BITBAKE_MACHINE} ${TESTS}
+  artifacts:
+    name: "${CI_JOB_NAME}"
+    when: always
+    expire_in: 1 year
+    reports:
+      junit: results/results*.xml
+    paths:
+      - results
+
+.test-cases:
+  variables:
+    TESTS: "-t scripts/lava-templates/test-uname.yaml"
+
+# Test jobs
+test:hihope-rzg2h-mainline:
+  needs: ["build:hihope-rzg2h-mainline"]
+  extends: [.test-base, .test-cases]
+
+test:hihope-rzg2h-cip-5.10:
+  needs: ["build:hihope-rzg2h-cip-5.10"]
+  extends: [.test-base, .test-cases]
+
+test:hihope-rzg2h-cip-6.1:
+  needs: ["build:hihope-rzg2h-cip-6.1"]
+  extends: [.test-base, .test-cases]
+
+test:hihope-rzg2h-bsp:
+  needs: ["build:hihope-rzg2h-bsp"]
+  extends: [.test-base, .test-cases]
+
+test:smarc-rzg2l-mainline:
+  needs: ["build:smarc-rzg2l-mainline"]
+  extends: [.test-base, .test-cases]
+
+test:smarc-rzg2l-cip-5.10:
+  needs: ["build:smarc-rzg2l-cip-5.10"]
+  extends: [.test-base, .test-cases]
+
+test:smarc-rzg2l-cip-6.1:
+  needs: ["build:smarc-rzg2l-cip-6.1"]
+  extends: [.test-base, .test-cases]
+
+test:smarc-rzg2l-bsp:
+  needs: ["build:smarc-rzg2l-bsp"]
+  extends: [.test-base, .test-cases]
