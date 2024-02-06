@@ -5,3 +5,4 @@ local_conf_header:
   ci-cache: |
     SSTATE_DIR = "${TOPDIR}/../sstate-cache"
     DL_DIR = "${TOPDIR}/../downloads"
+    BB_GENERATE_MIRROR_TARBALLS = "1"
