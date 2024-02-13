@@ -36,6 +36,7 @@ stages:
       - build/conf/
       - build/tmp/deploy/images/
       - build/tmp/deploy/licenses/
+      - build/tmp/work*/**/temp/log.do_*.*
 
 .build-mainline:
   extends: .build-base
