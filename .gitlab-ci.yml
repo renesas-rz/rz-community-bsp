@@ -10,10 +10,18 @@ stages:
     - yocto
   needs: []
   before_script:
+    - find dependencies -name "*tar.gz" -exec tar xf '{}' \; || true
     - rm -rf downloads/git2
   script:
     - kas build --update --force-checkout kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:${CI_KAS_LINUX}:${CI_KAS_UBOOT}:${CI_KAS_TFA}
   after_script:
+    - mkdir -p dependencies
+    - |
+      for repo in meta-arm poky; do
+        if [ -d "${repo}" ]; then
+          tar czf dependencies/"${repo}".tar.gz "${repo}"
+        fi
+      done
     - rm -rf downloads/git2
     - echo "BUILD_JOB_ID=${CI_JOB_ID}" >> job.env
     - echo "BITBAKE_MACHINE=${CI_BITBAKE_MACHINE}" >> job.env
@@ -26,8 +34,7 @@ stages:
         - sstate-cache
     - key: "dependencies"
       paths:
-        - meta-arm
-        - poky
+        - dependencies
   retry: 2
   artifacts:
     name: "${CI_JOB_NAME}"
