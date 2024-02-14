@@ -17,7 +17,7 @@ stages:
   after_script:
     - mkdir -p dependencies
     - |
-      for repo in meta-arm poky; do
+      for repo in meta-arm meta-linux-mainline poky; do
         if [ -d "${repo}" ]; then
           tar czf dependencies/"${repo}".tar.gz "${repo}"
         fi
