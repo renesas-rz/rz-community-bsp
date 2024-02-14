@@ -9,9 +9,12 @@ stages:
   tags:
     - yocto
   needs: []
+  before_script:
+    - rm -rf downloads/git2
   script:
     - kas build --update --force-checkout kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:${CI_KAS_LINUX}:${CI_KAS_UBOOT}:${CI_KAS_TFA}
   after_script:
+    - rm -rf downloads/git2
     - echo "BUILD_JOB_ID=${CI_JOB_ID}" >> job.env
     - echo "BITBAKE_MACHINE=${CI_BITBAKE_MACHINE}" >> job.env
   cache:
