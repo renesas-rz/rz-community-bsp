@@ -24,7 +24,7 @@ TFA_UBOOT:rzg2l-family = "1"
 
 # For the RZ/G2L family of SoCs we need a version of bl2 with a special header
 # We also need to use SREC files
-do_compile:append:smarc-rzg2l() {
+do_compile:append:rzg2l-family() {
 	echo "Create bl2_bp.bin"
 	bootparameter ${BUILD_DIR}/bl2.bin ${BUILD_DIR}/bl2_bp.bin
 	cat ${BUILD_DIR}/bl2.bin >> ${BUILD_DIR}/bl2_bp.bin
@@ -56,7 +56,7 @@ do_install:append:rzg2h-family() {
 
 # Install files we need for the RZ/G2L family of SoCs that are not installed by
 # the meta-arm recipe
-do_install:append:smarc-rzg2l() {
+do_install:append:rzg2l-family() {
 	echo "Install bl2_bp.srec"
 	install -m 0644 ${BUILD_DIR}/bl2_bp.srec ${D}/firmware/bl2_bp-${MACHINE}.srec
 
