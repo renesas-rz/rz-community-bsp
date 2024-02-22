@@ -19,6 +19,9 @@ TFA_INSTALL_TARGET:rzg2l-family = ""
 EXTRA_OEMAKE:append:smarc-rzg2l = " \
 	BOARD=smarc_pmic_2 \
 "
+EXTRA_OEMAKE:append:smarc-rzg2lc = " \
+	BOARD=smarc_1 \
+"
 # Activate U-Boot so we can build it into a fip package
 TFA_UBOOT:rzg2l-family = "1"
 

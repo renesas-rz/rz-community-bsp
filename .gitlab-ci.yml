@@ -89,13 +89,23 @@ stages:
     CI_BITBAKE_MACHINE: hihope-rzg2h
     CI_KAS_MACHINE: kas/machine/hihope-rzg2h.yml
 
-.smarc-rzg2l:
+.rzg2l-family:
   variables:
-    CI_BITBAKE_MACHINE: smarc-rzg2l
-    CI_KAS_MACHINE: kas/machine/smarc-rzg2l.yml
     # Mainline bootloaders do not support this platform yet
     CI_KAS_UBOOT: kas/u-boot/renesas-2021.10.yml
     CI_KAS_TFA: kas/trusted-firmware-a/renesas-2.9.0.yml
+
+.smarc-rzg2l:
+  extends: [.rzg2l-family]
+  variables:
+    CI_BITBAKE_MACHINE: smarc-rzg2l
+    CI_KAS_MACHINE: kas/machine/smarc-rzg2l.yml
+
+.smarc-rzg2lc:
+  extends: [.rzg2l-family]
+  variables:
+    CI_BITBAKE_MACHINE: smarc-rzg2lc
+    CI_KAS_MACHINE: kas/machine/smarc-rzg2lc.yml
 
 # Build jobs
 build:hihope-rzg2h-mainline:
@@ -121,6 +131,18 @@ build:smarc-rzg2l-cip-6.1:
 
 build:smarc-rzg2l-bsp:
   extends: [.build-bsp, .smarc-rzg2l]
+
+build:smarc-rzg2lc-mainline:
+  extends: [.build-mainline, .smarc-rzg2lc]
+
+build:smarc-rzg2lc-cip-5.10:
+  extends: [.build-cip-5.10, .smarc-rzg2lc]
+
+build:smarc-rzg2lc-cip-6.1:
+  extends: [.build-cip-6.1, .smarc-rzg2lc]
+
+build:smarc-rzg2lc-bsp:
+  extends: [.build-bsp, .smarc-rzg2lc]
 
 
 ### TESTING ###
@@ -177,4 +199,20 @@ test:smarc-rzg2l-cip-6.1:
 
 test:smarc-rzg2l-bsp:
   needs: ["build:smarc-rzg2l-bsp"]
+  extends: [.test-base, .test-cases]
+
+test:smarc-rzg2lc-mainline:
+  needs: ["build:smarc-rzg2lc-mainline"]
+  extends: [.test-base, .test-cases]
+
+test:smarc-rzg2lc-cip-5.10:
+  needs: ["build:smarc-rzg2lc-cip-5.10"]
+  extends: [.test-base, .test-cases]
+
+test:smarc-rzg2lc-cip-6.1:
+  needs: ["build:smarc-rzg2lc-cip-6.1"]
+  extends: [.test-base, .test-cases]
+
+test:smarc-rzg2lc-bsp:
+  needs: ["build:smarc-rzg2lc-bsp"]
   extends: [.test-base, .test-cases]
