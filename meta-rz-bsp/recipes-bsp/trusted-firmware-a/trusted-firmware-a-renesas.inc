@@ -14,6 +14,7 @@ EXTRA_OEMAKE:append:hihope-rzg2h = " \
 "
 
 TFA_PLATFORM:rzg2l-family = "g2l"
+TFA_PLATFORM:smarc-rzg2ul = "g2ul"
 TFA_BUILD_TARGET:rzg2l-family = "bl2 bl31 fip"
 TFA_INSTALL_TARGET:rzg2l-family = ""
 EXTRA_OEMAKE:append:smarc-rzg2l = " \
@@ -21,6 +22,9 @@ EXTRA_OEMAKE:append:smarc-rzg2l = " \
 "
 EXTRA_OEMAKE:append:smarc-rzg2lc = " \
 	BOARD=smarc_1 \
+"
+EXTRA_OEMAKE:append:smarc-rzg2ul = " \
+	BOARD=g2ul_smarc SOC_TYPE=1 SPI_FLASH=AT25QL128A \
 "
 # Activate U-Boot so we can build it into a fip package
 TFA_UBOOT:rzg2l-family = "1"
