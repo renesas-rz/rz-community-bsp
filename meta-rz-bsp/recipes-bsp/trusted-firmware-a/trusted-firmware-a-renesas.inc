@@ -43,6 +43,12 @@ do_install:append:rzg2l-family() {
 	echo "Install bl2_bp.srec"
 	install -m 0644 ${BUILD_DIR}/bl2_bp.srec ${D}/firmware/bl2_bp-${MACHINE}.srec
 
+	echo "Install bl2_bp.bin"
+	install -m 0644 ${BUILD_DIR}/bl2_bp.bin ${D}/firmware/bl2_bp-${MACHINE}.bin
+
 	echo "Install fip.srec"
 	install -m 0644 ${BUILD_DIR}/fip.srec ${D}/firmware/fip-${MACHINE}.srec
+
+	echo "Install fip.bin"
+	install -m 0644 ${BUILD_DIR}/fip.bin ${D}/firmware/fip-${MACHINE}.bin
 }
