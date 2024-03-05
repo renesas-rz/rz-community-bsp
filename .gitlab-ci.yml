@@ -3,17 +3,27 @@ stages:
   - scarthgap
   - test
 
+variables:
+  TEST_BIN_DIR: test_binaries
+
 ### BUILDING ###
 .build-base:
   image: ghcr.io/siemens/kas/kas:4.0
   tags:
     - yocto
   needs: []
+  variables:
+    IMAGE_DIR: build/tmp/deploy/images/${CI_BITBAKE_MACHINE}
   before_script:
     - find dependencies -name "*tar.gz" -exec tar xf '{}' \; || true
     - rm -rf downloads/git2
+    - mkdir -p ${TEST_BIN_DIR}
   script:
     - kas build --update --force-checkout kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:${CI_KAS_LINUX}:${CI_KAS_UBOOT}:${CI_KAS_TFA}
+    - source scripts/lava-env/${CI_BITBAKE_MACHINE}.env
+    - cp -L ${IMAGE_DIR}/${KERNEL} ${TEST_BIN_DIR}
+    - cp -L ${IMAGE_DIR}/${ROOTFS} ${TEST_BIN_DIR}
+    - cp -L ${IMAGE_DIR}/${DTB} ${TEST_BIN_DIR}
   after_script:
     - mkdir -p dependencies
     - |
@@ -23,7 +33,7 @@ stages:
         fi
       done
     - rm -rf downloads/git2
-    - echo "BUILD_JOB_ID=${CI_JOB_ID}" >> job.env
+    - echo "BUILD_JOB_ID=${CI_JOB_ID}" > job.env
     - echo "BITBAKE_MACHINE=${CI_BITBAKE_MACHINE}" >> job.env
   cache:
     - key: "downloads"
@@ -47,6 +57,7 @@ stages:
       - build/tmp/deploy/images/
       - build/tmp/deploy/licenses/
       - build/tmp/work*/**/temp/log.do_*.*
+      - ${TEST_BIN_DIR}
 
 .build-mainline:
   extends: .build-base
@@ -224,8 +235,9 @@ build:scarthgap:smarc-rzg2ul-bsp:
   tags:
     - lava-job
   script:
-    - mkdir results
-    - scripts/submit-lava-job.sh -d -u spl2-bot -b scripts/lava-templates/base-template.yaml -e scripts/lava-env/${BITBAKE_MACHINE}.env -j results -g ${BUILD_JOB_ID} -m ${BITBAKE_MACHINE} ${TESTS}
+    - mkdir -p results
+    - export
+    - scripts/submit-lava-job.sh -d -u spl2-bot -b scripts/lava-templates/base-template.yaml -e scripts/lava-env/${BITBAKE_MACHINE}.env -j results -g ${BUILD_JOB_ID} -f ${TEST_BIN_DIR} ${TESTS}
   artifacts:
     name: "${CI_JOB_NAME}"
     when: always
