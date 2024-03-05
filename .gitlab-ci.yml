@@ -1,11 +1,11 @@
 stages:
-  - build
+  - kirkstone
+  - scarthgap
   - test
 
 ### BUILDING ###
 .build-base:
   image: ghcr.io/siemens/kas/kas:4.0
-  stage: build
   tags:
     - yocto
   needs: []
@@ -51,7 +51,6 @@ stages:
 .build-mainline:
   extends: .build-base
   variables:
-    CI_KAS_YOCTO: kas/yocto/kirkstone.yml
     CI_KAS_IMAGE: kas/image/renesas-image-minimal.yml
     CI_KAS_LINUX: kas/kernel/mainline.yml
     CI_KAS_UBOOT: kas/u-boot/mainline-2023.10.yml
@@ -60,7 +59,6 @@ stages:
 .build-cip-5.10:
   extends: .build-base
   variables:
-    CI_KAS_YOCTO: kas/yocto/kirkstone.yml
     CI_KAS_IMAGE: kas/image/renesas-image-minimal.yml
     CI_KAS_UBOOT: kas/u-boot/mainline-2023.10.yml
     CI_KAS_TFA: kas/trusted-firmware-a/mainline-2.9.0.yml
@@ -69,7 +67,6 @@ stages:
 .build-cip-6.1:
   extends: .build-base
   variables:
-    CI_KAS_YOCTO: kas/yocto/kirkstone.yml
     CI_KAS_IMAGE: kas/image/renesas-image-minimal.yml
     CI_KAS_UBOOT: kas/u-boot/mainline-2023.10.yml
     CI_KAS_TFA: kas/trusted-firmware-a/mainline-2.9.0.yml
@@ -78,11 +75,20 @@ stages:
 .build-bsp:
   extends: .build-base
   variables:
-    CI_KAS_YOCTO: kas/yocto/kirkstone.yml
     CI_KAS_IMAGE: kas/image/renesas-image-minimal.yml
     CI_KAS_LINUX: kas/kernel/renesas-5.10.yml
     CI_KAS_UBOOT: kas/u-boot/renesas-2021.10.yml
     CI_KAS_TFA: kas/trusted-firmware-a/renesas-2.9.0.yml
+
+.kirkstone:
+  stage: kirkstone
+  variables:
+    CI_KAS_YOCTO: kas/yocto/kirkstone.yml
+
+.scarthgap:
+  stage: scarthgap
+  variables:
+    CI_KAS_YOCTO: kas/yocto/scarthgap.yml
 
 .hihope-rzg2h:
   variables:
@@ -114,54 +120,101 @@ stages:
     CI_KAS_MACHINE: kas/machine/smarc-rzg2ul.yml
 
 # Build jobs
-build:hihope-rzg2h-mainline:
-  extends: [.build-mainline, .hihope-rzg2h]
+build:kirkstone:hihope-rzg2h-mainline:
+  extends: [.build-mainline, .kirkstone, .hihope-rzg2h]
 
-build:hihope-rzg2h-cip-5.10:
-  extends: [.build-cip-5.10, .hihope-rzg2h]
+build:kirkstone:hihope-rzg2h-cip-5.10:
+  extends: [.build-cip-5.10, .kirkstone, .hihope-rzg2h]
 
-build:hihope-rzg2h-cip-6.1:
-  extends: [.build-cip-5.10, .hihope-rzg2h]
+build:kirkstone:hihope-rzg2h-cip-6.1:
+  extends: [.build-cip-5.10, .kirkstone, .hihope-rzg2h]
 
-build:hihope-rzg2h-bsp:
-  extends: [.build-bsp, .hihope-rzg2h]
+build:kirkstone:hihope-rzg2h-bsp:
+  extends: [.build-bsp, .kirkstone, .hihope-rzg2h]
 
-build:smarc-rzg2l-mainline:
-  extends: [.build-mainline, .smarc-rzg2l]
+build:kirkstone:smarc-rzg2l-mainline:
+  extends: [.build-mainline, .kirkstone, .smarc-rzg2l]
 
-build:smarc-rzg2l-cip-5.10:
-  extends: [.build-cip-5.10, .smarc-rzg2l]
+build:kirkstone:smarc-rzg2l-cip-5.10:
+  extends: [.build-cip-5.10, .kirkstone, .smarc-rzg2l]
 
-build:smarc-rzg2l-cip-6.1:
-  extends: [.build-cip-6.1, .smarc-rzg2l]
+build:kirkstone:smarc-rzg2l-cip-6.1:
+  extends: [.build-cip-6.1, .kirkstone, .smarc-rzg2l]
 
-build:smarc-rzg2l-bsp:
-  extends: [.build-bsp, .smarc-rzg2l]
+build:kirkstone:smarc-rzg2l-bsp:
+  extends: [.build-bsp, .kirkstone, .smarc-rzg2l]
 
-build:smarc-rzg2lc-mainline:
-  extends: [.build-mainline, .smarc-rzg2lc]
+build:kirkstone:smarc-rzg2lc-mainline:
+  extends: [.build-mainline, .kirkstone, .smarc-rzg2lc]
 
-build:smarc-rzg2lc-cip-5.10:
-  extends: [.build-cip-5.10, .smarc-rzg2lc]
+build:kirkstone:smarc-rzg2lc-cip-5.10:
+  extends: [.build-cip-5.10, .kirkstone, .smarc-rzg2lc]
 
-build:smarc-rzg2lc-cip-6.1:
-  extends: [.build-cip-6.1, .smarc-rzg2lc]
+build:kirkstone:smarc-rzg2lc-cip-6.1:
+  extends: [.build-cip-6.1, .kirkstone, .smarc-rzg2lc]
 
-build:smarc-rzg2lc-bsp:
-  extends: [.build-bsp, .smarc-rzg2lc]
+build:kirkstone:smarc-rzg2lc-bsp:
+  extends: [.build-bsp, .kirkstone, .smarc-rzg2lc]
 
-build:smarc-rzg2ul-mainline:
-  extends: [.build-mainline, .smarc-rzg2ul]
+build:kirkstone:smarc-rzg2ul-mainline:
+  extends: [.build-mainline, .kirkstone, .smarc-rzg2ul]
 
-build:smarc-rzg2ul-cip-5.10:
-  extends: [.build-cip-5.10, .smarc-rzg2ul]
+build:kirkstone:smarc-rzg2ul-cip-5.10:
+  extends: [.build-cip-5.10, .kirkstone, .smarc-rzg2ul]
 
-build:smarc-rzg2ul-cip-6.1:
-  extends: [.build-cip-6.1, .smarc-rzg2ul]
+build:kirkstone:smarc-rzg2ul-cip-6.1:
+  extends: [.build-cip-6.1, .kirkstone, .smarc-rzg2ul]
 
-build:smarc-rzg2ul-bsp:
-  extends: [.build-bsp, .smarc-rzg2ul]
+build:kirkstone:smarc-rzg2ul-bsp:
+  extends: [.build-bsp, .kirkstone, .smarc-rzg2ul]
 
+build:scarthgap:hihope-rzg2h-mainline:
+  extends: [.build-mainline, .scarthgap, .hihope-rzg2h]
+
+build:scarthgap:hihope-rzg2h-cip-5.10:
+  extends: [.build-cip-5.10, .scarthgap, .hihope-rzg2h]
+
+build:scarthgap:hihope-rzg2h-cip-6.1:
+  extends: [.build-cip-5.10, .scarthgap, .hihope-rzg2h]
+
+build:scarthgap:hihope-rzg2h-bsp:
+  extends: [.build-bsp, .scarthgap, .hihope-rzg2h]
+
+build:scarthgap:smarc-rzg2l-mainline:
+  extends: [.build-mainline, .scarthgap, .smarc-rzg2l]
+
+build:scarthgap:smarc-rzg2l-cip-5.10:
+  extends: [.build-cip-5.10, .scarthgap, .smarc-rzg2l]
+
+build:scarthgap:smarc-rzg2l-cip-6.1:
+  extends: [.build-cip-6.1, .scarthgap, .smarc-rzg2l]
+
+build:scarthgap:smarc-rzg2l-bsp:
+  extends: [.build-bsp, .scarthgap, .smarc-rzg2l]
+
+build:scarthgap:smarc-rzg2lc-mainline:
+  extends: [.build-mainline, .scarthgap, .smarc-rzg2lc]
+
+build:scarthgap:smarc-rzg2lc-cip-5.10:
+  extends: [.build-cip-5.10, .scarthgap, .smarc-rzg2lc]
+
+build:scarthgap:smarc-rzg2lc-cip-6.1:
+  extends: [.build-cip-6.1, .scarthgap, .smarc-rzg2lc]
+
+build:scarthgap:smarc-rzg2lc-bsp:
+  extends: [.build-bsp, .scarthgap, .smarc-rzg2lc]
+
+build:scarthgap:smarc-rzg2ul-mainline:
+  extends: [.build-mainline, .scarthgap, .smarc-rzg2ul]
+
+build:scarthgap:smarc-rzg2ul-cip-5.10:
+  extends: [.build-cip-5.10, .scarthgap, .smarc-rzg2ul]
+
+build:scarthgap:smarc-rzg2ul-cip-6.1:
+  extends: [.build-cip-6.1, .scarthgap, .smarc-rzg2ul]
+
+build:scarthgap:smarc-rzg2ul-bsp:
+  extends: [.build-bsp, .scarthgap, .smarc-rzg2ul]
 
 ### TESTING ###
 # BUILD_JOB_ID AND BITBAKE_MACHINE come from job.env shared from the build job
@@ -187,66 +240,130 @@ build:smarc-rzg2ul-bsp:
     TESTS: "-t scripts/lava-templates/test-uname.yaml"
 
 # Test jobs
-test:hihope-rzg2h-mainline:
-  needs: ["build:hihope-rzg2h-mainline"]
+test:kirkstone:hihope-rzg2h-mainline:
+  needs: ["build:kirkstone:hihope-rzg2h-mainline"]
   extends: [.test-base, .test-cases]
 
-test:hihope-rzg2h-cip-5.10:
-  needs: ["build:hihope-rzg2h-cip-5.10"]
+test:kirkstone:hihope-rzg2h-cip-5.10:
+  needs: ["build:kirkstone:hihope-rzg2h-cip-5.10"]
   extends: [.test-base, .test-cases]
 
-test:hihope-rzg2h-cip-6.1:
-  needs: ["build:hihope-rzg2h-cip-6.1"]
+test:kirkstone:hihope-rzg2h-cip-6.1:
+  needs: ["build:kirkstone:hihope-rzg2h-cip-6.1"]
   extends: [.test-base, .test-cases]
 
-test:hihope-rzg2h-bsp:
-  needs: ["build:hihope-rzg2h-bsp"]
+test:kirkstone:hihope-rzg2h-bsp:
+  needs: ["build:kirkstone:hihope-rzg2h-bsp"]
   extends: [.test-base, .test-cases]
 
-test:smarc-rzg2l-mainline:
-  needs: ["build:smarc-rzg2l-mainline"]
+test:kirkstone:smarc-rzg2l-mainline:
+  needs: ["build:kirkstone:smarc-rzg2l-mainline"]
   extends: [.test-base, .test-cases]
 
-test:smarc-rzg2l-cip-5.10:
-  needs: ["build:smarc-rzg2l-cip-5.10"]
+test:kirkstone:smarc-rzg2l-cip-5.10:
+  needs: ["build:kirkstone:smarc-rzg2l-cip-5.10"]
   extends: [.test-base, .test-cases]
 
-test:smarc-rzg2l-cip-6.1:
-  needs: ["build:smarc-rzg2l-cip-6.1"]
+test:kirkstone:smarc-rzg2l-cip-6.1:
+  needs: ["build:kirkstone:smarc-rzg2l-cip-6.1"]
   extends: [.test-base, .test-cases]
 
-test:smarc-rzg2l-bsp:
-  needs: ["build:smarc-rzg2l-bsp"]
+test:kirkstone:smarc-rzg2l-bsp:
+  needs: ["build:kirkstone:smarc-rzg2l-bsp"]
   extends: [.test-base, .test-cases]
 
-test:smarc-rzg2lc-mainline:
-  needs: ["build:smarc-rzg2lc-mainline"]
+test:kirkstone:smarc-rzg2lc-mainline:
+  needs: ["build:kirkstone:smarc-rzg2lc-mainline"]
   extends: [.test-base, .test-cases]
 
-test:smarc-rzg2lc-cip-5.10:
-  needs: ["build:smarc-rzg2lc-cip-5.10"]
+test:kirkstone:smarc-rzg2lc-cip-5.10:
+  needs: ["build:kirkstone:smarc-rzg2lc-cip-5.10"]
   extends: [.test-base, .test-cases]
 
-test:smarc-rzg2lc-cip-6.1:
-  needs: ["build:smarc-rzg2lc-cip-6.1"]
+test:kirkstone:smarc-rzg2lc-cip-6.1:
+  needs: ["build:kirkstone:smarc-rzg2lc-cip-6.1"]
   extends: [.test-base, .test-cases]
 
-test:smarc-rzg2lc-bsp:
-  needs: ["build:smarc-rzg2lc-bsp"]
+test:kirkstone:smarc-rzg2lc-bsp:
+  needs: ["build:kirkstone:smarc-rzg2lc-bsp"]
   extends: [.test-base, .test-cases]
 
-test:smarc-rzg2ul-mainline:
-  needs: ["build:smarc-rzg2ul-mainline"]
+test:kirkstone:smarc-rzg2ul-mainline:
+  needs: ["build:kirkstone:smarc-rzg2ul-mainline"]
   extends: [.test-base, .test-cases]
 
-test:smarc-rzg2ul-cip-5.10:
-  needs: ["build:smarc-rzg2ul-cip-5.10"]
+test:kirkstone:smarc-rzg2ul-cip-5.10:
+  needs: ["build:kirkstone:smarc-rzg2ul-cip-5.10"]
   extends: [.test-base, .test-cases]
 
-test:smarc-rzg2ul-cip-6.1:
-  needs: ["build:smarc-rzg2ul-cip-6.1"]
+test:kirkstone:smarc-rzg2ul-cip-6.1:
+  needs: ["build:kirkstone:smarc-rzg2ul-cip-6.1"]
   extends: [.test-base, .test-cases]
 
-test:smarc-rzg2ul-bsp:
-  needs: ["build:smarc-rzg2ul-bsp"]
+test:kirkstone:smarc-rzg2ul-bsp:
+  needs: ["build:kirkstone:smarc-rzg2ul-bsp"]
+  extends: [.test-base, .test-cases]
+
+test:scarthgap:hihope-rzg2h-mainline:
+  needs: ["build:scarthgap:hihope-rzg2h-mainline"]
+  extends: [.test-base, .test-cases]
+
+test:scarthgap:hihope-rzg2h-cip-5.10:
+  needs: ["build:scarthgap:hihope-rzg2h-cip-5.10"]
+  extends: [.test-base, .test-cases]
+
+test:scarthgap:hihope-rzg2h-cip-6.1:
+  needs: ["build:scarthgap:hihope-rzg2h-cip-6.1"]
+  extends: [.test-base, .test-cases]
+
+test:scarthgap:hihope-rzg2h-bsp:
+  needs: ["build:scarthgap:hihope-rzg2h-bsp"]
+  extends: [.test-base, .test-cases]
+
+test:scarthgap:smarc-rzg2l-mainline:
+  needs: ["build:scarthgap:smarc-rzg2l-mainline"]
+  extends: [.test-base, .test-cases]
+
+test:scarthgap:smarc-rzg2l-cip-5.10:
+  needs: ["build:scarthgap:smarc-rzg2l-cip-5.10"]
+  extends: [.test-base, .test-cases]
+
+test:scarthgap:smarc-rzg2l-cip-6.1:
+  needs: ["build:scarthgap:smarc-rzg2l-cip-6.1"]
+  extends: [.test-base, .test-cases]
+
+test:scarthgap:smarc-rzg2l-bsp:
+  needs: ["build:scarthgap:smarc-rzg2l-bsp"]
+  extends: [.test-base, .test-cases]
+
+test:scarthgap:smarc-rzg2lc-mainline:
+  needs: ["build:scarthgap:smarc-rzg2lc-mainline"]
+  extends: [.test-base, .test-cases]
+
+test:scarthgap:smarc-rzg2lc-cip-5.10:
+  needs: ["build:scarthgap:smarc-rzg2lc-cip-5.10"]
+  extends: [.test-base, .test-cases]
+
+test:scarthgap:smarc-rzg2lc-cip-6.1:
+  needs: ["build:scarthgap:smarc-rzg2lc-cip-6.1"]
+  extends: [.test-base, .test-cases]
+
+test:scarthgap:smarc-rzg2lc-bsp:
+  needs: ["build:scarthgap:smarc-rzg2lc-bsp"]
+  extends: [.test-base, .test-cases]
+
+test:scarthgap:smarc-rzg2ul-mainline:
+  needs: ["build:scarthgap:smarc-rzg2ul-mainline"]
+  extends: [.test-base, .test-cases]
+
+test:scarthgap:smarc-rzg2ul-cip-5.10:
+  needs: ["build:scarthgap:smarc-rzg2ul-cip-5.10"]
+  extends: [.test-base, .test-cases]
+
+test:scarthgap:smarc-rzg2ul-cip-6.1:
+  needs: ["build:scarthgap:smarc-rzg2ul-cip-6.1"]
+  extends: [.test-base, .test-cases]
+
+test:scarthgap:smarc-rzg2ul-bsp:
+  needs: ["build:scarthgap:smarc-rzg2ul-bsp"]
   extends: [.test-base, .test-cases]

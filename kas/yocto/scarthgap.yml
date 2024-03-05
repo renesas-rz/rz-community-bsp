@@ -1,0 +1,26 @@
+header:
+  version: 14
+  includes:
+    - kas/base.yml
+
+distro: poky
+
+repos:
+  rz-community-bsp:
+    layers:
+      meta-rz-bsp:
+  poky:
+    url: "https://git.yoctoproject.org/git/poky"
+    # Latest commit from scarthgap at time of writing
+    commit: b5624ee5643d881afa004571a096a189ab5389b5
+    layers:
+      meta:
+      meta-poky:
+      meta-yocto-bsp:
+  meta-arm:
+    url: https://git.yoctoproject.org/meta-arm
+    # Latest commit from master (no scarthgap branch yet) at time of writing
+    commit: aba9250494f62360c1ec8021f81922c005d92b82
+    layers:
+      meta-arm-toolchain:
+      meta-arm:

@@ -18,6 +18,16 @@ choice
 	string
 	depends on YOCTO_KIRKSTONE
 	default "kas/yocto/kirkstone.yml"
+
+	config YOCTO_SCARTHGAP
+	bool "Yocto Scarthgap"
+	help
+		Select Yocto Scarthgap
+
+	config KAS_INCLUDE_YOCTO_SCARTHGAP
+	string
+	depends on YOCTO_SCARTHGAP
+	default "kas/yocto/scarthgap.yml"
 endchoice
 endmenu
 
