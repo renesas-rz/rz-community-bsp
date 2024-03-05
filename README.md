@@ -40,9 +40,47 @@ The Kas tool provides an easy mechanism to setup bitbake based projects.
 Documentation for Kas is available on [readthedocs.io](
 https://kas.readthedocs.io/en/latest/userguide.html).
 
-The build can be configured using a number of options provided in different kas
-yaml files. They can be daisy chained onto each other so that multple options
-can be selected.
+### kas-container
+The easiest way to use Kas is to use `kas-container`. This script will run the
+Bitbake built in a pre-configured Docker container.
+
+For ease of use a copy of the script has been included in this repository.
+
+### Kas Menu
+Kas supports a Kconfig based menu system which can be accessed with the
+`kas menu` (or `kas-container menu`) command. This allows users to easily select
+between options without having to manually select the kas yaml files required
+for their build.
+
+Follow the instuctions in the menu to select the build configuration and then
+either "Save & Build" to save the configuration to a .config.yaml file and kick
+off a build straight way, or "Save & Exit" to only store the configuration to a
+.config.yaml file for future use.
+
+Example kas menu usage:
+```bash
+# Make sure we're inside rz-community-bsp (this repository)
+cd rz-community-bsp
+
+./kas-container menu
+```
+
+If you exit the kas menu screen without selecting "Save & Build" you can
+subsequently start a build:
+```bash
+./kas-container build
+```
+
+Alternitively you can start a shell within the kas build environment that has
+already been configured for use with bitbake, with all dependencies checked out:
+```bash
+./kas-container shell
+```
+
+### Kas with Configuraiton Fragments
+The build can also be configured using a number of options provided in different
+kas yaml files. They can be daisy chained onto each other so that multple
+options can be selected.
 
 **kas/base.yml**\
 This file adds in the base configuration used by this project. It is
@@ -77,13 +115,7 @@ Specifically, it enables the *debug-tweaks* image feature that allows users to\
 be able to login without a password. More information can be found\
 [here](https://docs.yoctoproject.org/dev/ref-manual/features.html#:~:text=debug%2Dtweaks%3A%20Makes%20an%20image,enables%20post%2Dinstallation%20logging).
 
-### kas-container
-The easiest way to use Kas is to use `kas-container`. This script will run the
-Bitbake built in a pre-configured Docker container.
-
-For ease of use a copy of the script has been included in this repository.
-
-Example kas usage:
+Example usage:
 ```bash
 # Make sure we're inside rz-community-bsp (this repository)
 cd rz-community-bsp
@@ -105,17 +137,6 @@ cd rz-community-bsp
 # repositories are correct
 ./kas-container build --update --force-checkout kas/yocto/kirkstone.yml:kas/opt/debug.yml:kas/image/renesas-image-minimal.yml:kas/machine/hihope-rzg2h.yml:kas/kernel/cip-6.1.yml
 ```
-
-## Kas Menu
-Kas supports a Kconfig based menu system which can be accessed with the
-`kas menu` (or `kas-container menu`) command. This allows users to easily select
-between options without having to manually select the kas yaml files required
-for their build.
-
-Follow the instuctions in the menu to select the build configuration and then
-either "Save & Build" to save the configuration to a .config.yaml file and kick
-off a build straight way, or "Save & Exit" to only store the configuration to a
-.config.yaml file for future use.
 
 # Contributions
 Contributions are *very* welcome! Please submit a pull request for review.
