@@ -25,6 +25,7 @@ IMAGE_INSTALL:append = " \
 
 # Packages that won't be included in the rootfs
 EXTRA_IMAGEDEPENDS:append = " \
+	flash-writer \
 	trusted-firmware-a \
 	virtual/bootloader \
 "

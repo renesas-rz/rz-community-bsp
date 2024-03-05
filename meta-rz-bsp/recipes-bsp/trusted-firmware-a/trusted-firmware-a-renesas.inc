@@ -3,28 +3,11 @@ require recipes-bsp/trusted-firmware-a/trusted-firmware-a.inc
 DEPENDS += "bootparameter-native"
 PROVIDES = "trusted-firmware-a"
 
-TFA_PLATFORM:rzg2h-family = "rzg"
-TFA_BUILD_TARGET:rzg2h-family = "bl2 bl31 rzg"
-TFA_INSTALL_TARGET:rzg2h-family = ""
-EXTRA_OEMAKE:append:hihope-rzg2h = " \
-	LSI=G2H RCAR_DRAM_SPLIT=2 RCAR_DRAM_LPDDR4_MEMCONF=1 \
-	RCAR_DRAM_CHANNEL=5 RCAR_AVS_SETTING_ENABLE=0 PMIC_ROHM_BD9571=0 \
-	RCAR_SYSTEM_SUSPEND=0 RCAR_LOSSY_ENABLE=1 \
-	RCAR_RPC_HYPERFLASH_LOCKED=0 RCAR_SA6_TYPE=0 \
-"
-
-TFA_PLATFORM:rzg2l-family = "g2l"
-TFA_BUILD_TARGET:rzg2l-family = "bl2 bl31 fip"
-TFA_INSTALL_TARGET:rzg2l-family = ""
-EXTRA_OEMAKE:append:smarc-rzg2l = " \
-	BOARD=smarc_pmic_2 \
-"
-# Activate U-Boot so we can build it into a fip package
-TFA_UBOOT:rzg2l-family = "1"
+EXTRA_OEMAKE:append = "${TFA_EXTRA_OEMAKE}"
 
 # For the RZ/G2L family of SoCs we need a version of bl2 with a special header
 # We also need to use SREC files
-do_compile:append:smarc-rzg2l() {
+do_compile:append:rzg2l-family() {
 	echo "Create bl2_bp.bin"
 	bootparameter ${BUILD_DIR}/bl2.bin ${BUILD_DIR}/bl2_bp.bin
 	cat ${BUILD_DIR}/bl2.bin >> ${BUILD_DIR}/bl2_bp.bin
@@ -56,10 +39,16 @@ do_install:append:rzg2h-family() {
 
 # Install files we need for the RZ/G2L family of SoCs that are not installed by
 # the meta-arm recipe
-do_install:append:smarc-rzg2l() {
+do_install:append:rzg2l-family() {
 	echo "Install bl2_bp.srec"
 	install -m 0644 ${BUILD_DIR}/bl2_bp.srec ${D}/firmware/bl2_bp-${MACHINE}.srec
 
+	echo "Install bl2_bp.bin"
+	install -m 0644 ${BUILD_DIR}/bl2_bp.bin ${D}/firmware/bl2_bp-${MACHINE}.bin
+
 	echo "Install fip.srec"
 	install -m 0644 ${BUILD_DIR}/fip.srec ${D}/firmware/fip-${MACHINE}.srec
+
+	echo "Install fip.bin"
+	install -m 0644 ${BUILD_DIR}/fip.bin ${D}/firmware/fip-${MACHINE}.bin
 }

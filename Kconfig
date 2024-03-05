@@ -54,6 +54,28 @@ choice
 	depends on MACHINE_SMARC-RZG2L
 	default "kas/machine/smarc-rzg2l.yml"
 
+	config MACHINE_SMARC-RZG2LC
+	bool "smarc-rzg2lc"
+	select FAMILY_G2L
+	help
+		Select the Renesas RZ/G2LC reference platform
+
+	config KAS_INCLUDE_MACHINE_SMARC-RZG2LC
+	string
+	depends on MACHINE_SMARC-RZG2LC
+	default "kas/machine/smarc-rzg2lc.yml"
+
+	config MACHINE_SMARC-RZG2UL
+	bool "smarc-rzg2ul"
+	select FAMILY_G2L
+	help
+		Select the Renesas RZ/G2UL reference platform
+
+	config KAS_INCLUDE_MACHINE_SMARC-RZG2UL
+	string
+	depends on MACHINE_SMARC-RZG2UL
+	default "kas/machine/smarc-rzg2ul.yml"
+
 endchoice
 endmenu
 
