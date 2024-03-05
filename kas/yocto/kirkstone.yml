@@ -19,8 +19,8 @@ repos:
       meta-yocto-bsp:
   meta-arm:
     url: https://git.yoctoproject.org/meta-arm
-    # yocto-4.0.2
-    commit: 96aad3b29aa7a5ee4df5cf617a6336e5218fa9bd
+    # yocto-4.0.3
+    commit: b187fb9232ca0a6b5f8f90b4715958546fc41d73
     layers:
       meta-arm-toolchain:
       meta-arm:
