@@ -36,10 +36,10 @@ print_help () {
 	and that the ~/.config/lavacli.yml file has been configured correctly.
 
 	USAGE: ${SCRIPT_NAME} \\
-		[-g JOB_ID] [-j <DIR>] [-s] [-t <TEST_DEFINITION>] \\
+		[-f DIR] [-g JOB_ID] [-j <DIR>] [-s] [-t <TEST_DEFINITION>] \\
 		[-u <USER>] [-Ud DTB_URL] -[Uk KERNEL_URL] [-Ur ROOTFS_URL] \\
 		[-d] [-h] \\
-		-b <BASE_TEMPLATE> -e <ENV> -m <MACHINE>
+		-b <BASE_TEMPLATE> -e <ENV>
 
 	OPTIONS:
 	-b, --base-template <BASE_TEMPLATE>
@@ -53,6 +53,11 @@ print_help () {
 	-e, --env-file <ENV>
 		Use this option to specify a file containing environment values
 		that this script will use to create the LAVA job template.
+	-f, --test-file-dir <DIR>
+		GitLab artifact directory containing the binaries needed for
+		testing in LAVA.
+		This option must be provided if --build-job is provided.
+		This option will be ignored if --build-job is not provided.
 	-g, --build-job <JOB_ID>
 		The GitLab job ID of the build CI job that is providing the
 		binaries that are to be used for this LAVA job.
@@ -67,8 +72,6 @@ print_help () {
 		"results_<lava-job-number>.xml".
 		If this argument is not provided or --submit-only is set, the
 		test restuls will not be saved to a file.
-	-m, --bitbake-machine <MACHINE>
-		Specify the bitbake machine that was built for.
 	-s, --submit-only
 		Submit LAVA job only; don't wait for the job to complete and
 		don't gather the test results.
@@ -127,6 +130,10 @@ parse_options () {
 		ENV_FILE="$(realpath "${2}")"
 		shift 2
 		;;
+	-f|--test-file-dir)
+		TEST_FILE_DIR="${2}"
+		shift 2
+		;;
 	-g|--build-job)
 		BUILD_JOB_ID="${2}"
 		shift 2
@@ -138,10 +145,6 @@ parse_options () {
 			exit 1
 		fi
 		JUNIT_DIR="$(realpath "${2}")"
-		shift 2
-		;;
-	-m|--bitbake-machine)
-		BITBAKE_MACHINE="${2}"
 		shift 2
 		;;
 	-s|--submit-only)
@@ -201,15 +204,15 @@ check_manditory_arguments () {
 		exit 1
 	fi
 
-	if [ -z "${BITBAKE_MACHINE}" ]; then
-		print_error "Option -m|--bitbake-machine must be provided."
-		print_help
-		exit 1
-	fi
-
 	if [ -z "${BUILD_JOB_ID}" ]; then
 		if [ -z "${URL_DTB}" ] || [ -z "${URL_KERNEL}" ] || [ -z "${URL_ROOTFS}" ]; then
 			print_error "Either option -g|--build-job, or all three of -Ud|--url-dtb, -Uk|--url-kernel and -Ur|--url-rootfs must be provided."
+			print_help
+			exit 1
+		fi
+
+		if [ -z "${TEST_FILE_DIR}" ]; then
+			print_error "Option -f|--test-file-dir must be provided when -g|--build-job is being used."
 			print_help
 			exit 1
 		fi
@@ -222,6 +225,7 @@ print_error () {
 	echo "$@" 1>&2
 	echo "#######################" 1>&2
 	echo 1>&2
+	debug_print_variables
 }
 
 print_debug () {
@@ -233,7 +237,12 @@ print_debug () {
 debug_print_variables () {
 	print_debug "Entering debug_print_variables()"
 
-	print_debug "BUILD_JOB_ID=${BUILD_JOB_ID}"
+	if [ -n "${BUILD_JOB_ID+x}" ]; then
+		print_debug "BUILD_JOB_ID=${BUILD_JOB_ID}"
+	fi
+	if [ -n "${TEST_FILE_DIR+x}" ]; then
+		print_debug "TEST_FILE_DIR=${TEST_FILE_DIR}"
+	fi
 	print_debug "DEBUG=${DEBUG}"
 	print_debug "ENV_FILE=${ENV_FILE}"
 	if [ -n "${JUNIT_DIR+x}" ]; then
@@ -287,38 +296,11 @@ prepare_template () {
 	# Add the binary URLs
 	if [ -n "${BUILD_JOB_ID}" ]; then
 		# Binaries are stored in GitLab CI artifact storage
-		local artifacts_dir="build/tmp/deploy/images/${BITBAKE_MACHINE}"
-		local base_url="${CI_PROJECT_URL}/-/jobs/${BUILD_JOB_ID}/artifacts/raw/${artifacts_dir}"
+		local base_url="${CI_PROJECT_URL}/-/jobs/${BUILD_JOB_ID}/artifacts/raw/${TEST_FILE_DIR}"
 
-		# Annoyingly, GitLab artifacts doesn't handle symllinks well,
-		# and Yocto uses them heavily in the deploy directory. The
-		# actual binary filenames are based on a number of factors that
-		# are impossible for us to know in this script, so let's get the
-		# information we need from the file GitLab gives us when we
-		# download a symlink.
-		# DTB, KERNEL and ROOTFS variables all come from ENV_FILE
-		local sym=$(curl -s "${base_url}"/"${DTB}")
-		local ret=$?
-		if [[ ${ret} -ne 0 ]]; then
-			print_error "Something went wrong when trying to download ${base_url}/${DTB}"
-			exit 1
-		fi
-		URL_DTB=${base_url}/"${sym}"
-		sym=$(curl -s "${base_url}"/"${KERNEL}")
-		ret=$?
-		if [[ ${ret} -ne 0 ]]; then
-			print_error "Something went wrong when trying to download ${base_url}/${KERNEL}"
-			exit 1
-		fi
-		URL_KERNEL=${base_url}/"${sym}"
-
-		sym=$(curl -s "${base_url}"/"${ROOTFS}")
-		ret=$?
-		if [[ ${ret} -ne 0 ]]; then
-			print_error "Something went wrong when trying to download ${base_url}/${ROOTFS}"
-			exit 1
-		fi
-		URL_ROOTFS=${base_url}/"${sym}"
+		URL_DTB=${base_url}/"${DTB}"
+		URL_KERNEL=${base_url}/"${KERNEL}"
+		URL_ROOTFS=${base_url}/"${ROOTFS}"
 	fi
 
 	print_debug "Replacing PLACEHOLDER_DTB_URL with \"${URL_DTB}\""

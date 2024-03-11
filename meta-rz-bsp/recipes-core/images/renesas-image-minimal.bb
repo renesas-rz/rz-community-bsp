@@ -26,10 +26,12 @@ IMAGE_INSTALL:append = " \
 # Packages that won't be included in the rootfs
 EXTRA_IMAGEDEPENDS:append = " \
 	flash-writer \
-	trusted-firmware-a \
 	virtual/bootloader \
+	virtual/trusted-firmware-a \
 "
 
 IMAGE_LINGUAS = " "
 
 IMAGE_ROOTFS_SIZE ?= "1048576"
+
+IMAGE_NAME_SUFFIX = ""

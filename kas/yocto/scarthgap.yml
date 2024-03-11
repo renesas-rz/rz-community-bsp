@@ -11,16 +11,16 @@ repos:
       meta-rz-bsp:
   poky:
     url: "https://git.yoctoproject.org/git/poky"
-    # kirkstone-4.0.16
-    commit: 54af8c5e80ebf63707ef4e51cc9d374f716da603
+    # Latest commit from scarthgap at time of writing
+    commit: b5624ee5643d881afa004571a096a189ab5389b5
     layers:
       meta:
       meta-poky:
       meta-yocto-bsp:
   meta-arm:
     url: https://git.yoctoproject.org/meta-arm
-    # yocto-4.0.3
-    commit: b187fb9232ca0a6b5f8f90b4715958546fc41d73
+    # Latest commit from master (no scarthgap branch yet) at time of writing
+    commit: aba9250494f62360c1ec8021f81922c005d92b82
     layers:
       meta-arm-toolchain:
       meta-arm:

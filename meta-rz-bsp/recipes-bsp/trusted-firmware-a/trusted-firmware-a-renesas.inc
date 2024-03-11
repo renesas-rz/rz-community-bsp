@@ -1,7 +1,7 @@
 require recipes-bsp/trusted-firmware-a/trusted-firmware-a.inc
 
 DEPENDS += "bootparameter-native"
-PROVIDES = "trusted-firmware-a"
+PROVIDES = "virtual/trusted-firmware-a"
 
 EXTRA_OEMAKE:append = "${TFA_EXTRA_OEMAKE}"
 
