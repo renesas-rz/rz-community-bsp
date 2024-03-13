@@ -1,4 +1,4 @@
-require conf/machine/include/arm/armv8a/tune-cortexa73-cortexa53.inc
+require conf/machine/include/arm/armv8a/tune-cortexa57-cortexa53.inc
 require rz-common.inc
 
 SOC_FAMILY = "rzg2h-family"
