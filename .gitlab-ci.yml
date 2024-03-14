@@ -88,7 +88,6 @@ clear-dependencies:
     - key: "dependencies"
       paths:
         - dependencies
-  retry: 2
   artifacts:
     name: "${CI_JOB_NAME}"
     when: always
