@@ -1,4 +1,5 @@
 stages:
+  - clear-caches
   - build:kirkstone
   - build:scarthgap
   - test:kirkstone
@@ -8,12 +9,61 @@ variables:
   TEST_BIN_DIR: test_binaries
   BUILD_OUTPUT_DIR: build_output
 
+### CLEAR CACHES ###
+clear-sstate:
+  image: gitlab.renesas.solutions:5050/spl2/continuous-integration/dockerfiles:ubuntu-20.04-latest
+  stage: clear-caches
+  cache:
+    - key: "sstate-cache"
+      paths:
+        - sstate-cache
+  script:
+    - sudo rm -rf sstate-cache/*
+  rules:
+    - if: $CLEAR_SSTATE_CACHE == "true"
+
+clear-downloads:
+  image: gitlab.renesas.solutions:5050/spl2/continuous-integration/dockerfiles:ubuntu-20.04-latest
+  stage: clear-caches
+  cache:
+    - key: "downloads"
+      paths:
+        - downloads
+  script:
+    - sudo rm -rf downloads/*
+  rules:
+    - if: $CLEAR_DOWNLOADS_CACHE == "true"
+
+clear-dependencies:
+  image: gitlab.renesas.solutions:5050/spl2/continuous-integration/dockerfiles:ubuntu-20.04-latest
+  stage: clear-caches
+  cache:
+    - key: "dependencies"
+      paths:
+        - dependencies
+  script:
+    - sudo rm -rf dependencies/*
+  rules:
+    - if: $CLEAR_DEPENDENCIES_CACHE == "true"
+
 ### BUILDING ###
 .build-base:
   image: ghcr.io/siemens/kas/kas:4.0
   tags:
     - yocto
   needs: []
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: $CLEAR_SSTATE_CACHE == "true"
+      needs: [clear-sstate]
+    - if: $CLEAR_DOWNLOADS_CACHE == "true"
+      needs: [clear-downloads]
+    - if: $CLEAR_DEPENDENCIES_CACHE == "true"
+      needs: [clear-dependencies]
+    - if: $CLEAR_SSTATE_CACHE != "true"
+    - if: $CLEAR_DOWNLOADS_CACHE != "true"
+    - if: $CLEAR_DEPENDENCIES_CACHE != "true"
   before_script:
     - find dependencies -name "*tar.gz" -exec tar xf '{}' \; || true
     - rm -rf downloads/git2
@@ -38,7 +88,6 @@ variables:
     - key: "dependencies"
       paths:
         - dependencies
-  retry: 2
   artifacts:
     name: "${CI_JOB_NAME}"
     when: always
