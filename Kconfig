@@ -217,6 +217,25 @@ menu "Bootloaders"
 	endmenu
 endmenu
 
+menu "SDK"
+	config SET_SDKMACHINE
+	bool "Set value for SDKMACHINE"
+	default n
+	help
+		Set the machine that the SDK is built to be installed on.
+		Available options provided by OpenEmbedded-Core are: aarch64,
+		i586, i686, ppc64, ppc64le, and x86_64.
+
+	config SDKMACHINE
+	depends on SET_SDKMACHINE
+	string "SDKMACHINE"
+	default "x86_64"
+	help
+		Set the machine that the SDK is built to be installed on.
+		Available options provided by OpenEmbedded-Core are: aarch64,
+		i586, i686, ppc64, ppc64le, and x86_64.
+endmenu
+
 menu "Other"
 	config OPT_DEBUG
 	bool "Debug"
