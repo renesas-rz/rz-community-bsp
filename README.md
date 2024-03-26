@@ -140,6 +140,31 @@ cd rz-community-bsp
 ./kas-container build --update --force-checkout kas/yocto/kirkstone.yml:kas/opt/debug.yml:kas/image/renesas-image-minimal.yml:kas/machine/hihope-rzg2h.yml:kas/kernel/cip-6.1.yml
 ```
 
+## Building the SDK
+In order to (cross) compile applications to run on the flashed image an SDK is
+needed. Yocto provides a way to build this SDK and create a suitable installer
+for your build machine.
+
+The architecture (e.g. x86_64, aarch64) of the machine where the SDK is to be
+used can be set in local.conf with the `SDKMACHINE` variable. It can also be
+configured in the kas menu.
+
+To build the SDK installer package run the following, replacing
+`renesas-image-minimal` with the target image of your choice:
+```bash
+bitbake renesas-image-minimal -c populate_sdk
+```
+
+The SDK installer (the \*.sh file) will be output to the standard deploy
+directory. Here is an example:
+```bash
+ls tmp/deploy/sdk
+poky-glibc-x86_64-renesas-image-minimal-cortexa55-smarc-rzg2l-toolchain-4.0.16.host.manifest
+poky-glibc-x86_64-renesas-image-minimal-cortexa55-smarc-rzg2l-toolchain-4.0.16.sh
+poky-glibc-x86_64-renesas-image-minimal-cortexa55-smarc-rzg2l-toolchain-4.0.16.target.manifest
+poky-glibc-x86_64-renesas-image-minimal-cortexa55-smarc-rzg2l-toolchain-4.0.16.testdata.json
+```
+
 # Contributions
 Contributions are *very* welcome! Please submit a pull request for review.
 
