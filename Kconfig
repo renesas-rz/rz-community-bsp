@@ -239,6 +239,7 @@ endmenu
 menu "Other"
 	config OPT_DEBUG
 	bool "Debug"
+	default y
 	help
 		Enable the debug-tweaks image feature that enabled features
 		helpfull for development (e.g. allows root logins, logins
