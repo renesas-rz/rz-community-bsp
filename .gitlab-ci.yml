@@ -99,8 +99,7 @@ clear-dependencies:
       - ${BUILD_OUTPUT_DIR}
       - build/tmp/work*/**/temp/log.do_*.*
 
-.build-g2h-family-all:
-  script:
+.build-g2h-family-mainline: &build-g2h-family-mainline
     # kernel: mainline
     # u-boot: mainline-2023.10
     # tf-a: mainline-2.9.0
@@ -113,10 +112,13 @@ clear-dependencies:
     - cp -r build/conf ${BUILD_OUTPUT_DIR}/mainline
     - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}/mainline
     - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}/mainline
+
+.build-g2h-family-cip-510: &build-g2h-family-cip-510
     # kernel: cip-5.10
     # u-boot: mainline-2023.10
     # tf-a: mainline-2.9.0
-    - kas build kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-5.10.yml:kas/u-boot/mainline-2023.10.yml:kas/trusted-firmware-a/mainline-2.9.0.yml
+    - kas build --update --force-checkout kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-5.10.yml:kas/u-boot/mainline-2023.10.yml:kas/trusted-firmware-a/mainline-2.9.0.yml
+    - source scripts/lava-env/${CI_BITBAKE_MACHINE}.env
     - mkdir -p ${TEST_BIN_DIR}/cip-5.10 ${BUILD_OUTPUT_DIR}/cip-5.10
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}/cip-5.10
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}/cip-5.10
@@ -124,10 +126,13 @@ clear-dependencies:
     - cp -r build/conf ${BUILD_OUTPUT_DIR}/cip-5.10
     - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}/cip-5.10
     - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}/cip-5.10
+
+.build-g2h-family-cip-61: &build-g2h-family-cip-61
     # kernel: cip-6.1
     # u-boot: mainline-2023.10
     # tf-a: mainline-2.9.0
     - kas build kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.1.yml:kas/u-boot/mainline-2023.10.yml:kas/trusted-firmware-a/mainline-2.9.0.yml
+    - source scripts/lava-env/${CI_BITBAKE_MACHINE}.env
     - mkdir -p ${TEST_BIN_DIR}/cip-6.1 ${BUILD_OUTPUT_DIR}/cip-6.1
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}/cip-6.1
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}/cip-6.1
@@ -135,10 +140,13 @@ clear-dependencies:
     - cp -r build/conf ${BUILD_OUTPUT_DIR}/cip-6.1
     - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}/cip-6.1
     - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}/cip-6.1
+
+.build-g2h-family-bsp: &build-g2h-family-bsp
     # kernel: renesas-5.10
     # u-boot: renesas-2021.10
     # tf-a: renesas-2.9.0
-    - kas build kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/renesas-5.10.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
+    - kas build --update --force-checkout kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/renesas-5.10.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
+    - source scripts/lava-env/${CI_BITBAKE_MACHINE}.env
     - mkdir -p ${TEST_BIN_DIR}/renesas-5.10 ${BUILD_OUTPUT_DIR}/renesas-5.10
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}/renesas-5.10
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}/renesas-5.10
@@ -147,8 +155,7 @@ clear-dependencies:
     - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}/renesas-5.10
     - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}/renesas-5.10
 
-.build-g2l-family-all:
-  script:
+.build-g2l-family-mainline: &build-g2l-family-mainline
     # Mainline bootloaders do not support this family yet
     # kernel: mainline
     # u-boot: renesas-2021.10
@@ -162,10 +169,13 @@ clear-dependencies:
     - cp -r build/conf ${BUILD_OUTPUT_DIR}/mainline
     - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}/mainline
     - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}/mainline
+
+.build-g2l-family-cip-510: &build-g2l-family-cip-510
     # kernel: cip-5.10
     # u-boot: renesas-2021.10
     # tf-a: renesas-2.9.0
-    - kas build kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-5.10.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
+    - kas build --update --force-checkout kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-5.10.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
+    - source scripts/lava-env/${CI_BITBAKE_MACHINE}.env
     - mkdir -p ${TEST_BIN_DIR}/cip-5.10 ${BUILD_OUTPUT_DIR}/cip-5.10
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}/cip-5.10
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}/cip-5.10
@@ -173,10 +183,13 @@ clear-dependencies:
     - cp -r build/conf ${BUILD_OUTPUT_DIR}/cip-5.10
     - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}/cip-5.10
     - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}/cip-5.10
+
+.build-g2l-family-cip-61: &build-g2l-family-cip-61
     # kernel: cip-6.1
     # u-boot: renesas-2021.10
     # tf-a: renesas-2.9.0
     - kas build kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.1.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
+    - source scripts/lava-env/${CI_BITBAKE_MACHINE}.env
     - mkdir -p ${TEST_BIN_DIR}/cip-6.1 ${BUILD_OUTPUT_DIR}/cip-6.1
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}/cip-6.1
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}/cip-6.1
@@ -184,10 +197,13 @@ clear-dependencies:
     - cp -r build/conf ${BUILD_OUTPUT_DIR}/cip-6.1
     - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}/cip-6.1
     - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}/cip-6.1
+
+.build-g2l-family-bsp: &build-g2l-family-bsp
     # kernel: renesas-5.10
     # u-boot: renesas-2021.10
     # tf-a: renesas-2.9.0
-    - kas build kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/renesas-5.10.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
+    - kas build --update --force-checkout kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/renesas-5.10.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
+    - source scripts/lava-env/${CI_BITBAKE_MACHINE}.env
     - mkdir -p ${TEST_BIN_DIR}/renesas-5.10 ${BUILD_OUTPUT_DIR}/renesas-5.10
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}/renesas-5.10
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}/renesas-5.10
@@ -201,64 +217,91 @@ clear-dependencies:
   variables:
     CI_KAS_IMAGE: kas/image/renesas-image-minimal.yml
 
-.kirkstone:
+.build-kirkstone:
   stage: build:kirkstone
   variables:
     CI_KAS_YOCTO: kas/yocto/kirkstone.yml
 
-.scarthgap:
+.build-scarthgap:
   stage: build:scarthgap
   variables:
     CI_KAS_YOCTO: kas/yocto/scarthgap.yml
 
+.kirkstone-g2h-family:
+  extends: .build-kirkstone
+  script:
+    - *build-g2h-family-cip-510
+    - *build-g2h-family-cip-61
+    - *build-g2h-family-bsp
+
+.kirkstone-g2l-family:
+  extends: .build-kirkstone
+  script:
+    - *build-g2l-family-cip-510
+    - *build-g2l-family-cip-61
+    - *build-g2l-family-bsp
+
+.scarthgap-g2h-family:
+  extends: .build-scarthgap
+  script:
+    - *build-g2h-family-mainline
+    - *build-g2h-family-cip-510
+    - *build-g2h-family-cip-61
+    - *build-g2h-family-bsp
+
+.scarthgap-g2l-family:
+  extends: .build-scarthgap
+  script:
+    - *build-g2l-family-mainline
+    - *build-g2l-family-cip-510
+    - *build-g2l-family-cip-61
+    - *build-g2l-family-bsp
+
 .hihope-rzg2h:
-  extends: .build-g2h-family-all
   variables:
     CI_BITBAKE_MACHINE: hihope-rzg2h
     CI_KAS_MACHINE: kas/machine/hihope-rzg2h.yml
 
 .smarc-rzg2l:
-  extends: .build-g2l-family-all
   variables:
     CI_BITBAKE_MACHINE: smarc-rzg2l
     CI_KAS_MACHINE: kas/machine/smarc-rzg2l.yml
 
 .smarc-rzg2lc:
-  extends: .build-g2l-family-all
   variables:
     CI_BITBAKE_MACHINE: smarc-rzg2lc
     CI_KAS_MACHINE: kas/machine/smarc-rzg2lc.yml
 
 .smarc-rzg2ul:
-  extends: .build-g2l-family-all
   variables:
     CI_BITBAKE_MACHINE: smarc-rzg2ul
     CI_KAS_MACHINE: kas/machine/smarc-rzg2ul.yml
 
 # Build jobs
 build:kirkstone:hihope-rzg2h:
-  extends: [.renesas-image-minimal, .kirkstone, .hihope-rzg2h]
+  extends: [.renesas-image-minimal, .kirkstone-g2h-family, .hihope-rzg2h]
 
 build:kirkstone:smarc-rzg2l:
-  extends: [.renesas-image-minimal, .kirkstone, .smarc-rzg2l]
+  extends: [.renesas-image-minimal, .kirkstone-g2l-family, .smarc-rzg2l]
 
 build:kirkstone:smarc-rzg2lc:
-  extends: [.renesas-image-minimal, .kirkstone, .smarc-rzg2lc]
+  extends: [.renesas-image-minimal, .kirkstone-g2l-family, .smarc-rzg2lc]
 
 build:kirkstone:smarc-rzg2ul:
-  extends: [.renesas-image-minimal, .kirkstone, .smarc-rzg2ul]
+  extends: [.renesas-image-minimal, .kirkstone-g2l-family, .smarc-rzg2ul]
 
 build:scarthgap:hihope-rzg2h:
-  extends: [.renesas-image-minimal, .scarthgap, .hihope-rzg2h]
+  extends: [.renesas-image-minimal, .scarthgap-g2h-family, .hihope-rzg2h]
 
 build:scarthgap:smarc-rzg2l:
-  extends: [.renesas-image-minimal, .scarthgap, .smarc-rzg2l]
+  extends: [.renesas-image-minimal, .scarthgap-g2l-family, .smarc-rzg2l]
 
 build:scarthgap:smarc-rzg2lc:
-  extends: [.renesas-image-minimal, .scarthgap, .smarc-rzg2lc]
+  extends: [.renesas-image-minimal, .scarthgap-g2l-family, .smarc-rzg2lc]
 
 build:scarthgap:smarc-rzg2ul:
-  extends: [.renesas-image-minimal, .scarthgap, .smarc-rzg2ul]
+  extends: [.renesas-image-minimal, .scarthgap-g2l-family, .smarc-rzg2ul]
+
 
 ### TESTING ###
 # BUILD_JOB_ID AND BITBAKE_MACHINE come from job.env shared from the build job
@@ -284,13 +327,6 @@ build:scarthgap:smarc-rzg2ul:
     TESTS: "-t scripts/lava-templates/test-uname.yaml"
 
 # Test jobs
-test:kirkstone:hihope-rzg2h-mainline:
-  stage: test:kirkstone
-  needs: ["build:kirkstone:hihope-rzg2h"]
-  extends: [.test-base, .test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/mainline
-
 test:kirkstone:hihope-rzg2h-cip-5.10:
   stage: test:kirkstone
   needs: ["build:kirkstone:hihope-rzg2h"]
@@ -311,13 +347,6 @@ test:kirkstone:hihope-rzg2h-renesas-5.10:
   extends: [.test-base, .test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
-
-test:kirkstone:smarc-rzg2l-mainline:
-  stage: test:kirkstone
-  needs: ["build:kirkstone:smarc-rzg2l"]
-  extends: [.test-base, .test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/mainline
 
 test:kirkstone:smarc-rzg2l-cip-5.10:
   stage: test:kirkstone
@@ -340,13 +369,6 @@ test:kirkstone:smarc-rzg2l-renesas-5.10:
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
 
-test:kirkstone:smarc-rzg2lc-mainline:
-  stage: test:kirkstone
-  needs: ["build:kirkstone:smarc-rzg2lc"]
-  extends: [.test-base, .test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/mainline
-
 test:kirkstone:smarc-rzg2lc-cip-5.10:
   stage: test:kirkstone
   needs: ["build:kirkstone:smarc-rzg2lc"]
@@ -367,13 +389,6 @@ test:kirkstone:smarc-rzg2lc-renesas-5.10:
   extends: [.test-base, .test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
-
-test:kirkstone:smarc-rzg2ul-mainline:
-  stage: test:kirkstone
-  needs: ["build:kirkstone:smarc-rzg2ul"]
-  extends: [.test-base, .test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/mainline
 
 test:kirkstone:smarc-rzg2ul-cip-5.10:
   stage: test:kirkstone
