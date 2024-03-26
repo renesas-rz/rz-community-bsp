@@ -242,10 +242,10 @@ menu "Other"
 	help
 		Enable the debug-tweaks image feature that enabled features
 		helpfull for development (e.g. allows root logins, logins
-		without passwords —including root ones, and enables
+		without passwords (including root ones), and enables
 		post-installation logging)
 
-	config KAS_OPT_DEBUG
+	config KAS_INCLUDE_OPT_DEBUG
 	string
 	depends on OPT_DEBUG
 	default "kas/opt/debug.yml"
@@ -256,7 +256,7 @@ menu "Other"
 		Change the SSTATE_DIR and DL_DIR locations so that they can
 		easily be used with GitLab CI/CD caching
 
-	config KAS_OPT_GITLAB_CI_CACHE
+	config KAS_INCLUDE_OPT_GITLAB_CI_CACHE
 	string
 	depends on OPT_GITLAB_CI_CACHE
 	default "kas/opt/gitlab-ci-cache.yml"
