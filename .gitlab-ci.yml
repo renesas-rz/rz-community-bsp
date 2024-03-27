@@ -212,6 +212,17 @@ clear-dependencies:
     - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}/renesas-5.10
     - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}/renesas-5.10
 
+.build-sdk:
+  when: manual
+  script:
+    # kernel: default
+    # u-boot: default
+    # tf-a: default
+    - kas build --update --force-checkout kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE} --cmd populate_sdk
+    - mkdir -p ${BUILD_OUTPUT_DIR}/sdk
+    - cp -r build/conf ${BUILD_OUTPUT_DIR}/sdk
+    - cp -r build/tmp/deploy/sdk ${BUILD_OUTPUT_DIR}/sdk
+
 .renesas-image-minimal:
   extends: .build-base
   variables:
@@ -302,6 +313,30 @@ build:scarthgap:smarc-rzg2lc:
 build:scarthgap:smarc-rzg2ul:
   extends: [.renesas-image-minimal, .scarthgap-g2l-family, .smarc-rzg2ul]
 
+# SDK build jobs
+build:sdk:kirkstone:hihope-rzg2h:
+  extends: [.renesas-image-minimal, .build-kirkstone, .hihope-rzg2h, .build-sdk]
+
+build:sdk:kirkstone:smarc-rzg2l:
+  extends: [.renesas-image-minimal, .build-kirkstone, .smarc-rzg2l, .build-sdk]
+
+build:sdk:kirkstone:smarc-rzg2lc:
+  extends: [.renesas-image-minimal, .build-kirkstone, .smarc-rzg2lc, .build-sdk]
+
+build:sdk:kirkstone:smarc-rzg2ul:
+  extends: [.renesas-image-minimal, .build-kirkstone, .smarc-rzg2ul, .build-sdk]
+
+build:sdk:scarthgap:hihope-rzg2h:
+  extends: [.renesas-image-minimal, .build-scarthgap, .hihope-rzg2h, .build-sdk]
+
+build:sdk:scarthgap:smarc-rzg2l:
+  extends: [.renesas-image-minimal, .build-scarthgap, .smarc-rzg2l, .build-sdk]
+
+build:sdk:scarthgap:smarc-rzg2lc:
+  extends: [.renesas-image-minimal, .build-scarthgap, .smarc-rzg2lc, .build-sdk]
+
+build:sdk:scarthgap:smarc-rzg2ul:
+  extends: [.renesas-image-minimal, .build-scarthgap, .smarc-rzg2ul, .build-sdk]
 
 ### TESTING ###
 # BUILD_JOB_ID AND BITBAKE_MACHINE come from job.env shared from the build job
