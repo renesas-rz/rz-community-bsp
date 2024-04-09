@@ -47,6 +47,11 @@ int main(int argc, char *argv[])
 		val = 0xAA;
 		fwrite(&val, 1, 1, fptr);
 
+		/* Add gap of 6 sectors (6 x 512 bytes): */
+		val = 0xFF;
+		for(i=0;i<3072; i++)
+			 fwrite(&val, 1, 1, fptr);
+
 		fclose(fptr);
 	}
 	return 0;
