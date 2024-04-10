@@ -1,0 +1,29 @@
+# short-description: Create SD card image for RZ/G2L family SoC
+# long-description:  Creates a bootable SD card image including u-boot/atf + rootfs for Renesas RZ/G2L family SoC
+
+# Memory Layout:
+# | Sector | Function |
+# |      0 | MBR
+# |      1 | boot parameters, primary
+# |      2 | boot parameters, fallback 1
+# |      3 | boot parameters, fallback 2
+# |      4 | boot parameters, fallback 3
+# |      5 | boot parameters, fallback 4
+# |      6 | boot parameters, fallback 5
+# |      7 | boot parameters, fallback 6
+# |      8 | bl2 (atf), primary
+# |  N + 8 | bl2 (atf), fallback 1 (N = size of bl2)
+# | 2N + 8 | bl2 (atf), fallback 2 (N = size of bl2)
+# | 3N + 8 | bl2 (atf), fallback 3 (N = size of bl2)
+# | 4N + 8 | bl2 (atf), fallback 4 (N = size of bl2)
+# | 5N + 8 | bl2 (atf), fallback 5 (N = size of bl2)
+# | 6N + 8 | bl2 (atf), fallback 6 (N = size of bl2)
+# |    128 | u-boot + bl31 (defined in ATF RZG2L_SD_FIP_BASE)
+# |    ... | reserved for u-boot
+# |   8192 | first partition
+
+part bootparam --source rawcopy --sourceparams="file=bp-${MACHINE}.bin"  --ondisk mmcblk --no-table --offset 1s
+part bl2       --source rawcopy --sourceparams="file=bl2-${MACHINE}.bin" --ondisk mmcblk --no-table --offset 8s
+part u-boot    --source rawcopy --sourceparams="file=fip-${MACHINE}.bin" --ondisk mmcblk --no-table --offset 128s
+
+part /         --source rootfs --ondisk mmcblk0 --fstype=ext4 --use-uuid --align 4 --label rootfs --offset 8192s
