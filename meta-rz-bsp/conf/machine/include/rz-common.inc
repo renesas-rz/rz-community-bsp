@@ -8,6 +8,7 @@ SERIAL_CONSOLES = "115200;ttySC0"
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-cip"
 PREFERRED_VERSION_linux-cip ?= "6.1%"
 KERNEL_IMAGETYPE ?= "Image"
+KERNEL_DEVICETREE ?= "renesas/${KERNEL_DEVICETREE_BASENAME}.dtb"
 
 # Yocto Scarthgap has increased OLDEST_KERNEL to 5.15 but we have the option to
 # build 5.10 with this meta-layer. Override OLDEST_KERNEL to allow this
