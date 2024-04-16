@@ -131,7 +131,7 @@ clear-dependencies:
     # kernel: cip-6.1
     # u-boot: mainline-2023.10
     # tf-a: mainline-2.9.0
-    - kas build kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.1.yml:kas/u-boot/mainline-2023.10.yml:kas/trusted-firmware-a/mainline-2.9.0.yml
+    - kas build --update --force-checkout kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.1.yml:kas/u-boot/mainline-2023.10.yml:kas/trusted-firmware-a/mainline-2.9.0.yml
     - source scripts/lava-env/${CI_BITBAKE_MACHINE}.env
     - mkdir -p ${TEST_BIN_DIR}/cip-6.1 ${BUILD_OUTPUT_DIR}/cip-6.1
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}/cip-6.1
@@ -188,7 +188,7 @@ clear-dependencies:
     # kernel: cip-6.1
     # u-boot: renesas-2021.10
     # tf-a: renesas-2.9.0
-    - kas build kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.1.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
+    - kas build --update --force-checkout kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.1.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
     - source scripts/lava-env/${CI_BITBAKE_MACHINE}.env
     - mkdir -p ${TEST_BIN_DIR}/cip-6.1 ${BUILD_OUTPUT_DIR}/cip-6.1
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}/cip-6.1
@@ -213,8 +213,17 @@ clear-dependencies:
     - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}/renesas-5.10
 
 .build-sdk:
-  when: manual
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: always
+    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+      when: manual
+  variables:
+    SDK_TMP: sdk-tmp
   script:
+    # Create SDK
     # kernel: default
     # u-boot: default
     # tf-a: default
@@ -222,6 +231,36 @@ clear-dependencies:
     - mkdir -p ${BUILD_OUTPUT_DIR}/sdk
     - cp -r build/conf ${BUILD_OUTPUT_DIR}/sdk
     - cp -r build/tmp/deploy/sdk ${BUILD_OUTPUT_DIR}/sdk
+    # Create rootfs for testing
+    # kernel: default
+    # u-boot: default
+    # tf-a: default
+    - kas build --update --force-checkout kas/opt/gitlab-ci-cache.yml:kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}
+    - source scripts/lava-env/${CI_BITBAKE_MACHINE}.env
+    - mkdir -p ${TEST_BIN_DIR}/sdk ${SDK_TMP}/rootfs
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}/sdk
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}/sdk
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${DTB} ${TEST_BIN_DIR}/sdk
+    - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}/sdk
+    - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}/sdk
+    # Install SDK
+    - rm -rf ${SDK_TMP}
+    - mkdir -p ${SDK_TMP}
+    - sudo chmod +x ${BUILD_OUTPUT_DIR}/sdk/sdk/poky-*.sh
+    - ${BUILD_OUTPUT_DIR}/sdk/sdk/poky-*.sh -d ${SDK_TMP}/ -y
+    # Compile test application
+    - source ${SDK_TMP}/environment-setup-*
+    - ${CC} -o ${SDK_TMP}/hello-test scripts/hello.c
+    - file ${SDK_TMP}/hello-test
+    - cp ${SDK_TMP}/hello-test ${BUILD_OUTPUT_DIR}/sdk/
+    # Add test application to rootfs for on target testing
+    - mkdir -p ${SDK_TMP}/rootfs
+    - tar xf ${TEST_BIN_DIR}/sdk/${ROOTFS} -C ${SDK_TMP}/rootfs
+    - cp ${SDK_TMP}/hello-test ${SDK_TMP}/rootfs/usr/bin
+    - pushd ${SDK_TMP}/rootfs/
+    - tar czf ../${ROOTFS} *
+    - popd
+    - cp ${SDK_TMP}/${ROOTFS} ${TEST_BIN_DIR}/sdk
 
 .renesas-image-minimal:
   extends: .build-base
@@ -338,6 +377,7 @@ build:sdk:scarthgap:smarc-rzg2lc:
 build:sdk:scarthgap:smarc-rzg2ul:
   extends: [.renesas-image-minimal, .build-scarthgap, .smarc-rzg2ul, .build-sdk]
 
+
 ### TESTING ###
 # BUILD_JOB_ID AND BITBAKE_MACHINE come from job.env shared from the build job
 .test-base:
@@ -357,203 +397,263 @@ build:sdk:scarthgap:smarc-rzg2ul:
     paths:
       - results
 
-.test-cases:
+.standard-test-cases:
   variables:
     TESTS: "-t scripts/lava-templates/test-uname.yaml"
+
+.sdk-test-cases:
+  variables:
+    TESTS: "-t scripts/lava-templates/test-sdk-hello.yaml"
 
 # Test jobs
 test:kirkstone:hihope-rzg2h-cip-5.10:
   stage: test:kirkstone
   needs: ["build:kirkstone:hihope-rzg2h"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
 
 test:kirkstone:hihope-rzg2h-cip-6.1:
   stage: test:kirkstone
   needs: ["build:kirkstone:hihope-rzg2h"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
 
 test:kirkstone:hihope-rzg2h-renesas-5.10:
   stage: test:kirkstone
   needs: ["build:kirkstone:hihope-rzg2h"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
 
 test:kirkstone:smarc-rzg2l-cip-5.10:
   stage: test:kirkstone
   needs: ["build:kirkstone:smarc-rzg2l"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
 
 test:kirkstone:smarc-rzg2l-cip-6.1:
   stage: test:kirkstone
   needs: ["build:kirkstone:smarc-rzg2l"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
 
 test:kirkstone:smarc-rzg2l-renesas-5.10:
   stage: test:kirkstone
   needs: ["build:kirkstone:smarc-rzg2l"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
 
 test:kirkstone:smarc-rzg2lc-cip-5.10:
   stage: test:kirkstone
   needs: ["build:kirkstone:smarc-rzg2lc"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
 
 test:kirkstone:smarc-rzg2lc-cip-6.1:
   stage: test:kirkstone
   needs: ["build:kirkstone:smarc-rzg2lc"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
 
 test:kirkstone:smarc-rzg2lc-renesas-5.10:
   stage: test:kirkstone
   needs: ["build:kirkstone:smarc-rzg2lc"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
 
 test:kirkstone:smarc-rzg2ul-cip-5.10:
   stage: test:kirkstone
   needs: ["build:kirkstone:smarc-rzg2ul"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
 
 test:kirkstone:smarc-rzg2ul-cip-6.1:
   stage: test:kirkstone
   needs: ["build:kirkstone:smarc-rzg2ul"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
 
 test:kirkstone:smarc-rzg2ul-renesas-5.10:
   stage: test:kirkstone
   needs: ["build:kirkstone:smarc-rzg2ul"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
+
+test:sdk:kirkstone:hihope-rzg2h:
+  stage: test:kirkstone
+  needs: ["build:sdk:kirkstone:hihope-rzg2h"]
+  extends: [.test-base, .sdk-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/sdk
+
+test:sdk:kirkstone:smarc-rzg2l:
+  stage: test:kirkstone
+  needs: ["build:sdk:kirkstone:smarc-rzg2l"]
+  extends: [.test-base, .sdk-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/sdk
+
+test:sdk:kirkstone:smarc-rzg2lc:
+  stage: test:kirkstone
+  needs: ["build:sdk:kirkstone:smarc-rzg2lc"]
+  extends: [.test-base, .sdk-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/sdk
+
+test:sdk:kirkstone:smarc-rzg2ul:
+  stage: test:kirkstone
+  needs: ["build:sdk:kirkstone:smarc-rzg2ul"]
+  extends: [.test-base, .sdk-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/sdk
 
 test:scarthgap:hihope-rzg2h-mainline:
   stage: test:scarthgap
   needs: ["build:scarthgap:hihope-rzg2h"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/mainline
 
 test:scarthgap:hihope-rzg2h-cip-5.10:
   stage: test:scarthgap
   needs: ["build:scarthgap:hihope-rzg2h"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
 
 test:scarthgap:hihope-rzg2h-cip-6.1:
   stage: test:scarthgap
   needs: ["build:scarthgap:hihope-rzg2h"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
 
 test:scarthgap:hihope-rzg2h-renesas-5.10:
   stage: test:scarthgap
   needs: ["build:scarthgap:hihope-rzg2h"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
 
 test:scarthgap:smarc-rzg2l-mainline:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2l"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/mainline
 
 test:scarthgap:smarc-rzg2l-cip-5.10:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2l"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
 
 test:scarthgap:smarc-rzg2l-cip-6.1:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2l"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
 
 test:scarthgap:smarc-rzg2l-renesas-5.10:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2l"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
 
 test:scarthgap:smarc-rzg2lc-mainline:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2lc"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/mainline
 
 test:scarthgap:smarc-rzg2lc-cip-5.10:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2lc"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
 
 test:scarthgap:smarc-rzg2lc-cip-6.1:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2lc"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
 
 test:scarthgap:smarc-rzg2lc-renesas-5.10:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2lc"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
 
 test:scarthgap:smarc-rzg2ul-mainline:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2ul"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/mainline
 
 test:scarthgap:smarc-rzg2ul-cip-5.10:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2ul"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
 
 test:scarthgap:smarc-rzg2ul-cip-6.1:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2ul"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
 
 test:scarthgap:smarc-rzg2ul-renesas-5.10:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2ul"]
-  extends: [.test-base, .test-cases]
+  extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
+
+test:sdk:scarthgap:hihope-rzg2h:
+  stage: test:scarthgap
+  needs: ["build:sdk:scarthgap:hihope-rzg2h"]
+  extends: [.test-base, .sdk-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/sdk
+
+test:sdk:scarthgap:smarc-rzg2l:
+  stage: test:scarthgap
+  needs: ["build:sdk:scarthgap:smarc-rzg2l"]
+  extends: [.test-base, .sdk-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/sdk
+
+test:sdk:scarthgap:smarc-rzg2lc:
+  stage: test:scarthgap
+  needs: ["build:sdk:scarthgap:smarc-rzg2lc"]
+  extends: [.test-base, .sdk-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/sdk
+
+test:sdk:scarthgap:smarc-rzg2ul:
+  stage: test:scarthgap
+  needs: ["build:sdk:scarthgap:smarc-rzg2ul"]
+  extends: [.test-base, .sdk-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/sdk
