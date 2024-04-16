@@ -1,0 +1,20 @@
+- test:
+    timeout:
+      minutes: 5
+    definitions:
+    - repository:
+        metadata:
+          format: Lava-Test Test Definition 1.0
+          name: hello-world
+          description: "Run simple hello app"
+          os:
+            - oe
+          scope:
+            - functional
+        run:
+          steps:
+            - lava-test-case hello-test --shell hello-test
+      from: inline
+      name: hello-world-inline
+      path: inline/hello-world.yaml
+
