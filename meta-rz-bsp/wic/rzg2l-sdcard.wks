@@ -19,7 +19,8 @@
 # | 5N + 8 | bl2 (atf), fallback 5 (N = size of bl2)
 # | 6N + 8 | bl2 (atf), fallback 6 (N = size of bl2)
 # |    128 | u-boot + bl31 (defined in ATF RZG2L_SD_FIP_BASE)
-# |    ... | reserved for u-boot
+# |    ... | reserved for U-Boot
+# |   8064 | U-Boot environment (128 sectors / 64K)
 # |   8192 | first partition
 
 part bootparam --source rawcopy --sourceparams="file=bp-${MACHINE}.bin"  --ondisk mmcblk --no-table --offset 1s
