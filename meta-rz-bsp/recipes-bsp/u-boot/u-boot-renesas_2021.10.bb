@@ -4,6 +4,7 @@ SRC_URI:append = " \
 	file://0001-rzg2-add-common-configuration-header.patch \
 	file://0002-rzg2-add-generic-distro-boot-support.patch \
 	file://0003-configs-rzg2-enable-CONFIG_DISTRO_DEFAULTS.patch \
+	file://0004-configs-rzg2-add-support-for-environment-in-SD-card.patch \
 "
 
 COMPATIBLE_MACHINE = "(rzg2h-family|rzg2l-family)"

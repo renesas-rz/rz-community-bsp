@@ -1,0 +1,56 @@
+From 4484f8ade47883ac23ab92978b71d51662745af9 Mon Sep 17 00:00:00 2001
+From: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+Date: Mon, 22 Apr 2024 17:07:43 -0400
+Subject: [PATCH] configs: rzg2: add support for environment in SD card
+
+Set environment offset to a value corresponding to sector 8064 of SD card.
+
+Signed-off-by: Hugo Villeneuve <hvilleneuve@dimonoff.com>
+---
+ configs/smarc-rzg2l_defconfig  | 2 +-
+ configs/smarc-rzg2lc_defconfig | 2 +-
+ configs/smarc-rzg2ul_defconfig | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/configs/smarc-rzg2l_defconfig b/configs/smarc-rzg2l_defconfig
+index c01e5f7a89..25be18053b 100644
+--- a/configs/smarc-rzg2l_defconfig
++++ b/configs/smarc-rzg2l_defconfig
+@@ -3,7 +3,7 @@ CONFIG_ARCH_CPU_INIT=y
+ CONFIG_ARCH_RMOBILE=y
+ CONFIG_SYS_TEXT_BASE=0x50000000
+ CONFIG_ENV_SIZE=0x10000
+-CONFIG_ENV_OFFSET=0xF0000
++CONFIG_ENV_OFFSET=0x3F0000
+ CONFIG_DM_GPIO=y
+ CONFIG_RCAR_GEN3=y
+ CONFIG_R9A07G044L=y
+diff --git a/configs/smarc-rzg2lc_defconfig b/configs/smarc-rzg2lc_defconfig
+index 53ee81cbd3..cf1f012b8f 100644
+--- a/configs/smarc-rzg2lc_defconfig
++++ b/configs/smarc-rzg2lc_defconfig
+@@ -3,7 +3,7 @@ CONFIG_ARCH_CPU_INIT=y
+ CONFIG_ARCH_RMOBILE=y
+ CONFIG_SYS_TEXT_BASE=0x50000000
+ CONFIG_ENV_SIZE=0x10000
+-CONFIG_ENV_OFFSET=0xF0000
++CONFIG_ENV_OFFSET=0x3F0000
+ CONFIG_DM_GPIO=y
+ CONFIG_RCAR_GEN3=y
+ CONFIG_R9A07G044C=y
+diff --git a/configs/smarc-rzg2ul_defconfig b/configs/smarc-rzg2ul_defconfig
+index a79446c733..8335cc5351 100644
+--- a/configs/smarc-rzg2ul_defconfig
++++ b/configs/smarc-rzg2ul_defconfig
+@@ -3,7 +3,7 @@ CONFIG_ARCH_CPU_INIT=y
+ CONFIG_ARCH_RMOBILE=y
+ CONFIG_SYS_TEXT_BASE=0x50000000
+ CONFIG_ENV_SIZE=0x10000
+-CONFIG_ENV_OFFSET=0xF0000
++CONFIG_ENV_OFFSET=0x3F0000
+ CONFIG_DM_GPIO=y
+ CONFIG_RCAR_GEN3=y
+ CONFIG_R9A07G043U=y
+-- 
+2.39.2
+
