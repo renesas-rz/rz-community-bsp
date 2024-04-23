@@ -8,9 +8,11 @@ EXTRA_OEMAKE:append = "${TFA_EXTRA_OEMAKE}"
 # For the RZ/G2L family of SoCs we need a version of bl2 with a special header
 # We also need to use SREC files
 do_compile:append:rzg2l-family() {
+	echo "Create bp.bin"
+	bootparameter ${BUILD_DIR}/bl2.bin ${BUILD_DIR}/bp.bin
+
 	echo "Create bl2_bp.bin"
-	bootparameter ${BUILD_DIR}/bl2.bin ${BUILD_DIR}/bl2_bp.bin
-	cat ${BUILD_DIR}/bl2.bin >> ${BUILD_DIR}/bl2_bp.bin
+	cat ${BUILD_DIR}/bp.bin ${BUILD_DIR}/bl2.bin > ${BUILD_DIR}/bl2_bp.bin
 
 	echo "Convert bl2_bp.bin to bl2_bp.srec"
 	objcopy -O srec --adjust-vma=0x00011E00 --srec-forceS3 -I binary ${BUILD_DIR}/bl2_bp.bin ${BUILD_DIR}/bl2_bp.srec
@@ -40,6 +42,12 @@ do_install:append:rzg2h-family() {
 # Install files we need for the RZ/G2L family of SoCs that are not installed by
 # the meta-arm recipe
 do_install:append:rzg2l-family() {
+	echo "Install bp.bin"
+	install -m 0644 ${BUILD_DIR}/bp.bin ${D}/firmware/bp-${MACHINE}.bin
+
+	echo "Install bl2.bin"
+	install -m 0644 ${BUILD_DIR}/bl2.bin ${D}/firmware/bl2-${MACHINE}.bin
+
 	echo "Install bl2_bp.srec"
 	install -m 0644 ${BUILD_DIR}/bl2_bp.srec ${D}/firmware/bl2_bp-${MACHINE}.srec
 

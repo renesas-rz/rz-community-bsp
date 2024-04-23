@@ -21,6 +21,7 @@ IMAGE_INSTALL:append = " \
 	${CORE_IMAGE_EXTRA_INSTALL} \
 	kernel-image \
 	kernel-devicetree \
+	${PREFERRED_PROVIDER_virtual/bootloader}-extlinux \
 "
 
 # Packages that won't be included in the rootfs
