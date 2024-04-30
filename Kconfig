@@ -53,6 +53,17 @@ choice
 	depends on MACHINE_HIHOPE-RZG2H
 	default "kas/machine/hihope-rzg2h.yml"
 
+	config MACHINE_HIHOPE-RZG2M
+	bool "hihope-rzg2m"
+	select FAMILY_G2H
+	help
+		Select the Renesas RZ/G2M reference platform from HopeRun
+
+	config KAS_INCLUDE_MACHINE_HIHOPE-RZG2M
+	string
+	depends on MACHINE_HIHOPE-RZG2M
+	default "kas/machine/hihope-rzg2m.yml"
+
 	config MACHINE_SMARC-RZG2L
 	bool "smarc-rzg2l"
 	select FAMILY_G2L
