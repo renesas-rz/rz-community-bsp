@@ -75,6 +75,17 @@ choice
 	depends on MACHINE_HIHOPE-RZG2N
 	default "kas/machine/hihope-rzg2n.yml"
 
+	config MACHINE_EK874
+	bool "ek874"
+	select FAMILY_G2H
+	help
+		Select the Renesas RZ/G2E reference platform from SiLinux
+
+	config KAS_INCLUDE_MACHINE_EK874
+	string
+	depends on MACHINE_EK874
+	default "kas/machine/ek874.yml"
+
 	config MACHINE_SMARC-RZG2L
 	bool "smarc-rzg2l"
 	select FAMILY_G2L
