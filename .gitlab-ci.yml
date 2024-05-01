@@ -263,6 +263,21 @@ workflow:
     CI_BITBAKE_MACHINE: hihope-rzg2h
     CI_KAS_MACHINE: kas/machine/hihope-rzg2h.yml
 
+.hihope-rzg2m:
+  variables:
+    CI_BITBAKE_MACHINE: hihope-rzg2m
+    CI_KAS_MACHINE: kas/machine/hihope-rzg2m.yml
+
+.hihope-rzg2n:
+  variables:
+    CI_BITBAKE_MACHINE: hihope-rzg2n
+    CI_KAS_MACHINE: kas/machine/hihope-rzg2n.yml
+
+.ek874:
+  variables:
+    CI_BITBAKE_MACHINE: ek874
+    CI_KAS_MACHINE: kas/machine/ek874.yml
+
 .smarc-rzg2l:
   variables:
     CI_BITBAKE_MACHINE: smarc-rzg2l
@@ -282,6 +297,15 @@ workflow:
 build:kirkstone:hihope-rzg2h:
   extends: [.renesas-image-minimal, .kirkstone-g2h-family, .hihope-rzg2h]
 
+build:kirkstone:hihope-rzg2m:
+  extends: [.renesas-image-minimal, .kirkstone-g2h-family, .hihope-rzg2m]
+
+build:kirkstone:hihope-rzg2n:
+  extends: [.renesas-image-minimal, .kirkstone-g2h-family, .hihope-rzg2n]
+
+build:kirkstone:ek874:
+  extends: [.renesas-image-minimal, .kirkstone-g2h-family, .ek874]
+
 build:kirkstone:smarc-rzg2l:
   extends: [.renesas-image-minimal, .kirkstone-g2l-family, .smarc-rzg2l]
 
@@ -293,6 +317,15 @@ build:kirkstone:smarc-rzg2ul:
 
 build:scarthgap:hihope-rzg2h:
   extends: [.renesas-image-minimal, .scarthgap-g2h-family, .hihope-rzg2h]
+
+build:scarthgap:hihope-rzg2m:
+  extends: [.renesas-image-minimal, .scarthgap-g2h-family, .hihope-rzg2m]
+
+build:scarthgap:hihope-rzg2n:
+  extends: [.renesas-image-minimal, .scarthgap-g2h-family, .hihope-rzg2n]
+
+build:scarthgap:ek874:
+  extends: [.renesas-image-minimal, .scarthgap-g2h-family, .ek874]
 
 build:scarthgap:smarc-rzg2l:
   extends: [.renesas-image-minimal, .scarthgap-g2l-family, .smarc-rzg2l]
@@ -307,6 +340,15 @@ build:scarthgap:smarc-rzg2ul:
 build:sdk:kirkstone:hihope-rzg2h:
   extends: [.renesas-image-minimal, .build-kirkstone, .hihope-rzg2h, .build-sdk]
 
+build:sdk:kirkstone:hihope-rzg2m:
+  extends: [.renesas-image-minimal, .build-kirkstone, .hihope-rzg2m, .build-sdk]
+
+build:sdk:kirkstone:hihope-rzg2n:
+  extends: [.renesas-image-minimal, .build-kirkstone, .hihope-rzg2n, .build-sdk]
+
+build:sdk:kirkstone:ek874:
+  extends: [.renesas-image-minimal, .build-kirkstone, .ek874, .build-sdk]
+
 build:sdk:kirkstone:smarc-rzg2l:
   extends: [.renesas-image-minimal, .build-kirkstone, .smarc-rzg2l, .build-sdk]
 
@@ -318,6 +360,15 @@ build:sdk:kirkstone:smarc-rzg2ul:
 
 build:sdk:scarthgap:hihope-rzg2h:
   extends: [.renesas-image-minimal, .build-scarthgap, .hihope-rzg2h, .build-sdk]
+
+build:sdk:scarthgap:hihope-rzg2m:
+  extends: [.renesas-image-minimal, .build-scarthgap, .hihope-rzg2m, .build-sdk]
+
+build:sdk:scarthgap:hihope-rzg2n:
+  extends: [.renesas-image-minimal, .build-scarthgap, .hihope-rzg2n, .build-sdk]
+
+build:sdk:scarthgap:ek874:
+  extends: [.renesas-image-minimal, .build-scarthgap, .ek874, .build-sdk]
 
 build:sdk:scarthgap:smarc-rzg2l:
   extends: [.renesas-image-minimal, .build-scarthgap, .smarc-rzg2l, .build-sdk]
@@ -383,6 +434,69 @@ test:kirkstone:hihope-rzg2h-cip-6.1:
 test:kirkstone:hihope-rzg2h-renesas-5.10:
   stage: test:kirkstone
   needs: ["build:kirkstone:hihope-rzg2h"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
+
+test:kirkstone:hihope-rzg2m-cip-5.10:
+  stage: test:kirkstone
+  needs: ["build:kirkstone:hihope-rzg2m"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
+
+test:kirkstone:hihope-rzg2m-cip-6.1:
+  stage: test:kirkstone
+  needs: ["build:kirkstone:hihope-rzg2m"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
+
+test:kirkstone:hihope-rzg2m-renesas-5.10:
+  stage: test:kirkstone
+  needs: ["build:kirkstone:hihope-rzg2m"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
+
+test:kirkstone:hihope-rzg2n-cip-5.10:
+  stage: test:kirkstone
+  needs: ["build:kirkstone:hihope-rzg2n"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
+
+test:kirkstone:hihope-rzg2n-cip-6.1:
+  stage: test:kirkstone
+  needs: ["build:kirkstone:hihope-rzg2n"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
+
+test:kirkstone:hihope-rzg2n-renesas-5.10:
+  stage: test:kirkstone
+  needs: ["build:kirkstone:hihope-rzg2n"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
+
+test:kirkstone:ek874-cip-5.10:
+  stage: test:kirkstone
+  needs: ["build:kirkstone:ek874"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
+
+test:kirkstone:ek874-cip-6.1:
+  stage: test:kirkstone
+  needs: ["build:kirkstone:ek874"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
+
+test:kirkstone:ek874-renesas-5.10:
+  stage: test:kirkstone
+  needs: ["build:kirkstone:ek874"]
   extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
@@ -457,6 +571,27 @@ test:sdk:kirkstone:hihope-rzg2h:
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
+test:sdk:kirkstone:hihope-rzg2m:
+  stage: test:kirkstone
+  needs: ["build:sdk:kirkstone:hihope-rzg2m"]
+  extends: [.test-base, .sdk-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/sdk
+
+test:sdk:kirkstone:hihope-rzg2n:
+  stage: test:kirkstone
+  needs: ["build:sdk:kirkstone:hihope-rzg2n"]
+  extends: [.test-base, .sdk-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/sdk
+
+test:sdk:kirkstone:ek874:
+  stage: test:kirkstone
+  needs: ["build:sdk:kirkstone:ek874"]
+  extends: [.test-base, .sdk-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/sdk
+
 test:sdk:kirkstone:smarc-rzg2l:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:smarc-rzg2l"]
@@ -502,6 +637,90 @@ test:scarthgap:hihope-rzg2h-cip-6.1:
 test:scarthgap:hihope-rzg2h-renesas-5.10:
   stage: test:scarthgap
   needs: ["build:scarthgap:hihope-rzg2h"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
+
+test:scarthgap:hihope-rzg2m-mainline:
+  stage: test:scarthgap
+  needs: ["build:scarthgap:hihope-rzg2m"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/mainline
+
+test:scarthgap:hihope-rzg2m-cip-5.10:
+  stage: test:scarthgap
+  needs: ["build:scarthgap:hihope-rzg2m"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
+
+test:scarthgap:hihope-rzg2m-cip-6.1:
+  stage: test:scarthgap
+  needs: ["build:scarthgap:hihope-rzg2m"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
+
+test:scarthgap:hihope-rzg2m-renesas-5.10:
+  stage: test:scarthgap
+  needs: ["build:scarthgap:hihope-rzg2m"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
+
+test:scarthgap:hihope-rzg2n-mainline:
+  stage: test:scarthgap
+  needs: ["build:scarthgap:hihope-rzg2n"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/mainline
+
+test:scarthgap:hihope-rzg2n-cip-5.10:
+  stage: test:scarthgap
+  needs: ["build:scarthgap:hihope-rzg2n"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
+
+test:scarthgap:hihope-rzg2n-cip-6.1:
+  stage: test:scarthgap
+  needs: ["build:scarthgap:hihope-rzg2n"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
+
+test:scarthgap:hihope-rzg2n-renesas-5.10:
+  stage: test:scarthgap
+  needs: ["build:scarthgap:hihope-rzg2n"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
+
+test:scarthgap:ek874-mainline:
+  stage: test:scarthgap
+  needs: ["build:scarthgap:ek874"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/mainline
+
+test:scarthgap:ek874-cip-5.10:
+  stage: test:scarthgap
+  needs: ["build:scarthgap:ek874"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
+
+test:scarthgap:ek874-cip-6.1:
+  stage: test:scarthgap
+  needs: ["build:scarthgap:ek874"]
+  extends: [.test-base, .standard-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
+
+test:scarthgap:ek874-renesas-5.10:
+  stage: test:scarthgap
+  needs: ["build:scarthgap:ek874"]
   extends: [.test-base, .standard-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
@@ -594,6 +813,27 @@ test:sdk:scarthgap:hihope-rzg2h:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:hihope-rzg2h"]
   extends: [.test-base-sdk, .sdk-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/sdk
+
+test:sdk:scarthgap:hihope-rzg2m:
+  stage: test:scarthgap
+  needs: ["build:sdk:scarthgap:hihope-rzg2m"]
+  extends: [.test-base, .sdk-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/sdk
+
+test:sdk:scarthgap:hihope-rzg2n:
+  stage: test:scarthgap
+  needs: ["build:sdk:scarthgap:hihope-rzg2n"]
+  extends: [.test-base, .sdk-test-cases]
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR}/sdk
+
+test:sdk:scarthgap:ek874:
+  stage: test:scarthgap
+  needs: ["build:sdk:scarthgap:ek874"]
+  extends: [.test-base, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
