@@ -11,8 +11,8 @@ official BSPs provided on [renesas.com](https://renesas.com).
 ## Dependencies
 | Name | Layers | Repository | Branch | Revision |
 | --- | --- | --- | --- | --- |
-| poky | meta<br>meta-poky<br>meta-yocto-bsp | https://git.yoctoproject.org/poky | kirkstone<br>scarthgap | kirkstone-4.0.16<br>b5624ee5 |
-| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | kirkstone<br>master | yocto-4.0.3<br>aba92504 |
+| poky | meta<br>meta-poky<br>meta-yocto-bsp | https://git.yoctoproject.org/poky | kirkstone<br>scarthgap | kirkstone-4.0.20<br>b5624ee5 |
+| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | kirkstone<br>master | yocto-4.0.4<br>aba92504 |
 
 **Note:** Scarthgap has not yet been released upstream, so current support is experimental.
 
