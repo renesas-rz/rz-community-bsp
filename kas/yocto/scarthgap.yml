@@ -11,16 +11,16 @@ repos:
       meta-rz-bsp:
   poky:
     url: "https://git.yoctoproject.org/git/poky"
-    # Latest commit from scarthgap at time of writing
-    commit: b5624ee5643d881afa004571a096a189ab5389b5
+    # scarthgap f43f393ef024
+    commit: f43f393ef0246b7bee6eed8bcf8271cf2b8cdf40
     layers:
       meta:
       meta-poky:
       meta-yocto-bsp:
   meta-arm:
     url: https://git.yoctoproject.org/meta-arm
-    # Latest commit from master (no scarthgap branch yet) at time of writing
-    commit: aba9250494f62360c1ec8021f81922c005d92b82
+    # yocto-5.0
+    commit: 8aa8a1f17f5b64bc691544f989f04fc83df98adb
     layers:
       meta-arm-toolchain:
       meta-arm:
