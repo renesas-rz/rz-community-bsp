@@ -1,6 +1,6 @@
 require conf/machine/include/soc-family.inc
 
-MACHINE_FEATURES = ""
+MACHINE_FEATURES = "serial screen usbhost"
 IMAGE_FSTYPES:append = " tar.gz"
 SERIAL_CONSOLES = "115200;ttySC0"
 
