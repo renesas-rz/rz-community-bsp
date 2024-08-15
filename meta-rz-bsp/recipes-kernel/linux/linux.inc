@@ -1,7 +1,5 @@
 require recipes-kernel/linux/linux-yocto.inc
 
-LICENSE:append:rzg2h-family = " & r8a778x_usb3_fw_license"
-
 SRC_URI = "${KERNEL_URL};protocol=https;branch=${KBRANCH}"
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
@@ -15,6 +13,7 @@ DEPENDS += "openssl-native util-linux-native"
 DEPENDS += "gmp-native libmpc-native"
 
 # RZ/G2H family needs firware for USB3
+LICENSE:append:rzg2h-family = " & r8a778x_usb3_fw_license"
 SRC_URI:append:rzg2h-family = " \
 	file://r8a779x_usb3_v3.dlmem \
 	file://usb3.cfg \
