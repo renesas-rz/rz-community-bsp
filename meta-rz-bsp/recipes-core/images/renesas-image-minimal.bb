@@ -8,7 +8,7 @@ LICENSE = "MIT"
 inherit core-image
 
 # Image features we want to enable
-IMAGE_FEATURES:append = " \
+IMAGE_FEATURES += " \
 	package-management \
 	splash \
 	ssh-server-openssh \
