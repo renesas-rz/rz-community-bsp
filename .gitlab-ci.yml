@@ -19,7 +19,7 @@ workflow:
 
 ### BUILDING ###
 .build-base:
-  image: ghcr.io/siemens/kas/kas:4.0
+  image: ghcr.io/siemens/kas/kas:4.4
   tags:
     - yocto
   needs: []
