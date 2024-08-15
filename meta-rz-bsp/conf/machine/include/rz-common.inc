@@ -13,6 +13,11 @@ KERNEL_IMAGETYPE ?= "Image"
 # build 5.10 with this meta-layer. Override OLDEST_KERNEL to allow this
 OLDEST_KERNEL = "5.10"
 
+# Packages always required in the rootfs
+MACHINE_EXTRA_RDEPENDS += " \
+	kernel-devicetree \
+"
+
 # Other dependencies that aren't included in the rootfs
 EXTRA_IMAGEDEPENDS += " \
 	flash-writer \
