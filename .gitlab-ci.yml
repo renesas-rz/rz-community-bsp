@@ -163,6 +163,7 @@ variables:
       when: always
     - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
       when: manual
+      allow_failure: true
   variables:
     SDK_TMP: sdk-tmp
   script:
@@ -340,6 +341,17 @@ build:sdk:scarthgap:smarc-rzg2ul:
     paths:
       - results
 
+.test-base-sdk:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      when: always
+    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+      when: manual
+      allow_failure: true
+  extends: [.test-base]
+
 .standard-test-cases:
   variables:
     TESTS: "-t scripts/lava-templates/test-uname.yaml"
@@ -436,28 +448,28 @@ test:kirkstone:smarc-rzg2ul-renesas-5.10:
 test:sdk:kirkstone:hihope-rzg2h:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:hihope-rzg2h"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
 test:sdk:kirkstone:smarc-rzg2l:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:smarc-rzg2l"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
 test:sdk:kirkstone:smarc-rzg2lc:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:smarc-rzg2lc"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
 test:sdk:kirkstone:smarc-rzg2ul:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:smarc-rzg2ul"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
@@ -576,27 +588,27 @@ test:scarthgap:smarc-rzg2ul-renesas-5.10:
 test:sdk:scarthgap:hihope-rzg2h:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:hihope-rzg2h"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
 test:sdk:scarthgap:smarc-rzg2l:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:smarc-rzg2l"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
 test:sdk:scarthgap:smarc-rzg2lc:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:smarc-rzg2lc"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
 test:sdk:scarthgap:smarc-rzg2ul:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:smarc-rzg2ul"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
