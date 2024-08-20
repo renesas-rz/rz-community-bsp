@@ -250,15 +250,4 @@ menu "Other"
 	string
 	depends on OPT_DEBUG
 	default "kas/opt/debug.yml"
-
-	config OPT_GITLAB_CI_CACHE
-	bool "GitLab CI cache"
-	help
-		Change the SSTATE_DIR and DL_DIR locations so that they can
-		easily be used with GitLab CI/CD caching
-
-	config KAS_INCLUDE_OPT_GITLAB_CI_CACHE
-	string
-	depends on OPT_GITLAB_CI_CACHE
-	default "kas/opt/gitlab-ci-cache.yml"
 endmenu

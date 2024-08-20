@@ -15,3 +15,4 @@ local_conf_header:
         HALT,/tmp,10M,1K \
     "
     PACKAGE_CLASSES ?= "package_rpm"
+    BB_GENERATE_MIRROR_TARBALLS = "1"
