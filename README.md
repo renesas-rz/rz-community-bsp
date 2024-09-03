@@ -48,6 +48,15 @@ Bitbake built in a pre-configured Docker container.
 
 For ease of use a copy of the script has been included in this repository.
 
+#### Using kas-container on Ubuntu 20.04
+There is a known issue when building Yocto BSPs with `kas-container` on an
+Ubuntu 20.04 host due to mismatched glibc versions.
+
+A workaround is to add the below argument when calling `kas-container`:
+```bash
+./kas-container --runtime-args "--security-opt seccomp=unconfined" build
+```
+
 ### Kas Menu
 Kas supports a Kconfig based menu system which can be accessed with the
 `kas menu` (or `kas-container menu`) command. This allows users to easily select
