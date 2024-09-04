@@ -13,6 +13,7 @@ official BSPs provided on [renesas.com](https://renesas.com).
 | --- | --- | --- | --- | --- |
 | poky | meta<br>meta-poky<br>meta-yocto-bsp | https://git.yoctoproject.org/poky | kirkstone<br>scarthgap | kirkstone-4.0.20<br>f43f393ef024 |
 | meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | kirkstone<br>master | yocto-4.0.4<br>yocto-5.0 |
+| meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | kirkstone<br>scarthgap | 52ecd66835dc<br>1235dd4ed4a5 |
 
 **Note:** Scarthgap has not yet been released upstream, so current support is experimental.
 
@@ -27,6 +28,9 @@ The following layers are only required when certain options are selected:
 | SoC | Reference Platform | Machine Name |
 | --- | --- | --- |
 | Renesas RZ/G2H | RZ/G2H HopeRun Evaluation Kit | hihope-rzg2h |
+| Renesas RZ/G2M | RZ/G2M HopeRun Evaluation Kit | hihope-rzg2m |
+| Renesas RZ/G2N | RZ/G2N HopeRun Evaluation Kit | hihope-rzg2n |
+| Renesas RZ/G2E | RZ/G2E SiLinux Evaluation Kit | ek874 |
 | Renesas RZ/G2L | RZ/G2L SMARC Evaluation Kit | smarc-rzg2l |
 | Renesas RZ/G2LC | RZ/G2LC SMARC Evaluation Kit | smarc-rzg2lc |
 | Renesas RZ/G2UL | RZ/G2UL SMARC Evaluation Kit | smarc-rzg2ul |
