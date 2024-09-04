@@ -574,21 +574,21 @@ test:sdk:kirkstone:hihope-rzg2h:
 test:sdk:kirkstone:hihope-rzg2m:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:hihope-rzg2m"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
 test:sdk:kirkstone:hihope-rzg2n:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:hihope-rzg2n"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
 test:sdk:kirkstone:ek874:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:ek874"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
@@ -819,21 +819,21 @@ test:sdk:scarthgap:hihope-rzg2h:
 test:sdk:scarthgap:hihope-rzg2m:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:hihope-rzg2m"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
 test:sdk:scarthgap:hihope-rzg2n:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:hihope-rzg2n"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
 test:sdk:scarthgap:ek874:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:ek874"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
