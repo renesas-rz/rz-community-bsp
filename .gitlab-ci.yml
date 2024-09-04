@@ -1,4 +1,5 @@
 stages:
+  - pre-flight-checks
   - build:kirkstone
   - build:scarthgap
   - test:kirkstone
@@ -14,6 +15,16 @@ workflow:
     - if: $CI_PIPELINE_SOURCE == "web"
     - if: $CI_COMMIT_TAG
     - if: $CI_COMMIT_REF_PROTECTED == "true"
+
+yocto-check-layer:
+  stage: pre-flight-checks
+  image: ghcr.io/siemens/kas/kas:4.4
+  script:
+    - kas shell --update --force-checkout ${CI_KAS_CONFIG} -c \
+      "yocto-check-layer-wrapper ${CI_PROJECT_DIR}/meta-rz-bsp --dependency ${CI_PROJECT_DIR}/meta-arm/meta-arm ${CI_PROJECT_DIR}/meta-arm/meta-arm-toolchain ${CI_PROJECT_DIR}/meta-openembedded/meta-oe ${CI_PROJECT_DIR}/poky/meta ${CI_PROJECT_DIR}/poky/meta-poky --no-auto-dependency --machines hihope-rzg2h hihope-rzg2m hihope-rzg2n ek874 smarc-rzg2l smarc-rzg2lc smarc-rzg2ul"
+  parallel:
+    matrix:
+      - CI_KAS_CONFIG: [kas/yocto/kirkstone.yml, kas/yocto/scarthgap.yml]
 
 ### BUILDING ###
 .build-base:
