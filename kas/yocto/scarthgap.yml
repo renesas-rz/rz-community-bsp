@@ -24,3 +24,9 @@ repos:
     layers:
       meta-arm-toolchain:
       meta-arm:
+  meta-openembedded:
+    url: https://git.openembedded.org/meta-openembedded
+    # scarthgap HEAD
+    commit: 1235dd4ed4a57e67683c045ad76b6a0f9e896b45
+    layers:
+      meta-oe:

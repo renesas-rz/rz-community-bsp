@@ -30,7 +30,7 @@ workflow:
     - echo "BITBAKE_MACHINE=${CI_BITBAKE_MACHINE}" >> job.env
     - mkdir -p dependencies
     - |
-      for repo in meta-arm meta-linux-mainline poky; do
+      for repo in meta-arm meta-linux-mainline meta-openembedded poky; do
         if [ -d "${repo}" ]; then
           tar czf dependencies/"${repo}".tar.gz "${repo}"
         fi

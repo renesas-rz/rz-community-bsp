@@ -24,3 +24,9 @@ repos:
     layers:
       meta-arm-toolchain:
       meta-arm:
+  meta-openembedded:
+    url: https://git.openembedded.org/meta-openembedded
+    # kirkstone HEAD
+    commit: 52ecd66835dcfd8b4e55c9cb6325908ccea6a4e7
+    layers:
+      meta-oe:
