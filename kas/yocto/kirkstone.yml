@@ -16,7 +16,6 @@ repos:
     layers:
       meta:
       meta-poky:
-      meta-yocto-bsp:
   meta-arm:
     url: https://git.yoctoproject.org/meta-arm
     # yocto-4.0.4
