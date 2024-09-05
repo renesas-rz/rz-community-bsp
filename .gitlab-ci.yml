@@ -10,8 +10,6 @@ variables:
 
 workflow:
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TITLE =~ /^(\[Draft\]|\(Draft\)|Draft:)/
-      when: never
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_PIPELINE_SOURCE == "web"
     - if: $CI_COMMIT_TAG
@@ -171,6 +169,9 @@ workflow:
       allow_failure: true
     - if: $CI_COMMIT_TAG
     - if: $CI_COMMIT_REF_PROTECTED == "true"
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: manual
+      allow_failure: true
   variables:
     SDK_TMP: sdk-tmp
   script:
@@ -406,6 +407,9 @@ build:sdk:scarthgap:smarc-rzg2ul:
       allow_failure: true
     - if: $CI_COMMIT_TAG
     - if: $CI_COMMIT_REF_PROTECTED == "true"
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: manual
+      allow_failure: true
   extends: [.test-base]
 
 .standard-test-cases:
@@ -574,21 +578,21 @@ test:sdk:kirkstone:hihope-rzg2h:
 test:sdk:kirkstone:hihope-rzg2m:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:hihope-rzg2m"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
 test:sdk:kirkstone:hihope-rzg2n:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:hihope-rzg2n"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
 test:sdk:kirkstone:ek874:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:ek874"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
@@ -819,21 +823,21 @@ test:sdk:scarthgap:hihope-rzg2h:
 test:sdk:scarthgap:hihope-rzg2m:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:hihope-rzg2m"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
 test:sdk:scarthgap:hihope-rzg2n:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:hihope-rzg2n"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 
 test:sdk:scarthgap:ek874:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:ek874"]
-  extends: [.test-base, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases]
   variables:
     BIN_DIR: ${TEST_BIN_DIR}/sdk
 

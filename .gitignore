@@ -5,4 +5,5 @@
 build
 meta-arm
 meta-linux-mainline
+meta-openembedded
 poky
