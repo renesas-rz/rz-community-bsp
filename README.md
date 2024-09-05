@@ -15,8 +15,6 @@ official BSPs provided on [renesas.com](https://renesas.com).
 | meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | kirkstone<br>master | yocto-4.0.4<br>yocto-5.0 |
 | meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | kirkstone<br>scarthgap | 52ecd66835dc<br>1235dd4ed4a5 |
 
-**Note:** Scarthgap has not yet been released upstream, so current support is experimental.
-
 ### Optional Dependencies
 The following layers are only required when certain options are selected:
 
