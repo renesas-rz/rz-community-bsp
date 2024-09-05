@@ -76,33 +76,33 @@ yocto-check-layer:
 
 .build-g2h-family-mainline: &build-g2h-family-mainline
     # kernel: mainline
-    # u-boot: mainline-2023.10
+    # u-boot: mainline-2024.07
     # tf-a: mainline-2.9.0
-    - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/mainline.yml:kas/u-boot/mainline-2023.10.yml:kas/trusted-firmware-a/mainline-2.9.0.yml
+    - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/mainline.yml:kas/u-boot/mainline-2024.07.yml:kas/trusted-firmware-a/mainline-2.9.0.yml
     - export BUILD_NAME="mainline"
     - *copy-output
 
 .build-g2h-family-lts-66: &build-g2h-family-lts-66
     # kernel: lts-6.6
-    # u-boot: mainline-2023.10
+    # u-boot: mainline-2024.07
     # tf-a: mainline-2.9.0
-    - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/lts-6.6.yml:kas/u-boot/mainline-2023.10.yml:kas/trusted-firmware-a/mainline-2.9.0.yml
+    - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/lts-6.6.yml:kas/u-boot/mainline-2024.07.yml:kas/trusted-firmware-a/mainline-2.9.0.yml
     - export BUILD_NAME="lts-6.6"
     - *copy-output
 
 .build-g2h-family-cip-510: &build-g2h-family-cip-510
     # kernel: cip-5.10
-    # u-boot: mainline-2023.10
+    # u-boot: mainline-2024.07
     # tf-a: mainline-2.9.0
-    - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-5.10.yml:kas/u-boot/mainline-2023.10.yml:kas/trusted-firmware-a/mainline-2.9.0.yml
+    - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-5.10.yml:kas/u-boot/mainline-2024.07.yml:kas/trusted-firmware-a/mainline-2.9.0.yml
     - export BUILD_NAME="cip-5.10"
     - *copy-output
 
 .build-g2h-family-cip-61: &build-g2h-family-cip-61
     # kernel: cip-6.1
-    # u-boot: mainline-2023.10
+    # u-boot: mainline-2024.07
     # tf-a: mainline-2.9.0
-    - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.1.yml:kas/u-boot/mainline-2023.10.yml:kas/trusted-firmware-a/mainline-2.9.0.yml
+    - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.1.yml:kas/u-boot/mainline-2024.07.yml:kas/trusted-firmware-a/mainline-2.9.0.yml
     - export BUILD_NAME="cip-6.1"
     - *copy-output
 

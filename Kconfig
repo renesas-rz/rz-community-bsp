@@ -220,7 +220,7 @@ menu "Bootloaders"
 	menu "U-Boot"
 	choice
 		prompt "Select the U-Boot version to use"
-		default UBOOT_MAINLINE_2023.10 if FAMILY_G2H
+		default UBOOT_MAINLINE_2024.07 if FAMILY_G2H
 		default UBOOT_RENESAS_2021.10
 
 		config UBOOT_RENESAS_2021.10
@@ -233,16 +233,16 @@ menu "Bootloaders"
 		depends on UBOOT_RENESAS_2021.10
 		default "kas/u-boot/renesas-2021.10.yml"
 
-		config UBOOT_MAINLINE_2023.10
-		bool "Mainline v2023.10"
+		config UBOOT_MAINLINE_2024.07
+		bool "Mainline v2024.07"
 		depends on FAMILY_G2H
 		help
-			Use mainline U-Boot v2023.10
+			Use mainline U-Boot v2024.07
 
-		config KAS_INCLUDE_UBOOT_MAINLINE_2023.10
+		config KAS_INCLUDE_UBOOT_MAINLINE_2024.07
 		string
-		depends on UBOOT_MAINLINE_2023.10
-		default "kas/u-boot/mainline-2023.10.yml"
+		depends on UBOOT_MAINLINE_2024.07
+		default "kas/u-boot/mainline-2024.07.yml"
 	endchoice
 	endmenu
 
