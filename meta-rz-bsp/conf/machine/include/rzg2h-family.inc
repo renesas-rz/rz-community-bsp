@@ -8,7 +8,7 @@ PREFERRED_VERSION_u-boot ?= "2024.07%"
 
 # TF-A configuration
 PREFERRED_PROVIDER_virtual/trusted-firmware-a ?= "trusted-firmware-a"
-PREFERRED_VERSION_trusted-firmware-a ?= "2.9.0"
+PREFERRED_VERSION_trusted-firmware-a ?= "2.10.5"
 TFA_PLATFORM ?= "rzg"
 TFA_BUILD_TARGET = "bl2 bl31 rzg"
 TFA_INSTALL_TARGET = ""
