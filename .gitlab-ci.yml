@@ -71,6 +71,14 @@ workflow:
     - export BUILD_NAME="mainline"
     - *copy-output
 
+.build-g2h-family-lts-66: &build-g2h-family-lts-66
+    # kernel: lts-6.6
+    # u-boot: mainline-2023.10
+    # tf-a: mainline-2.9.0
+    - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/lts-6.6.yml:kas/u-boot/mainline-2023.10.yml:kas/trusted-firmware-a/mainline-2.9.0.yml
+    - export BUILD_NAME="lts-6.6"
+    - *copy-output
+
 .build-g2h-family-cip-510: &build-g2h-family-cip-510
     # kernel: cip-5.10
     # u-boot: mainline-2023.10
@@ -102,6 +110,15 @@ workflow:
     # tf-a: renesas-2.9.0
     - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/mainline.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
     - export BUILD_NAME="mainline"
+    - *copy-output
+
+.build-g2l-family-lts-66: &build-g2l-family-lts-66
+    # Mainline bootloaders do not support this family yet
+    # kernel: lts-6.6
+    # u-boot: renesas-2021.10
+    # tf-a: renesas-2.9.0
+    - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/lts-6.6.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
+    - export BUILD_NAME="lts-6.6"
     - *copy-output
 
 .build-g2l-family-cip-510: &build-g2l-family-cip-510
@@ -222,6 +239,7 @@ workflow:
   extends: .build-scarthgap
   script:
     - *build-g2h-family-mainline
+    - *build-g2h-family-lts-66
     - *build-g2h-family-cip-510
     - *build-g2h-family-cip-61
     - *build-g2h-family-bsp
@@ -230,6 +248,7 @@ workflow:
   extends: .build-scarthgap
   script:
     - *build-g2l-family-mainline
+    - *build-g2l-family-lts-66
     - *build-g2l-family-cip-510
     - *build-g2l-family-cip-61
     - *build-g2l-family-bsp
@@ -517,7 +536,7 @@ test:scarthgap:hihope-rzg2h:
   extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2h]
   parallel:
     matrix:
-      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, lts-6.6, mainline]
 
 test:scarthgap:hihope-rzg2m:
   stage: test:scarthgap
@@ -525,7 +544,7 @@ test:scarthgap:hihope-rzg2m:
   extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2m]
   parallel:
     matrix:
-      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, lts-6.6, mainline]
 
 test:scarthgap:hihope-rzg2n:
   stage: test:scarthgap
@@ -533,7 +552,7 @@ test:scarthgap:hihope-rzg2n:
   extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2n]
   parallel:
     matrix:
-      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, lts-6.6, mainline]
 
 test:scarthgap:ek874:
   stage: test:scarthgap
@@ -541,7 +560,7 @@ test:scarthgap:ek874:
   extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .ek874]
   parallel:
     matrix:
-      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, lts-6.6, mainline]
 
 test:scarthgap:smarc-rzg2l:
   stage: test:scarthgap
@@ -549,7 +568,7 @@ test:scarthgap:smarc-rzg2l:
   extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2l]
   parallel:
     matrix:
-      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, lts-6.6, mainline]
 
 test:scarthgap:smarc-rzg2l-demo:
   stage: test:scarthgap
@@ -557,7 +576,7 @@ test:scarthgap:smarc-rzg2l-demo:
   extends: [.test-base, .standard-test-cases, .renesas-image-demo, .smarc-rzg2l]
   parallel:
     matrix:
-      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, lts-6.6, mainline]
 
 test:scarthgap:smarc-rzg2lc:
   stage: test:scarthgap
@@ -565,7 +584,7 @@ test:scarthgap:smarc-rzg2lc:
   extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
   parallel:
     matrix:
-      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, lts-6.6, mainline]
 
 test:scarthgap:smarc-rzg2lc-demo:
   stage: test:scarthgap
@@ -573,7 +592,7 @@ test:scarthgap:smarc-rzg2lc-demo:
   extends: [.test-base, .standard-test-cases, .renesas-image-demo, .smarc-rzg2lc]
   parallel:
     matrix:
-      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, lts-6.6, mainline]
 
 test:scarthgap:smarc-rzg2ul:
   stage: test:scarthgap
@@ -581,7 +600,7 @@ test:scarthgap:smarc-rzg2ul:
   extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
   parallel:
     matrix:
-      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, lts-6.6, mainline]
 
 
 test:sdk:scarthgap:hihope-rzg2h:
