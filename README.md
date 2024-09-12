@@ -66,8 +66,8 @@ between options without having to manually select the kas yaml files required
 for their build.
 
 Follow the instuctions in the menu to select the build configuration and then
-either "Save & Build" to save the configuration to a .config.yaml file and kick
-off a build straight way, or "Save & Exit" to only store the configuration to a
+either "Build" to save the configuration to a .config.yaml file and kick off a
+build straight way, or "Save & Exit" to only store the configuration to a
 .config.yaml file for future use.
 
 Example kas menu usage:
@@ -78,8 +78,8 @@ cd rz-community-bsp
 ./kas-container menu
 ```
 
-If you exit the kas menu screen without selecting "Save & Build" you can
-subsequently start a build:
+If you exit the kas menu screen without selecting "Build" you can subsequently
+start a build using the saved configuration:
 ```bash
 ./kas-container build
 ```
