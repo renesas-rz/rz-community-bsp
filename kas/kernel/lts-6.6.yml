@@ -1,0 +1,11 @@
+header:
+  version: 14
+  includes:
+    - kas/kernel/mainline.yml
+
+local_conf_header:
+  kernel: |
+    PREFERRED_PROVIDER_virtual/kernel = "linux-stable"
+    PREFERRED_VERSION_linux-stable = "6.6%"
+    KBUILD_DEFCONFIG = "defconfig"
+    KCONFIG_MODE = "alldefconfig"

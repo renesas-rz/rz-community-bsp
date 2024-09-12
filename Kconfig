@@ -186,6 +186,19 @@ choice
 	depends on KERNEL_CIP_6.1
 	default "kas/kernel/cip-6.1.yml"
 
+	config KERNEL_LTS_6.6
+	bool "LTS v6.6"
+	help
+		Use the latest LTS v6.6 kernel.
+
+		The meta-linux-mainline layer is used to provide the kernel
+		recipe.
+
+	config KAS_INCLUDE_KERNEL_LTS_6.6
+	string
+	depends on KERNEL_LTS_6.6
+	default "kas/kernel/lts-6.6.yml"
+
 	config KERNEL_MAINLINE
 	bool "Mainline"
 	help
