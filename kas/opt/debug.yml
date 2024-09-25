@@ -6,3 +6,6 @@ local_conf_header:
     IMAGE_FEATURES:append = " \
       debug-tweaks \
     "
+    CORE_IMAGE_EXTRA_INSTALL += " \
+      packagegroup-rz-tools-hw \
+    "
