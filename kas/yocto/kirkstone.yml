@@ -26,6 +26,6 @@ repos:
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
     # kirkstone HEAD
-    commit: 52ecd66835dcfd8b4e55c9cb6325908ccea6a4e7
+    commit: 9a24b7679810628b594cc5a9b52f77f53d37004f
     layers:
       meta-oe:
