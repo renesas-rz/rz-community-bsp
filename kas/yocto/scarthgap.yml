@@ -26,6 +26,6 @@ repos:
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
     # scarthgap HEAD
-    commit: 1235dd4ed4a57e67683c045ad76b6a0f9e896b45
+    commit: 735ae0310870ffce07ce0c55c4f87c20ac161ff9
     layers:
       meta-oe:
