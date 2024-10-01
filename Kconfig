@@ -277,7 +277,10 @@ menu "Other"
 		Enable the debug-tweaks image feature that enabled features
 		helpfull for development (e.g. allows root logins, logins
 		without passwords (including root ones), and enables
-		post-installation logging)
+		post-installation logging).
+
+		Also include a number of packages useful for hardware debugging
+		such as can-utils and i2c-tools.
 
 	config KAS_INCLUDE_OPT_DEBUG
 	string
