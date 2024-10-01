@@ -136,6 +136,18 @@ choice
 	string
 	depends on IMAGE_RENESAS_IMAGE_MINIMAL
 	default "kas/image/renesas-image-minimal.yml"
+
+	config IMAGE_RENESAS_IMAGE_DEMO
+	depends on MACHINE_SMARC-RZG2L || MACHINE_SMARC-RZG2LC
+	bool "renesas-image-demo"
+	help
+		Build a demo image including Weston/Wayland support.
+		Currently only supported on smarc-rzg2l and smarc-rzg2lc.
+
+	config KAS_INCLUDE_IMAGE_RENESAS_IMAGE_DEMO
+	string
+	depends on IMAGE_RENESAS_IMAGE_DEMO
+	default "kas/image/renesas-image-demo.yml"
 endchoice
 endmenu
 
