@@ -4,6 +4,6 @@ require linux.inc
 
 KERNEL_URL = "git://gitlab.com/cip-project/cip-kernel/linux-cip.git"
 KBRANCH = "linux-6.1.y-cip"
-SRCREV = "bd5674d39200556fdf00d5443ce363b3a134bf2b"
+SRCREV = "0f19f32122651a230b262ce09853c6e604e18a23"
 
-LINUX_VERSION = "6.1.101-cip25"
+LINUX_VERSION = "6.1.111-cip29"
