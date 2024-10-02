@@ -373,7 +373,6 @@ build:sdk:scarthgap:smarc-rzg2ul:
     BIN_DIR: ${TEST_BIN_DIR_TOP}/${CI_BITBAKE_IMAGE}/${BUILD_NAME}
   script:
     - mkdir -p results
-    - export
     - scripts/submit-lava-job.sh -d -u spl2-bot -b scripts/lava-templates/base-template.yaml -e ${BIN_DIR}/${CI_BITBAKE_MACHINE}.env -j results -g ${BUILD_JOB_ID} -f ${BIN_DIR} ${TESTS}
   artifacts:
     name: "${CI_JOB_NAME}"
