@@ -49,6 +49,10 @@ If not building using Kas, the following needs to be added to \*local.conf\*:
 DISTRO_FEATURES += " opengl wayland"
 ```
 
+## What's Tested?
+For full details on what is and isn't tested please see
+[docs/TESTING.md](docs/TESTING.md).
+
 ## Building
 This project is set up to be built with [Kas](https://github.com/siemens/kas).
 The Kas tool provides an easy mechanism to setup bitbake based projects.
