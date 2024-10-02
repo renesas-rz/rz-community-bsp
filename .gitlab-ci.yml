@@ -28,7 +28,7 @@ workflow:
     - echo "BITBAKE_MACHINE=${CI_BITBAKE_MACHINE}" >> job.env
     - mkdir -p dependencies
     - |
-      for repo in meta-arm meta-linux-mainline meta-openembedded poky; do
+      for repo in meta-arm meta-linux-mainline meta-openembedded meta-rz-panfrost poky; do
         if [ -d "${repo}" ]; then
           tar czf dependencies/"${repo}".tar.gz "${repo}"
         fi
@@ -189,6 +189,11 @@ workflow:
     CI_BITBAKE_IMAGE: renesas-image-minimal
     CI_KAS_IMAGE: kas/image/renesas-image-minimal.yml
 
+.renesas-image-demo:
+  variables:
+    CI_BITBAKE_IMAGE: renesas-image-demo
+    CI_KAS_IMAGE: kas/image/renesas-image-demo.yml
+
 .build-kirkstone:
   stage: build:kirkstone
   variables:
@@ -286,6 +291,7 @@ build:kirkstone:smarc-rzg2lc:
 build:kirkstone:smarc-rzg2ul:
   extends: [.build-base, .renesas-image-minimal, .kirkstone-g2l-family, .smarc-rzg2ul]
 
+
 build:scarthgap:hihope-rzg2h:
   extends: [.build-base, .renesas-image-minimal, .scarthgap-g2h-family, .hihope-rzg2h]
 
@@ -301,8 +307,14 @@ build:scarthgap:ek874:
 build:scarthgap:smarc-rzg2l:
   extends: [.build-base, .renesas-image-minimal, .scarthgap-g2l-family, .smarc-rzg2l]
 
+build:scarthgap:smarc-rzg2l-demo:
+  extends: [.build-base, .renesas-image-demo, .scarthgap-g2l-family, .smarc-rzg2l]
+
 build:scarthgap:smarc-rzg2lc:
   extends: [.build-base, .renesas-image-minimal, .scarthgap-g2l-family, .smarc-rzg2lc]
+
+build:scarthgap:smarc-rzg2lc-demo:
+  extends: [.build-base, .renesas-image-demo, .scarthgap-g2l-family, .smarc-rzg2lc]
 
 build:scarthgap:smarc-rzg2ul:
   extends: [.build-base, .renesas-image-minimal, .scarthgap-g2l-family, .smarc-rzg2ul]
@@ -540,10 +552,26 @@ test:scarthgap:smarc-rzg2l:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
 
+test:scarthgap:smarc-rzg2l-demo:
+  stage: test:scarthgap
+  needs: ["build:scarthgap:smarc-rzg2l-demo"]
+  extends: [.test-base, .standard-test-cases, .renesas-image-demo, .smarc-rzg2l]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
+
 test:scarthgap:smarc-rzg2lc:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2lc"]
   extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
+
+test:scarthgap:smarc-rzg2lc-demo:
+  stage: test:scarthgap
+  needs: ["build:scarthgap:smarc-rzg2lc-demo"]
+  extends: [.test-base, .standard-test-cases, .renesas-image-demo, .smarc-rzg2lc]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
