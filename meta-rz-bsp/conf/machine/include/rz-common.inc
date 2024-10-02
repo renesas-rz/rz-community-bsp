@@ -16,6 +16,7 @@ OLDEST_KERNEL = "5.10"
 # Packages always required in the rootfs
 MACHINE_EXTRA_RDEPENDS += " \
 	kernel-devicetree \
+	kernel-image \
 "
 
 # Other dependencies that aren't included in the rootfs
