@@ -7,7 +7,7 @@ config KAS_BUILD_SYSTEM
 menu "Yocto"
 choice
 	prompt "Select the Yocto version to use"
-	default YOCTO_KIRKSTONE
+	default YOCTO_SCARTHGAP
 
 	config YOCTO_KIRKSTONE
 	bool "Yocto Kirkstone"
@@ -40,7 +40,7 @@ bool
 menu "Machine"
 choice
 	prompt "Select the machine to build for"
-	default MACHINE_HIHOPE-RZG2H
+	default MACHINE_SMARC-RZG2L
 
 	config MACHINE_HIHOPE-RZG2H
 	bool "hihope-rzg2h"
@@ -236,7 +236,8 @@ menu "Bootloaders"
 	menu "Trusted-Firmware-A"
 	choice
 		prompt "Select the Trusted-Firmware-A version to use"
-		default TFA_MAINLINE_2.9.0
+		default TFA_MAINLINE_2.9.0 if FAMILY_G2H
+		default TFA_RENESAS_2.9.0
 
 		config TFA_RENESAS_2.9.0
 		bool "Renesas v2.9.0"
