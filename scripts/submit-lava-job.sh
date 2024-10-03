@@ -480,6 +480,12 @@ get_job_result () {
 	fi
 }
 
+# After calling setup below we now care about cleaning up after ourselves
+trap 'cleanup' EXIT INT TERM ABRT QUIT
+
+# Create TMP directory
+setup
+
 # Parse command line arguments
 parse_options "$@"
 
@@ -488,12 +494,6 @@ check_manditory_arguments
 
 # Check that lavalcli is working
 check_lava_configuration
-
-# After calling setup below we now care about cleaning up after ourselves
-trap 'cleanup' EXIT INT TERM ABRT QUIT
-
-# Create TMP directory
-setup
 
 # Print value of each of the variables
 debug_print_variables

@@ -7,7 +7,7 @@ config KAS_BUILD_SYSTEM
 menu "Yocto"
 choice
 	prompt "Select the Yocto version to use"
-	default YOCTO_KIRKSTONE
+	default YOCTO_SCARTHGAP
 
 	config YOCTO_KIRKSTONE
 	bool "Yocto Kirkstone"
@@ -40,7 +40,7 @@ bool
 menu "Machine"
 choice
 	prompt "Select the machine to build for"
-	default MACHINE_HIHOPE-RZG2H
+	default MACHINE_SMARC-RZG2L
 
 	config MACHINE_HIHOPE-RZG2H
 	bool "hihope-rzg2h"
@@ -136,6 +136,18 @@ choice
 	string
 	depends on IMAGE_RENESAS_IMAGE_MINIMAL
 	default "kas/image/renesas-image-minimal.yml"
+
+	config IMAGE_RENESAS_IMAGE_DEMO
+	depends on MACHINE_SMARC-RZG2L || MACHINE_SMARC-RZG2LC
+	bool "renesas-image-demo"
+	help
+		Build a demo image including Weston/Wayland support.
+		Currently only supported on smarc-rzg2l and smarc-rzg2lc.
+
+	config KAS_INCLUDE_IMAGE_RENESAS_IMAGE_DEMO
+	string
+	depends on IMAGE_RENESAS_IMAGE_DEMO
+	default "kas/image/renesas-image-demo.yml"
 endchoice
 endmenu
 
@@ -224,7 +236,8 @@ menu "Bootloaders"
 	menu "Trusted-Firmware-A"
 	choice
 		prompt "Select the Trusted-Firmware-A version to use"
-		default TFA_MAINLINE_2.9.0
+		default TFA_MAINLINE_2.9.0 if FAMILY_G2H
+		default TFA_RENESAS_2.9.0
 
 		config TFA_RENESAS_2.9.0
 		bool "Renesas v2.9.0"
@@ -277,7 +290,10 @@ menu "Other"
 		Enable the debug-tweaks image feature that enabled features
 		helpfull for development (e.g. allows root logins, logins
 		without passwords (including root ones), and enables
-		post-installation logging)
+		post-installation logging).
+
+		Also include a number of packages useful for hardware debugging
+		such as can-utils and i2c-tools.
 
 	config KAS_INCLUDE_OPT_DEBUG
 	string

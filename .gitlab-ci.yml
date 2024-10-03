@@ -5,8 +5,8 @@ stages:
   - test:scarthgap
 
 variables:
-  TEST_BIN_DIR: test_binaries
-  BUILD_OUTPUT_DIR: build_output
+  TEST_BIN_DIR_TOP: test_binaries
+  BUILD_OUTPUT_DIR_TOP: build_output
 
 workflow:
   rules:
@@ -28,7 +28,7 @@ workflow:
     - echo "BITBAKE_MACHINE=${CI_BITBAKE_MACHINE}" >> job.env
     - mkdir -p dependencies
     - |
-      for repo in meta-arm meta-linux-mainline meta-openembedded poky; do
+      for repo in meta-arm meta-linux-mainline meta-openembedded meta-rz-panfrost poky; do
         if [ -d "${repo}" ]; then
           tar czf dependencies/"${repo}".tar.gz "${repo}"
         fi
@@ -45,65 +45,55 @@ workflow:
     reports:
       dotenv: job.env
     paths:
-      - ${TEST_BIN_DIR}
-      - ${BUILD_OUTPUT_DIR}
+      - ${TEST_BIN_DIR_TOP}
+      - ${BUILD_OUTPUT_DIR_TOP}
       - build/tmp/work*/**/temp/log.do_*.*
+
+.copy-output: &copy-output
+    - export TEST_BIN_DIR=${TEST_BIN_DIR_TOP}/${CI_BITBAKE_IMAGE}/${BUILD_NAME}
+    - export BUILD_OUTPUT_DIR=${BUILD_OUTPUT_DIR_TOP}/${CI_BITBAKE_IMAGE}/${BUILD_NAME}
+    - mkdir -p ${TEST_BIN_DIR} ${BUILD_OUTPUT_DIR}
+    - cp -L scripts/lava-env/${CI_BITBAKE_MACHINE}.env ${TEST_BIN_DIR}
+    - echo "ROOTFS=${CI_BITBAKE_IMAGE}-${CI_BITBAKE_MACHINE}.tar.gz" >> ${TEST_BIN_DIR}/${CI_BITBAKE_MACHINE}.env
+    - source ${TEST_BIN_DIR}/${CI_BITBAKE_MACHINE}.env
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${DTB} ${TEST_BIN_DIR}
+    - cp -r build/conf ${BUILD_OUTPUT_DIR}
+    - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}
+    - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}
 
 .build-g2h-family-mainline: &build-g2h-family-mainline
     # kernel: mainline
     # u-boot: mainline-2023.10
     # tf-a: mainline-2.9.0
     - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/mainline.yml:kas/u-boot/mainline-2023.10.yml:kas/trusted-firmware-a/mainline-2.9.0.yml
-    - source scripts/lava-env/${CI_BITBAKE_MACHINE}.env
-    - mkdir -p ${TEST_BIN_DIR}/mainline ${BUILD_OUTPUT_DIR}/mainline
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}/mainline
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}/mainline
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${DTB} ${TEST_BIN_DIR}/mainline
-    - cp -r build/conf ${BUILD_OUTPUT_DIR}/mainline
-    - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}/mainline
-    - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}/mainline
+    - export BUILD_NAME="mainline"
+    - *copy-output
 
 .build-g2h-family-cip-510: &build-g2h-family-cip-510
     # kernel: cip-5.10
     # u-boot: mainline-2023.10
     # tf-a: mainline-2.9.0
     - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-5.10.yml:kas/u-boot/mainline-2023.10.yml:kas/trusted-firmware-a/mainline-2.9.0.yml
-    - source scripts/lava-env/${CI_BITBAKE_MACHINE}.env
-    - mkdir -p ${TEST_BIN_DIR}/cip-5.10 ${BUILD_OUTPUT_DIR}/cip-5.10
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}/cip-5.10
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}/cip-5.10
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${DTB} ${TEST_BIN_DIR}/cip-5.10
-    - cp -r build/conf ${BUILD_OUTPUT_DIR}/cip-5.10
-    - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}/cip-5.10
-    - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}/cip-5.10
+    - export BUILD_NAME="cip-5.10"
+    - *copy-output
 
 .build-g2h-family-cip-61: &build-g2h-family-cip-61
     # kernel: cip-6.1
     # u-boot: mainline-2023.10
     # tf-a: mainline-2.9.0
     - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.1.yml:kas/u-boot/mainline-2023.10.yml:kas/trusted-firmware-a/mainline-2.9.0.yml
-    - source scripts/lava-env/${CI_BITBAKE_MACHINE}.env
-    - mkdir -p ${TEST_BIN_DIR}/cip-6.1 ${BUILD_OUTPUT_DIR}/cip-6.1
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}/cip-6.1
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}/cip-6.1
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${DTB} ${TEST_BIN_DIR}/cip-6.1
-    - cp -r build/conf ${BUILD_OUTPUT_DIR}/cip-6.1
-    - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}/cip-6.1
-    - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}/cip-6.1
+    - export BUILD_NAME="cip-6.1"
+    - *copy-output
 
 .build-g2h-family-bsp: &build-g2h-family-bsp
     # kernel: renesas-5.10
     # u-boot: renesas-2021.10
     # tf-a: renesas-2.9.0
     - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/renesas-5.10.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
-    - source scripts/lava-env/${CI_BITBAKE_MACHINE}.env
-    - mkdir -p ${TEST_BIN_DIR}/renesas-5.10 ${BUILD_OUTPUT_DIR}/renesas-5.10
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}/renesas-5.10
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}/renesas-5.10
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${DTB} ${TEST_BIN_DIR}/renesas-5.10
-    - cp -r build/conf ${BUILD_OUTPUT_DIR}/renesas-5.10
-    - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}/renesas-5.10
-    - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}/renesas-5.10
+    - export BUILD_NAME="renesas-5.10"
+    - *copy-output
 
 .build-g2l-family-mainline: &build-g2l-family-mainline
     # Mainline bootloaders do not support this family yet
@@ -111,56 +101,32 @@ workflow:
     # u-boot: renesas-2021.10
     # tf-a: renesas-2.9.0
     - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/mainline.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
-    - source scripts/lava-env/${CI_BITBAKE_MACHINE}.env
-    - mkdir -p ${TEST_BIN_DIR}/mainline ${BUILD_OUTPUT_DIR}/mainline
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}/mainline
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}/mainline
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${DTB} ${TEST_BIN_DIR}/mainline
-    - cp -r build/conf ${BUILD_OUTPUT_DIR}/mainline
-    - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}/mainline
-    - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}/mainline
+    - export BUILD_NAME="mainline"
+    - *copy-output
 
 .build-g2l-family-cip-510: &build-g2l-family-cip-510
     # kernel: cip-5.10
     # u-boot: renesas-2021.10
     # tf-a: renesas-2.9.0
     - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-5.10.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
-    - source scripts/lava-env/${CI_BITBAKE_MACHINE}.env
-    - mkdir -p ${TEST_BIN_DIR}/cip-5.10 ${BUILD_OUTPUT_DIR}/cip-5.10
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}/cip-5.10
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}/cip-5.10
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${DTB} ${TEST_BIN_DIR}/cip-5.10
-    - cp -r build/conf ${BUILD_OUTPUT_DIR}/cip-5.10
-    - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}/cip-5.10
-    - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}/cip-5.10
+    - export BUILD_NAME="cip-5.10"
+    - *copy-output
 
 .build-g2l-family-cip-61: &build-g2l-family-cip-61
     # kernel: cip-6.1
     # u-boot: renesas-2021.10
     # tf-a: renesas-2.9.0
     - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.1.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
-    - source scripts/lava-env/${CI_BITBAKE_MACHINE}.env
-    - mkdir -p ${TEST_BIN_DIR}/cip-6.1 ${BUILD_OUTPUT_DIR}/cip-6.1
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}/cip-6.1
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}/cip-6.1
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${DTB} ${TEST_BIN_DIR}/cip-6.1
-    - cp -r build/conf ${BUILD_OUTPUT_DIR}/cip-6.1
-    - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}/cip-6.1
-    - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}/cip-6.1
+    - export BUILD_NAME="cip-6.1"
+    - *copy-output
 
 .build-g2l-family-bsp: &build-g2l-family-bsp
     # kernel: renesas-5.10
     # u-boot: renesas-2021.10
     # tf-a: renesas-2.9.0
     - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/renesas-5.10.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
-    - source scripts/lava-env/${CI_BITBAKE_MACHINE}.env
-    - mkdir -p ${TEST_BIN_DIR}/renesas-5.10 ${BUILD_OUTPUT_DIR}/renesas-5.10
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}/renesas-5.10
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}/renesas-5.10
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${DTB} ${TEST_BIN_DIR}/renesas-5.10
-    - cp -r build/conf ${BUILD_OUTPUT_DIR}/renesas-5.10
-    - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}/renesas-5.10
-    - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}/renesas-5.10
+    - export BUILD_NAME="renesas-5.10"
+    - *copy-output
 
 .build-sdk:
   rules:
@@ -180,44 +146,53 @@ workflow:
     # u-boot: default
     # tf-a: default
     - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE} --cmd populate_sdk
-    - mkdir -p ${BUILD_OUTPUT_DIR}/sdk
-    - cp -r build/conf ${BUILD_OUTPUT_DIR}/sdk
-    - cp -r build/tmp/deploy/sdk ${BUILD_OUTPUT_DIR}/sdk
+    - export BUILD_OUTPUT_DIR=${BUILD_OUTPUT_DIR_TOP}/${CI_BITBAKE_IMAGE}/sdk
+    - mkdir -p ${BUILD_OUTPUT_DIR}
+    - cp -r build/conf ${BUILD_OUTPUT_DIR}
+    - cp -r build/tmp/deploy/sdk ${BUILD_OUTPUT_DIR}
     # Create rootfs for testing
     # kernel: default
     # u-boot: default
     # tf-a: default
     - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}
-    - source scripts/lava-env/${CI_BITBAKE_MACHINE}.env
-    - mkdir -p ${TEST_BIN_DIR}/sdk ${SDK_TMP}/rootfs
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}/sdk
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}/sdk
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${DTB} ${TEST_BIN_DIR}/sdk
-    - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}/sdk
-    - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}/sdk
+    - export TEST_BIN_DIR=${TEST_BIN_DIR_TOP}/${CI_BITBAKE_IMAGE}/sdk
+    - mkdir -p ${TEST_BIN_DIR}
+    - cp -L scripts/lava-env/${CI_BITBAKE_MACHINE}.env ${TEST_BIN_DIR}
+    - echo "ROOTFS=${CI_BITBAKE_IMAGE}-${CI_BITBAKE_MACHINE}.tar.gz" >> ${TEST_BIN_DIR}/${CI_BITBAKE_MACHINE}.env
+    - source ${TEST_BIN_DIR}/${CI_BITBAKE_MACHINE}.env
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${DTB} ${TEST_BIN_DIR}
+    - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}
+    - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}
     # Install SDK
     - rm -rf ${SDK_TMP}
     - mkdir -p ${SDK_TMP}
-    - sudo chmod +x ${BUILD_OUTPUT_DIR}/sdk/sdk/poky-*.sh
-    - ${BUILD_OUTPUT_DIR}/sdk/sdk/poky-*.sh -d ${SDK_TMP}/ -y
+    - sudo chmod +x ${BUILD_OUTPUT_DIR}/sdk/poky-*.sh
+    - ${BUILD_OUTPUT_DIR}/sdk/poky-*.sh -d ${SDK_TMP}/ -y
     # Compile test application
     - source ${SDK_TMP}/environment-setup-*
     - ${CC} -o ${SDK_TMP}/hello-test scripts/hello.c
     - file ${SDK_TMP}/hello-test
-    - cp ${SDK_TMP}/hello-test ${BUILD_OUTPUT_DIR}/sdk/
+    - cp ${SDK_TMP}/hello-test ${BUILD_OUTPUT_DIR}/
     # Add test application to rootfs for on target testing
     - mkdir -p ${SDK_TMP}/rootfs
-    - tar xf ${TEST_BIN_DIR}/sdk/${ROOTFS} -C ${SDK_TMP}/rootfs
+    - tar xf ${TEST_BIN_DIR}/${ROOTFS} -C ${SDK_TMP}/rootfs
     - cp ${SDK_TMP}/hello-test ${SDK_TMP}/rootfs/usr/bin
     - pushd ${SDK_TMP}/rootfs/
     - tar czf ../${ROOTFS} *
     - popd
-    - cp ${SDK_TMP}/${ROOTFS} ${TEST_BIN_DIR}/sdk
+    - cp ${SDK_TMP}/${ROOTFS} ${TEST_BIN_DIR}
 
 .renesas-image-minimal:
-  extends: .build-base
   variables:
+    CI_BITBAKE_IMAGE: renesas-image-minimal
     CI_KAS_IMAGE: kas/image/renesas-image-minimal.yml
+
+.renesas-image-demo:
+  variables:
+    CI_BITBAKE_IMAGE: renesas-image-demo
+    CI_KAS_IMAGE: kas/image/renesas-image-demo.yml
 
 .build-kirkstone:
   stage: build:kirkstone
@@ -296,89 +271,96 @@ workflow:
 
 # Build jobs
 build:kirkstone:hihope-rzg2h:
-  extends: [.renesas-image-minimal, .kirkstone-g2h-family, .hihope-rzg2h]
+  extends: [.build-base, .renesas-image-minimal, .kirkstone-g2h-family, .hihope-rzg2h]
 
 build:kirkstone:hihope-rzg2m:
-  extends: [.renesas-image-minimal, .kirkstone-g2h-family, .hihope-rzg2m]
+  extends: [.build-base, .renesas-image-minimal, .kirkstone-g2h-family, .hihope-rzg2m]
 
 build:kirkstone:hihope-rzg2n:
-  extends: [.renesas-image-minimal, .kirkstone-g2h-family, .hihope-rzg2n]
+  extends: [.build-base, .renesas-image-minimal, .kirkstone-g2h-family, .hihope-rzg2n]
 
 build:kirkstone:ek874:
-  extends: [.renesas-image-minimal, .kirkstone-g2h-family, .ek874]
+  extends: [.build-base, .renesas-image-minimal, .kirkstone-g2h-family, .ek874]
 
 build:kirkstone:smarc-rzg2l:
-  extends: [.renesas-image-minimal, .kirkstone-g2l-family, .smarc-rzg2l]
+  extends: [.build-base, .renesas-image-minimal, .kirkstone-g2l-family, .smarc-rzg2l]
 
 build:kirkstone:smarc-rzg2lc:
-  extends: [.renesas-image-minimal, .kirkstone-g2l-family, .smarc-rzg2lc]
+  extends: [.build-base, .renesas-image-minimal, .kirkstone-g2l-family, .smarc-rzg2lc]
 
 build:kirkstone:smarc-rzg2ul:
-  extends: [.renesas-image-minimal, .kirkstone-g2l-family, .smarc-rzg2ul]
+  extends: [.build-base, .renesas-image-minimal, .kirkstone-g2l-family, .smarc-rzg2ul]
+
 
 build:scarthgap:hihope-rzg2h:
-  extends: [.renesas-image-minimal, .scarthgap-g2h-family, .hihope-rzg2h]
+  extends: [.build-base, .renesas-image-minimal, .scarthgap-g2h-family, .hihope-rzg2h]
 
 build:scarthgap:hihope-rzg2m:
-  extends: [.renesas-image-minimal, .scarthgap-g2h-family, .hihope-rzg2m]
+  extends: [.build-base, .renesas-image-minimal, .scarthgap-g2h-family, .hihope-rzg2m]
 
 build:scarthgap:hihope-rzg2n:
-  extends: [.renesas-image-minimal, .scarthgap-g2h-family, .hihope-rzg2n]
+  extends: [.build-base, .renesas-image-minimal, .scarthgap-g2h-family, .hihope-rzg2n]
 
 build:scarthgap:ek874:
-  extends: [.renesas-image-minimal, .scarthgap-g2h-family, .ek874]
+  extends: [.build-base, .renesas-image-minimal, .scarthgap-g2h-family, .ek874]
 
 build:scarthgap:smarc-rzg2l:
-  extends: [.renesas-image-minimal, .scarthgap-g2l-family, .smarc-rzg2l]
+  extends: [.build-base, .renesas-image-minimal, .scarthgap-g2l-family, .smarc-rzg2l]
+
+build:scarthgap:smarc-rzg2l-demo:
+  extends: [.build-base, .renesas-image-demo, .scarthgap-g2l-family, .smarc-rzg2l]
 
 build:scarthgap:smarc-rzg2lc:
-  extends: [.renesas-image-minimal, .scarthgap-g2l-family, .smarc-rzg2lc]
+  extends: [.build-base, .renesas-image-minimal, .scarthgap-g2l-family, .smarc-rzg2lc]
+
+build:scarthgap:smarc-rzg2lc-demo:
+  extends: [.build-base, .renesas-image-demo, .scarthgap-g2l-family, .smarc-rzg2lc]
 
 build:scarthgap:smarc-rzg2ul:
-  extends: [.renesas-image-minimal, .scarthgap-g2l-family, .smarc-rzg2ul]
+  extends: [.build-base, .renesas-image-minimal, .scarthgap-g2l-family, .smarc-rzg2ul]
 
 # SDK build jobs
 build:sdk:kirkstone:hihope-rzg2h:
-  extends: [.renesas-image-minimal, .build-kirkstone, .hihope-rzg2h, .build-sdk]
+  extends: [.build-base, .renesas-image-minimal, .build-kirkstone, .hihope-rzg2h, .build-sdk]
 
 build:sdk:kirkstone:hihope-rzg2m:
-  extends: [.renesas-image-minimal, .build-kirkstone, .hihope-rzg2m, .build-sdk]
+  extends: [.build-base, .renesas-image-minimal, .build-kirkstone, .hihope-rzg2m, .build-sdk]
 
 build:sdk:kirkstone:hihope-rzg2n:
-  extends: [.renesas-image-minimal, .build-kirkstone, .hihope-rzg2n, .build-sdk]
+  extends: [.build-base, .renesas-image-minimal, .build-kirkstone, .hihope-rzg2n, .build-sdk]
 
 build:sdk:kirkstone:ek874:
-  extends: [.renesas-image-minimal, .build-kirkstone, .ek874, .build-sdk]
+  extends: [.build-base, .renesas-image-minimal, .build-kirkstone, .ek874, .build-sdk]
 
 build:sdk:kirkstone:smarc-rzg2l:
-  extends: [.renesas-image-minimal, .build-kirkstone, .smarc-rzg2l, .build-sdk]
+  extends: [.build-base, .renesas-image-minimal, .build-kirkstone, .smarc-rzg2l, .build-sdk]
 
 build:sdk:kirkstone:smarc-rzg2lc:
-  extends: [.renesas-image-minimal, .build-kirkstone, .smarc-rzg2lc, .build-sdk]
+  extends: [.build-base, .renesas-image-minimal, .build-kirkstone, .smarc-rzg2lc, .build-sdk]
 
 build:sdk:kirkstone:smarc-rzg2ul:
-  extends: [.renesas-image-minimal, .build-kirkstone, .smarc-rzg2ul, .build-sdk]
+  extends: [.build-base, .renesas-image-minimal, .build-kirkstone, .smarc-rzg2ul, .build-sdk]
 
 build:sdk:scarthgap:hihope-rzg2h:
-  extends: [.renesas-image-minimal, .build-scarthgap, .hihope-rzg2h, .build-sdk]
+  extends: [.build-base, .renesas-image-minimal, .build-scarthgap, .hihope-rzg2h, .build-sdk]
 
 build:sdk:scarthgap:hihope-rzg2m:
-  extends: [.renesas-image-minimal, .build-scarthgap, .hihope-rzg2m, .build-sdk]
+  extends: [.build-base, .renesas-image-minimal, .build-scarthgap, .hihope-rzg2m, .build-sdk]
 
 build:sdk:scarthgap:hihope-rzg2n:
-  extends: [.renesas-image-minimal, .build-scarthgap, .hihope-rzg2n, .build-sdk]
+  extends: [.build-base, .renesas-image-minimal, .build-scarthgap, .hihope-rzg2n, .build-sdk]
 
 build:sdk:scarthgap:ek874:
-  extends: [.renesas-image-minimal, .build-scarthgap, .ek874, .build-sdk]
+  extends: [.build-base, .renesas-image-minimal, .build-scarthgap, .ek874, .build-sdk]
 
 build:sdk:scarthgap:smarc-rzg2l:
-  extends: [.renesas-image-minimal, .build-scarthgap, .smarc-rzg2l, .build-sdk]
+  extends: [.build-base, .renesas-image-minimal, .build-scarthgap, .smarc-rzg2l, .build-sdk]
 
 build:sdk:scarthgap:smarc-rzg2lc:
-  extends: [.renesas-image-minimal, .build-scarthgap, .smarc-rzg2lc, .build-sdk]
+  extends: [.build-base, .renesas-image-minimal, .build-scarthgap, .smarc-rzg2lc, .build-sdk]
 
 build:sdk:scarthgap:smarc-rzg2ul:
-  extends: [.renesas-image-minimal, .build-scarthgap, .smarc-rzg2ul, .build-sdk]
+  extends: [.build-base, .renesas-image-minimal, .build-scarthgap, .smarc-rzg2ul, .build-sdk]
 
 
 ### TESTING ###
@@ -387,10 +369,11 @@ build:sdk:scarthgap:smarc-rzg2ul:
   image: gitlab.renesas.solutions:5050/spl2/continuous-integration/dockerfiles:ubuntu-20.04-latest
   tags:
     - lava-job
+  variables:
+    BIN_DIR: ${TEST_BIN_DIR_TOP}/${CI_BITBAKE_IMAGE}/${BUILD_NAME}
   script:
     - mkdir -p results
-    - export
-    - scripts/submit-lava-job.sh -d -u spl2-bot -b scripts/lava-templates/base-template.yaml -e scripts/lava-env/${BITBAKE_MACHINE}.env -j results -g ${BUILD_JOB_ID} -f ${BIN_DIR} ${TESTS}
+    - scripts/submit-lava-job.sh -d -u spl2-bot -b scripts/lava-templates/base-template.yaml -e ${BIN_DIR}/${CI_BITBAKE_MACHINE}.env -j results -g ${BUILD_JOB_ID} -f ${BIN_DIR} ${TESTS}
   artifacts:
     name: "${CI_JOB_NAME}"
     when: always
@@ -421,443 +404,231 @@ build:sdk:scarthgap:smarc-rzg2ul:
     TESTS: "-t scripts/lava-templates/test-sdk-hello.yaml"
 
 # Test jobs
-test:kirkstone:hihope-rzg2h-cip-5.10:
+test:kirkstone:hihope-rzg2h:
   stage: test:kirkstone
   needs: ["build:kirkstone:hihope-rzg2h"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2h]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10]
 
-test:kirkstone:hihope-rzg2h-cip-6.1:
-  stage: test:kirkstone
-  needs: ["build:kirkstone:hihope-rzg2h"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
-
-test:kirkstone:hihope-rzg2h-renesas-5.10:
-  stage: test:kirkstone
-  needs: ["build:kirkstone:hihope-rzg2h"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
-
-test:kirkstone:hihope-rzg2m-cip-5.10:
+test:kirkstone:hihope-rzg2m:
   stage: test:kirkstone
   needs: ["build:kirkstone:hihope-rzg2m"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2m]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10]
 
-test:kirkstone:hihope-rzg2m-cip-6.1:
-  stage: test:kirkstone
-  needs: ["build:kirkstone:hihope-rzg2m"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
-
-test:kirkstone:hihope-rzg2m-renesas-5.10:
-  stage: test:kirkstone
-  needs: ["build:kirkstone:hihope-rzg2m"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
-
-test:kirkstone:hihope-rzg2n-cip-5.10:
+test:kirkstone:hihope-rzg2n:
   stage: test:kirkstone
   needs: ["build:kirkstone:hihope-rzg2n"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2n]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10]
 
-test:kirkstone:hihope-rzg2n-cip-6.1:
-  stage: test:kirkstone
-  needs: ["build:kirkstone:hihope-rzg2n"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
-
-test:kirkstone:hihope-rzg2n-renesas-5.10:
-  stage: test:kirkstone
-  needs: ["build:kirkstone:hihope-rzg2n"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
-
-test:kirkstone:ek874-cip-5.10:
+test:kirkstone:ek874:
   stage: test:kirkstone
   needs: ["build:kirkstone:ek874"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .ek874]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10]
 
-test:kirkstone:ek874-cip-6.1:
-  stage: test:kirkstone
-  needs: ["build:kirkstone:ek874"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
-
-test:kirkstone:ek874-renesas-5.10:
-  stage: test:kirkstone
-  needs: ["build:kirkstone:ek874"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
-
-test:kirkstone:smarc-rzg2l-cip-5.10:
+test:kirkstone:smarc-rzg2l:
   stage: test:kirkstone
   needs: ["build:kirkstone:smarc-rzg2l"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2l]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10]
 
-test:kirkstone:smarc-rzg2l-cip-6.1:
-  stage: test:kirkstone
-  needs: ["build:kirkstone:smarc-rzg2l"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
-
-test:kirkstone:smarc-rzg2l-renesas-5.10:
-  stage: test:kirkstone
-  needs: ["build:kirkstone:smarc-rzg2l"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
-
-test:kirkstone:smarc-rzg2lc-cip-5.10:
+test:kirkstone:smarc-rzg2lc:
   stage: test:kirkstone
   needs: ["build:kirkstone:smarc-rzg2lc"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10]
 
-test:kirkstone:smarc-rzg2lc-cip-6.1:
-  stage: test:kirkstone
-  needs: ["build:kirkstone:smarc-rzg2lc"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
-
-test:kirkstone:smarc-rzg2lc-renesas-5.10:
-  stage: test:kirkstone
-  needs: ["build:kirkstone:smarc-rzg2lc"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
-
-test:kirkstone:smarc-rzg2ul-cip-5.10:
+test:kirkstone:smarc-rzg2ul:
   stage: test:kirkstone
   needs: ["build:kirkstone:smarc-rzg2ul"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10]
 
-test:kirkstone:smarc-rzg2ul-cip-6.1:
-  stage: test:kirkstone
-  needs: ["build:kirkstone:smarc-rzg2ul"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
-
-test:kirkstone:smarc-rzg2ul-renesas-5.10:
-  stage: test:kirkstone
-  needs: ["build:kirkstone:smarc-rzg2ul"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
 
 test:sdk:kirkstone:hihope-rzg2h:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:hihope-rzg2h"]
-  extends: [.test-base-sdk, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2h]
   variables:
-    BIN_DIR: ${TEST_BIN_DIR}/sdk
+    BUILD_NAME: sdk
 
 test:sdk:kirkstone:hihope-rzg2m:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:hihope-rzg2m"]
-  extends: [.test-base-sdk, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2m]
   variables:
-    BIN_DIR: ${TEST_BIN_DIR}/sdk
+    BUILD_NAME: sdk
 
 test:sdk:kirkstone:hihope-rzg2n:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:hihope-rzg2n"]
-  extends: [.test-base-sdk, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2n]
   variables:
-    BIN_DIR: ${TEST_BIN_DIR}/sdk
+    BUILD_NAME: sdk
 
 test:sdk:kirkstone:ek874:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:ek874"]
-  extends: [.test-base-sdk, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .ek874]
   variables:
-    BIN_DIR: ${TEST_BIN_DIR}/sdk
+    BUILD_NAME: sdk
 
 test:sdk:kirkstone:smarc-rzg2l:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:smarc-rzg2l"]
-  extends: [.test-base-sdk, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2l]
   variables:
-    BIN_DIR: ${TEST_BIN_DIR}/sdk
+    BUILD_NAME: sdk
 
 test:sdk:kirkstone:smarc-rzg2lc:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:smarc-rzg2lc"]
-  extends: [.test-base-sdk, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
   variables:
-    BIN_DIR: ${TEST_BIN_DIR}/sdk
+    BUILD_NAME: sdk
 
 test:sdk:kirkstone:smarc-rzg2ul:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:smarc-rzg2ul"]
-  extends: [.test-base-sdk, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
   variables:
-    BIN_DIR: ${TEST_BIN_DIR}/sdk
+    BUILD_NAME: sdk
 
-test:scarthgap:hihope-rzg2h-mainline:
+
+test:scarthgap:hihope-rzg2h:
   stage: test:scarthgap
   needs: ["build:scarthgap:hihope-rzg2h"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/mainline
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2h]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
 
-test:scarthgap:hihope-rzg2h-cip-5.10:
-  stage: test:scarthgap
-  needs: ["build:scarthgap:hihope-rzg2h"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
-
-test:scarthgap:hihope-rzg2h-cip-6.1:
-  stage: test:scarthgap
-  needs: ["build:scarthgap:hihope-rzg2h"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
-
-test:scarthgap:hihope-rzg2h-renesas-5.10:
-  stage: test:scarthgap
-  needs: ["build:scarthgap:hihope-rzg2h"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
-
-test:scarthgap:hihope-rzg2m-mainline:
+test:scarthgap:hihope-rzg2m:
   stage: test:scarthgap
   needs: ["build:scarthgap:hihope-rzg2m"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/mainline
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2m]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
 
-test:scarthgap:hihope-rzg2m-cip-5.10:
-  stage: test:scarthgap
-  needs: ["build:scarthgap:hihope-rzg2m"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
-
-test:scarthgap:hihope-rzg2m-cip-6.1:
-  stage: test:scarthgap
-  needs: ["build:scarthgap:hihope-rzg2m"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
-
-test:scarthgap:hihope-rzg2m-renesas-5.10:
-  stage: test:scarthgap
-  needs: ["build:scarthgap:hihope-rzg2m"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
-
-test:scarthgap:hihope-rzg2n-mainline:
+test:scarthgap:hihope-rzg2n:
   stage: test:scarthgap
   needs: ["build:scarthgap:hihope-rzg2n"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/mainline
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2n]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
 
-test:scarthgap:hihope-rzg2n-cip-5.10:
-  stage: test:scarthgap
-  needs: ["build:scarthgap:hihope-rzg2n"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
-
-test:scarthgap:hihope-rzg2n-cip-6.1:
-  stage: test:scarthgap
-  needs: ["build:scarthgap:hihope-rzg2n"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
-
-test:scarthgap:hihope-rzg2n-renesas-5.10:
-  stage: test:scarthgap
-  needs: ["build:scarthgap:hihope-rzg2n"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
-
-test:scarthgap:ek874-mainline:
+test:scarthgap:ek874:
   stage: test:scarthgap
   needs: ["build:scarthgap:ek874"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/mainline
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .ek874]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
 
-test:scarthgap:ek874-cip-5.10:
-  stage: test:scarthgap
-  needs: ["build:scarthgap:ek874"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
-
-test:scarthgap:ek874-cip-6.1:
-  stage: test:scarthgap
-  needs: ["build:scarthgap:ek874"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
-
-test:scarthgap:ek874-renesas-5.10:
-  stage: test:scarthgap
-  needs: ["build:scarthgap:ek874"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
-
-test:scarthgap:smarc-rzg2l-mainline:
+test:scarthgap:smarc-rzg2l:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2l"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/mainline
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2l]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
 
-test:scarthgap:smarc-rzg2l-cip-5.10:
+test:scarthgap:smarc-rzg2l-demo:
   stage: test:scarthgap
-  needs: ["build:scarthgap:smarc-rzg2l"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
+  needs: ["build:scarthgap:smarc-rzg2l-demo"]
+  extends: [.test-base, .standard-test-cases, .renesas-image-demo, .smarc-rzg2l]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
 
-test:scarthgap:smarc-rzg2l-cip-6.1:
-  stage: test:scarthgap
-  needs: ["build:scarthgap:smarc-rzg2l"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
-
-test:scarthgap:smarc-rzg2l-renesas-5.10:
-  stage: test:scarthgap
-  needs: ["build:scarthgap:smarc-rzg2l"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
-
-test:scarthgap:smarc-rzg2lc-mainline:
+test:scarthgap:smarc-rzg2lc:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2lc"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/mainline
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
 
-test:scarthgap:smarc-rzg2lc-cip-5.10:
+test:scarthgap:smarc-rzg2lc-demo:
   stage: test:scarthgap
-  needs: ["build:scarthgap:smarc-rzg2lc"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
+  needs: ["build:scarthgap:smarc-rzg2lc-demo"]
+  extends: [.test-base, .standard-test-cases, .renesas-image-demo, .smarc-rzg2lc]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
 
-test:scarthgap:smarc-rzg2lc-cip-6.1:
-  stage: test:scarthgap
-  needs: ["build:scarthgap:smarc-rzg2lc"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
-
-test:scarthgap:smarc-rzg2lc-renesas-5.10:
-  stage: test:scarthgap
-  needs: ["build:scarthgap:smarc-rzg2lc"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
-
-test:scarthgap:smarc-rzg2ul-mainline:
+test:scarthgap:smarc-rzg2ul:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2ul"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/mainline
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, mainline]
 
-test:scarthgap:smarc-rzg2ul-cip-5.10:
-  stage: test:scarthgap
-  needs: ["build:scarthgap:smarc-rzg2ul"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-5.10
-
-test:scarthgap:smarc-rzg2ul-cip-6.1:
-  stage: test:scarthgap
-  needs: ["build:scarthgap:smarc-rzg2ul"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/cip-6.1
-
-test:scarthgap:smarc-rzg2ul-renesas-5.10:
-  stage: test:scarthgap
-  needs: ["build:scarthgap:smarc-rzg2ul"]
-  extends: [.test-base, .standard-test-cases]
-  variables:
-    BIN_DIR: ${TEST_BIN_DIR}/renesas-5.10
 
 test:sdk:scarthgap:hihope-rzg2h:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:hihope-rzg2h"]
-  extends: [.test-base-sdk, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2h]
   variables:
-    BIN_DIR: ${TEST_BIN_DIR}/sdk
+    BUILD_NAME: sdk
 
 test:sdk:scarthgap:hihope-rzg2m:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:hihope-rzg2m"]
-  extends: [.test-base-sdk, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2m]
   variables:
-    BIN_DIR: ${TEST_BIN_DIR}/sdk
+    BUILD_NAME: sdk
 
 test:sdk:scarthgap:hihope-rzg2n:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:hihope-rzg2n"]
-  extends: [.test-base-sdk, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2n]
   variables:
-    BIN_DIR: ${TEST_BIN_DIR}/sdk
+    BUILD_NAME: sdk
 
 test:sdk:scarthgap:ek874:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:ek874"]
-  extends: [.test-base-sdk, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .ek874]
   variables:
-    BIN_DIR: ${TEST_BIN_DIR}/sdk
+    BUILD_NAME: sdk
 
 test:sdk:scarthgap:smarc-rzg2l:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:smarc-rzg2l"]
-  extends: [.test-base-sdk, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2l]
   variables:
-    BIN_DIR: ${TEST_BIN_DIR}/sdk
+    BUILD_NAME: sdk
 
 test:sdk:scarthgap:smarc-rzg2lc:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:smarc-rzg2lc"]
-  extends: [.test-base-sdk, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
   variables:
-    BIN_DIR: ${TEST_BIN_DIR}/sdk
+    BUILD_NAME: sdk
 
 test:sdk:scarthgap:smarc-rzg2ul:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:smarc-rzg2ul"]
-  extends: [.test-base-sdk, .sdk-test-cases]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
   variables:
-    BIN_DIR: ${TEST_BIN_DIR}/sdk
+    BUILD_NAME: sdk

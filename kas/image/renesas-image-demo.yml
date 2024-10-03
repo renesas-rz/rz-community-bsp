@@ -1,0 +1,15 @@
+header:
+  version: 14
+
+repos:
+  meta-rz-panfrost:
+    url: https://github.com/renesas-rz/meta-rz-panfrost.git
+    path: meta-rz-panfrost
+    # scarthgap HEAD
+    commit: 7ec5305383a312f79706f6e2c4df6ab00b2bcf6e
+
+target: renesas-image-demo
+
+local_conf_header:
+  wayland: |
+    DISTRO_FEATURES += " opengl wayland"

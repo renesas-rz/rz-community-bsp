@@ -1,5 +1,5 @@
 # rz-community-bsp
-This repository provides a basic BSP that will build a simple, usable image
+This repository provides a basic BSP that will build a simple, usable images
 for Renesas RZ reference platforms.
 
 It is designed to allow users to use the latest upstream open source projects
@@ -21,6 +21,7 @@ The following layers are only required when certain options are selected:
 | Condition |Name | Layers | Repository | Branch | Revision |
 | --- | --- | --- | --- | --- | --- |
 | Mainline kernel is selected<br>via `kas/kernel/mainline.yml`<br>or `KERNEL_MAINLINE=y` in `kas menu` | meta-linux-mainline | meta-linux-mainline | https://github.com/betafive/meta-linux-mainline | main | HEAD |
+| renesas-image-demo is selected<br>via `kas/image/renesas-image-demo.yml`<br>or `IMAGE_RENESAS_IMAGE_DEMO=y` in `kas menu` | meta-rz-panfrost | https://github.com/renesas-rz/meta-rz-panfrost.git | scarthgap | 7ec5305383a3 |
 
 ## Supported Machines
 | SoC | Reference Platform | Machine Name |
@@ -36,7 +37,21 @@ The following layers are only required when certain options are selected:
 ## Provided Images
 | Image Name | Description | Key Features |
 | --- | --- | --- |
-| renesas-image-minimal | Provides a basic image based on Poky's core-image. | Linux kernel<br>U-Boot<br>Trusted-Firmware-A |
+| renesas-image-minimal | Provides a basic BSP image based on Poky's core-image. | Linux kernel<br>U-Boot<br>Trusted-Firmware-A |
+| renesas-image-demo | Provides a more featured image that includes Weston/Wayland with Panfrost support. | Linux kernel<br>U-Boot<br>Trusted-Firmware-A<br>Weston<br>Wayland<br>Panfrost<br>Various debug tools |
+
+### renesas-image-demo
+This image is currently only supported for smarc-rzg2l and smarc-rzg2lc using
+Yocto Scarthgap.
+
+If not building using Kas, the following needs to be added to \*local.conf\*:
+```
+DISTRO_FEATURES += " opengl wayland"
+```
+
+## What's Tested?
+For full details on what is and isn't tested please see
+[docs/TESTING.md](docs/TESTING.md).
 
 ## Building
 This project is set up to be built with [Kas](https://github.com/siemens/kas).
@@ -84,7 +99,7 @@ start a build using the saved configuration:
 ./kas-container build
 ```
 
-Alternitively you can start a shell within the kas build environment that has
+Alternatively you can start a shell within the kas build environment that has
 already been configured for use with bitbake, with all dependencies checked out:
 ```bash
 ./kas-container shell
@@ -92,7 +107,7 @@ already been configured for use with bitbake, with all dependencies checked out:
 
 ### Kas with Configuraiton Fragments
 The build can also be configured using a number of options provided in different
-kas yaml files. They can be daisy chained onto each other so that multple
+kas yaml files. They can be daisy chained onto each other so that multiple
 options can be selected.
 
 **kas/base.yml**\
@@ -124,6 +139,8 @@ Specifically, it enables the *debug-tweaks* image feature that allows users to\
 be able to login without a password. More information can be found\
 [here](https://docs.yoctoproject.org/dev/ref-manual/features.html#:~:text=debug%2Dtweaks%3A%20Makes%20an%20image,enables%20post%2Dinstallation%20logging).
 
+Various hardware debugging tools are also included.
+
 Example usage:
 ```bash
 # Make sure we're inside rz-community-bsp (this repository)
@@ -145,6 +162,12 @@ cd rz-community-bsp
 # prudent to use --update and --force-checkout to ensure that the dependency
 # repositories are correct
 ./kas-container build --update --force-checkout kas/yocto/kirkstone.yml:kas/opt/debug.yml:kas/image/renesas-image-minimal.yml:kas/machine/hihope-rzg2h.yml:kas/kernel/cip-6.1.yml
+
+# Yocto: scarthgap
+# Image: renesas-image-demo
+# Machine: smarc-rzg2l
+# Linux: linux-cip v6.1
+./kas-container build --update --force-checkout kas/yocto/scarthgap.yml:kas/opt/debug.yml:kas/image/renesas-image-demo.yml:kas/machine/smarc-rzg2l.yml:kas/kernel/cip-6.1.yml
 ```
 
 ## Building the SDK
