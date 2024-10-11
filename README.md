@@ -40,7 +40,7 @@ The following layers are only required when certain options are selected:
 | renesas-image-minimal | Provides a basic BSP image based on Poky's core-image. | Linux kernel<br>U-Boot<br>Trusted-Firmware-A |
 | renesas-image-demo | Provides a more featured image that includes Weston/Wayland with Panfrost support. | Linux kernel<br>U-Boot<br>Trusted-Firmware-A<br>Weston<br>Wayland<br>Panfrost<br>Various debug tools |
 
-### renesas-image-demo
+### renesas-image-demo Notes
 This image is currently only supported for smarc-rzg2l and smarc-rzg2lc using
 Yocto Scarthgap.
 
@@ -48,6 +48,17 @@ If not building using Kas, the following needs to be added to \*local.conf\*:
 ```
 DISTRO_FEATURES += " opengl wayland"
 ```
+
+## Linux Kernel Support
+The RZ Community BSP makes it possible to build a number of different versions
+of the Linux kernel.
+
+Each RZ device/platform is **not** supported to the same level on all kernel
+versions!
+
+The Renesas BSP kernels will have the most functionality supported. \
+The Mainline kernel is next, followed by the CIP SLTS kernels. \
+LTS kernels are likely to have the least functionality, so use with caution.
 
 ## What's Tested?
 For full details on what is and isn't tested please see
