@@ -18,8 +18,8 @@ repos:
       meta-poky:
   meta-arm:
     url: https://git.yoctoproject.org/meta-arm
-    # yocto-4.0.4
-    commit: 668df530a50580927a147fe633187cd8ae0a72db
+    # yocto-4.0.5
+    commit: bf98ef902e6e7042e46a69fb2df6c68d00de2764
     layers:
       meta-arm-toolchain:
       meta-arm:
