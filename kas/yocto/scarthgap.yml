@@ -11,8 +11,8 @@ repos:
       meta-rz-bsp:
   poky:
     url: "https://git.yoctoproject.org/git/poky"
-    # scarthgap-5.0.3
-    commit: 0b37512fb4b231cc106768e2a7328431009b3b70
+    # scarthgap-5.0.4
+    commit: 2034fc38eb4e63984d9bd6b260aa1bf95ce562e4
     layers:
       meta:
       meta-poky:
