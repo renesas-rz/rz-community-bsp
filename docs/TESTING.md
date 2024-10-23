@@ -27,6 +27,15 @@ Definition: [test-sdk-hello.yaml](../scripts/lava-templates/test-sdk-hello.yaml)
 Tests that the `hello-test` application that was compiled using the
 rz-community-bsp SDK runs successfully on the target.
 
+### Pre-flight checks
+In addition to any functional testing various checks are made on the code itself
+before anything is merged.
+
+#### yocto-check-layer
+This script provides a way to assess how compatible a layer is with the Yocto
+Project. More details about the script can be found in the [Yocto dev tasks manual]
+(https://docs.yoctoproject.org/dev-manual/layers.html#yocto-check-layer-script).
+
 ## What's not tested?
 Things that cannot be automated in the CI setup are tested manually much less
 often. For example:

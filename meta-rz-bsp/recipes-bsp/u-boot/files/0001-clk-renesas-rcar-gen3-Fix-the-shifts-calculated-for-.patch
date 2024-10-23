@@ -21,6 +21,9 @@ This patch fixes the issue by restoring the proper shift values for MDSEL
 and PE clock calculations.
 
 Fixes: 99c7e031196 ("clk: renesas: rcar-gen3: Replace SSCG caching with MDSEL/PE caching")
+
+Upstream-Status: Pending
+
 Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 Signed-off-by: Chris Paterson <chris.paterson2@renesas.com>
 ---
