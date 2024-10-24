@@ -249,7 +249,7 @@ menu "Bootloaders"
 	menu "Trusted-Firmware-A"
 	choice
 		prompt "Select the Trusted-Firmware-A version to use"
-		default TFA_MAINLINE_2.10.5 if FAMILY_G2H
+		default TFA_MAINLINE_2.10.8 if FAMILY_G2H
 		default TFA_RENESAS_2.9.0
 
 		config TFA_RENESAS_2.9.0
@@ -262,16 +262,16 @@ menu "Bootloaders"
 		depends on TFA_RENESAS_2.9.0
 		default "kas/trusted-firmware-a/renesas-2.9.0.yml"
 
-		config TFA_MAINLINE_2.10.5
-		bool "Mainline v2.10.5 LTS"
+		config TFA_MAINLINE_2.10.8
+		bool "Mainline v2.10.8 LTS"
 		depends on FAMILY_G2H
 		help
-			Use mainline Trusted-Firmware-A v2.10.5 LTS
+			Use mainline Trusted-Firmware-A v2.10.8 LTS
 
-		config KAS_INCLUDE_TFA_MAINLINE_2.10.5
+		config KAS_INCLUDE_TFA_MAINLINE_2.10.8
 		string
-		depends on TFA_MAINLINE_2.10.5
-		default "kas/trusted-firmware-a/mainline-2.10.5.yml"
+		depends on TFA_MAINLINE_2.10.8
+		default "kas/trusted-firmware-a/mainline-2.10.8.yml"
 	endchoice
 	endmenu
 endmenu

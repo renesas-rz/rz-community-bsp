@@ -2,8 +2,8 @@ require trusted-firmware-a-renesas.inc
 
 COMPATIBLE_MACHINE = "rzg2h-family"
 
-# TF-A v2.10.5
-SRCREV_tfa = "7c229848a09ebc3aba8e3941ae1cdfceb222a768"
+# TF-A v2.10.8
+SRCREV_tfa = "d3e94395f4bbe0b4ee0babad5098127bed74028b"
 SRCBRANCH = "lts-v2.10"
 
 # meta-arm kirkstone hardcodes the branch to master which doesn't contain the
