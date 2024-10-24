@@ -4,7 +4,7 @@ SOC_FAMILY = "rzg2h-family"
 
 # U-Boot configuration
 PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot"
-PREFERRED_VERSION_u-boot ?= "2024.07%"
+PREFERRED_VERSION_u-boot ?= "2024.10%"
 
 # TF-A configuration
 PREFERRED_PROVIDER_virtual/trusted-firmware-a ?= "trusted-firmware-a"
