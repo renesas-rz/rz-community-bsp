@@ -1,0 +1,37 @@
+From 4f126e9ad0a934f59f2e519859bc0443664a8d09 Mon Sep 17 00:00:00 2001
+From: Chris Paterson <chris.paterson2@renesas.com>
+Date: Wed, 11 Sep 2024 11:44:56 +0100
+Subject: [PATCH 1/2] configs: hihope_rzg2: Set correct MMC device for U-Boot
+ env
+
+Currently we set CONFIG_SYS_MMC_ENV_DEV=1 which is wrong:
+  Loading Environment from MMC... MMC: no card present
+  *** Warning - No block device, using default environment
+
+Correct to dev 0 so that the U-Boot environment can be loaded from the
+correct storage device.
+
+Upstream-Status: Pending
+
+Signed-off-by: Chris Paterson <chris.paterson2@renesas.com>
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+---
+ configs/hihope_rzg2_defconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configs/hihope_rzg2_defconfig b/configs/hihope_rzg2_defconfig
+index 149ce0bac0d5..1e8e8d6e16f1 100644
+--- a/configs/hihope_rzg2_defconfig
++++ b/configs/hihope_rzg2_defconfig
+@@ -46,7 +46,7 @@ CONFIG_MULTI_DTB_FIT_USER_DEFINED_AREA=y
+ CONFIG_ENV_OVERWRITE=y
+ CONFIG_ENV_IS_IN_MMC=y
+ CONFIG_SYS_RELOC_GD_ENV_ADDR=y
+-CONFIG_SYS_MMC_ENV_DEV=1
++CONFIG_SYS_MMC_ENV_DEV=0
+ CONFIG_SYS_MMC_ENV_PART=2
+ CONFIG_VERSION_VARIABLE=y
+ CONFIG_REGMAP=y
+-- 
+2.34.1
+
