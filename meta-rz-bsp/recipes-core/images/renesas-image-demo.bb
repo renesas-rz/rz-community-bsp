@@ -10,8 +10,6 @@ LICENSE = "MIT"
 IMAGE_FEATURES += " weston"
 
 CORE_IMAGE_BASE_INSTALL += " \
-	glmark2 \
-	gtk+3-demo \
-	kmscube \
+	packagegroup-rz-tools-gpu \
 	packagegroup-rz-tools-hw \
 "
