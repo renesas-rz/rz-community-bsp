@@ -14,5 +14,4 @@ CORE_IMAGE_BASE_INSTALL += " \
 	gtk+3-demo \
 	kmscube \
 	packagegroup-rz-tools-hw \
-	startup \
 "
