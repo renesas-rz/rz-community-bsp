@@ -33,6 +33,7 @@ The following layers are only required when certain options are selected:
 | Renesas RZ/G2L | RZ/G2L SMARC Evaluation Kit | smarc-rzg2l |
 | Renesas RZ/G2LC | RZ/G2LC SMARC Evaluation Kit | smarc-rzg2lc |
 | Renesas RZ/G2UL | RZ/G2UL SMARC Evaluation Kit | smarc-rzg2ul |
+| Renesas RZ/V2L | RZ/V2L SMARC Evaluation Kit | smarc-rzv2l |
 
 ## Provided Images
 | Image Name | Description | Key Features |

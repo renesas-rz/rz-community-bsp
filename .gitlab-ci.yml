@@ -21,7 +21,7 @@ yocto-check-layer:
   image: ghcr.io/siemens/kas/kas:4.4
   script:
     - kas shell --update --force-checkout ${CI_KAS_CONFIG} -c \
-      "yocto-check-layer-wrapper ${CI_PROJECT_DIR}/meta-rz-bsp --dependency ${CI_PROJECT_DIR}/meta-arm/meta-arm ${CI_PROJECT_DIR}/meta-arm/meta-arm-toolchain ${CI_PROJECT_DIR}/meta-openembedded/meta-oe ${CI_PROJECT_DIR}/poky/meta ${CI_PROJECT_DIR}/poky/meta-poky --no-auto-dependency --machines hihope-rzg2h hihope-rzg2m hihope-rzg2n ek874 smarc-rzg2l smarc-rzg2lc smarc-rzg2ul"
+      "yocto-check-layer-wrapper ${CI_PROJECT_DIR}/meta-rz-bsp --dependency ${CI_PROJECT_DIR}/meta-arm/meta-arm ${CI_PROJECT_DIR}/meta-arm/meta-arm-toolchain ${CI_PROJECT_DIR}/meta-openembedded/meta-oe ${CI_PROJECT_DIR}/poky/meta ${CI_PROJECT_DIR}/poky/meta-poky --no-auto-dependency --machines hihope-rzg2h hihope-rzg2m hihope-rzg2n ek874 smarc-rzg2l smarc-rzg2lc smarc-rzg2ul smarc-rzv2l"
   parallel:
     matrix:
       - CI_KAS_CONFIG: [kas/yocto/kirkstone.yml, kas/yocto/scarthgap.yml]
@@ -299,6 +299,11 @@ yocto-check-layer:
     CI_BITBAKE_MACHINE: smarc-rzg2ul
     CI_KAS_MACHINE: kas/machine/smarc-rzg2ul.yml
 
+.smarc-rzv2l:
+  variables:
+    CI_BITBAKE_MACHINE: smarc-rzv2l
+    CI_KAS_MACHINE: kas/machine/smarc-rzv2l.yml
+
 # Build jobs
 build:kirkstone:hihope-rzg2h:
   extends: [.build-base, .renesas-image-minimal, .kirkstone-g2h-family, .hihope-rzg2h]
@@ -320,6 +325,9 @@ build:kirkstone:smarc-rzg2lc:
 
 build:kirkstone:smarc-rzg2ul:
   extends: [.build-base, .renesas-image-minimal, .kirkstone-g2l-family, .smarc-rzg2ul]
+
+build:kirkstone:smarc-rzv2l:
+  extends: [.build-base, .renesas-image-minimal, .kirkstone-g2l-family, .smarc-rzv2l]
 
 
 build:scarthgap:hihope-rzg2h:
@@ -349,6 +357,10 @@ build:scarthgap:smarc-rzg2lc-demo:
 build:scarthgap:smarc-rzg2ul:
   extends: [.build-base, .renesas-image-minimal, .scarthgap-g2l-family, .smarc-rzg2ul]
 
+build:scarthgap:smarc-rzv2l:
+  extends: [.build-base, .renesas-image-minimal, .scarthgap-g2l-family, .smarc-rzv2l]
+
+
 # SDK build jobs
 build:sdk:kirkstone:hihope-rzg2h:
   extends: [.build-base, .renesas-image-minimal, .build-kirkstone, .hihope-rzg2h, .build-sdk]
@@ -371,6 +383,10 @@ build:sdk:kirkstone:smarc-rzg2lc:
 build:sdk:kirkstone:smarc-rzg2ul:
   extends: [.build-base, .renesas-image-minimal, .build-kirkstone, .smarc-rzg2ul, .build-sdk]
 
+build:sdk:kirkstone:smarc-rzv2l:
+  extends: [.build-base, .renesas-image-minimal, .build-kirkstone, .smarc-rzv2l, .build-sdk]
+
+
 build:sdk:scarthgap:hihope-rzg2h:
   extends: [.build-base, .renesas-image-minimal, .build-scarthgap, .hihope-rzg2h, .build-sdk]
 
@@ -391,6 +407,9 @@ build:sdk:scarthgap:smarc-rzg2lc:
 
 build:sdk:scarthgap:smarc-rzg2ul:
   extends: [.build-base, .renesas-image-minimal, .build-scarthgap, .smarc-rzg2ul, .build-sdk]
+
+build:sdk:scarthgap:smarc-rzv2l:
+  extends: [.build-base, .renesas-image-minimal, .build-scarthgap, .smarc-rzv2l, .build-sdk]
 
 
 ### TESTING ###
@@ -490,6 +509,14 @@ test:kirkstone:smarc-rzg2ul:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10]
 
+test:kirkstone:smarc-rzv2l:
+  stage: test:kirkstone
+  needs: ["build:kirkstone:smarc-rzv2l"]
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .smarc-rzv2l]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10]
+
 
 test:sdk:kirkstone:hihope-rzg2h:
   stage: test:kirkstone
@@ -537,6 +564,13 @@ test:sdk:kirkstone:smarc-rzg2ul:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:smarc-rzg2ul"]
   extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:kirkstone:smarc-rzv2l:
+  stage: test:kirkstone
+  needs: ["build:sdk:kirkstone:smarc-rzv2l"]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .smarc-rzv2l]
   variables:
     BUILD_NAME: sdk
 
@@ -613,6 +647,14 @@ test:scarthgap:smarc-rzg2ul:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, lts-6.6, mainline]
 
+test:scarthgap:smarc-rzv2l:
+  stage: test:scarthgap
+  needs: ["build:scarthgap:smarc-rzv2l"]
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .smarc-rzv2l]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, renesas-5.10, lts-6.6, mainline]
+
 
 test:sdk:scarthgap:hihope-rzg2h:
   stage: test:scarthgap
@@ -660,5 +702,12 @@ test:sdk:scarthgap:smarc-rzg2ul:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:smarc-rzg2ul"]
   extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:scarthgap:smarc-rzv2l:
+  stage: test:scarthgap
+  needs: ["build:sdk:scarthgap:smarc-rzv2l"]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .smarc-rzv2l]
   variables:
     BUILD_NAME: sdk
