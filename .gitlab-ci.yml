@@ -26,6 +26,17 @@ yocto-check-layer:
     matrix:
       - CI_KAS_CONFIG: [kas/yocto/kirkstone.yml, kas/yocto/scarthgap.yml]
 
+pre-commit:
+  stage: pre-flight-checks
+  image: ubuntu:24.04
+  before_script:
+    - apt update && apt install -y git pipx
+    - pipx install pre-commit
+    - export PATH=~/.local/bin:$PATH
+    - git config --global --add safe.directory ${CI_PROJECT_DIR}
+  script:
+    - pre-commit run -a
+
 ### BUILDING ###
 .build-base:
   image: ghcr.io/siemens/kas/kas:4.4
