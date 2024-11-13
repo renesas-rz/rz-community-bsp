@@ -41,6 +41,11 @@ This script provides a way to assess how compatible a layer is with the Yocto
 Project. More details about the script can be found in the [Yocto dev tasks manual]
 (https://docs.yoctoproject.org/dev-manual/layers.html#yocto-check-layer-script).
 
+### pre-commit
+
+We use [pre-commit](https://pre-commit.com/) to check for common mistakes and
+to ensure that relevant best practices are followed.
+
 ## What's not tested?
 
 Things that cannot be automated in the CI setup are tested manually much less
