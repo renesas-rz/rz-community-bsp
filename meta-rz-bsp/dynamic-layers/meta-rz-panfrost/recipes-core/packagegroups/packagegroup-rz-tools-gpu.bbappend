@@ -2,6 +2,6 @@
 #
 # SPDX-License-Identifier: MIT
 
-CORE_IMAGE_BASE_INSTALL += " \
+RDEPENDS:${PN} += " \
 	startup \
 "
