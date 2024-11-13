@@ -1,0 +1,15 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+    -   id: check-merge-conflict
+    -   id: check-symlinks
+    -   id: check-vcs-permalinks
+    -   id: check-yaml
+    -   id: end-of-file-fixer
+    -   id: mixed-line-ending
+-   repo: https://github.com/jackdewinter/pymarkdown
+    rev: v0.9.24
+    hooks:
+    -   id: pymarkdown
+        args: ["-d", "MD013,MD033,MD034", "scan"]
