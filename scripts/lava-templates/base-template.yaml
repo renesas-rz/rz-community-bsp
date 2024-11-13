@@ -37,4 +37,3 @@ actions:
       - PLACEHOLDER_PROMPT
     method: u-boot
     commands: nfs
-
