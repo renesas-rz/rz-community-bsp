@@ -1,6 +1,7 @@
 # RZ Community BSP Testing
 
 ## What's tested?
+
 Whilst this project is provided on an as-is basis, effort is made to verify that
 the supported build configurations work using a combination of GitLab CI, LAVA
 and local testing.
@@ -12,12 +13,14 @@ All builds that are done in the CI setup have OPT\_DEBUG (kas/opt/debug.yml)
 enabled in addition to the settings listed in the build/test matrix below.
 
 ### Test environment
+
 Tests are run on each supported target using a
 [LAVA](https://gitlab.com/lava/lava) environment. The Linux kernel and device
 tree binaries are loaded in U-Boot using TFTP. Once booted into the kernel all
 testing is done using network mounted filesystems (NFS).
 
 ### Test cases
+
 **uname** \
 Definition: [test-uname.yaml](../scripts/lava-templates/test-uname.yaml) \
 A simple "boot" test that just checks that we can boot and log in successfully.
@@ -28,17 +31,21 @@ Tests that the `hello-test` application that was compiled using the
 rz-community-bsp SDK runs successfully on the target.
 
 ### Pre-flight checks
+
 In addition to any functional testing various checks are made on the code itself
 before anything is merged.
 
 #### yocto-check-layer
+
 This script provides a way to assess how compatible a layer is with the Yocto
 Project. More details about the script can be found in the [Yocto dev tasks manual]
 (https://docs.yoctoproject.org/dev-manual/layers.html#yocto-check-layer-script).
 
 ## What's not tested?
+
 Things that cannot be automated in the CI setup are tested manually much less
 often. For example:
+
 * Every U-Boot version
 * Every TF-A version
 * The Wayland/Weston display output in the demo image
@@ -46,6 +53,7 @@ often. For example:
 Over time we hope to enhance CI support further.
 
 ## CI build/test matrix
+
 The table below details every build combination that is currently run in CI.
 
 | Yocto | Image | Kernel | U-Boot | TF-A | Machine | Test Cases |
