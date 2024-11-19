@@ -47,6 +47,7 @@ push-to-kirkstone:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
   before_script:
     - apt update && apt install -y git
+    - git config --global --add safe.directory ${CI_PROJECT_DIR}
   script:
     - git remote remove ci || true
     - git remote add ci "https://CI_DEPLOY_TOKEN:$CI_DEPLOY_TOKEN@gitlab.renesas.solutions/spl2/civil-infrastructure-platform/rz-community-bsp.git"
