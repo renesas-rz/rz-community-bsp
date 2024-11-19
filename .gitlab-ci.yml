@@ -4,6 +4,7 @@ stages:
   - build:scarthgap
   - test:kirkstone
   - test:scarthgap
+  - deploy
 
 variables:
   TEST_BIN_DIR_TOP: test_binaries
@@ -11,6 +12,8 @@ variables:
 
 workflow:
   rules:
+    - if: $CI_COMMIT_REF_NAME == "kirkstone" && $CI_PIPELINE_SOURCE == "push"
+      when: never
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_PIPELINE_SOURCE == "web"
     - if: $CI_COMMIT_TAG
@@ -36,6 +39,18 @@ pre-commit:
     - git config --global --add safe.directory ${CI_PROJECT_DIR}
   script:
     - pre-commit run -a
+
+push-to-kirkstone:
+  stage: deploy
+  image: ubuntu:24.04
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+  before_script:
+    - apt update && apt install -y git
+  script:
+    - git remote remove ci || true
+    - git remote add ci "https://CI_DEPLOY_TOKEN:$CI_DEPLOY_TOKEN@gitlab.renesas.solutions/spl2/civil-infrastructure-platform/rz-community-bsp.git"
+    - git push -f ci HEAD:kirkstone
 
 ### BUILDING ###
 .build-base:
