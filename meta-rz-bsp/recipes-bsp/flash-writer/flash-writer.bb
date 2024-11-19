@@ -6,10 +6,10 @@ COMPATIBLE_MACHINE = "(rzg2h-family|rzg2l-family)"
 
 FLASH_WRITER_URL = "git://github.com/renesas-rz/rzg2_flash_writer"
 
-BRANCH:rzg2l-family = "rz_g2l"
-SRCREV:rzg2l-family = "ff167b676547f3997906c82c9be504eb5cff8ef0"
-PV:rzg2l-family = "1.06+git${SRCPV}"
-LIC_FILES_CHKSUM:rzg2l-family = "file://LICENSE.md;md5=1fb5dca04b27614d6d04abca6f103d8d"
+BRANCH = "rz_g2l"
+SRCREV = "ff167b676547f3997906c82c9be504eb5cff8ef0"
+PV = "1.06+git${SRCPV}"
+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=1fb5dca04b27614d6d04abca6f103d8d"
 
 BRANCH:rzg2h-family = "master"
 SRCREV:rzg2h-family = "ceebddab90e5ae9b100536114553af818261c660"
