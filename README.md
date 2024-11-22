@@ -15,7 +15,7 @@ official BSPs provided on [renesas.com](https://renesas.com).
 | --- | --- | --- | --- | --- |
 | poky | meta<br>meta-poky | https://git.yoctoproject.org/poky | kirkstone<br>scarthgap | kirkstone-4.0.22<br>scarthgap-5.0.5 |
 | meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | kirkstone<br>master | yocto-4.0.5<br>yocto-5.0.1 |
-| meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | kirkstone<br>scarthgap | 4ad41baed62<br>72018ca1b1a4 |
+| meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | kirkstone<br>scarthgap | 4ad41baed623<br>2e3126c9c16b |
 
 ### Optional Dependencies
 
