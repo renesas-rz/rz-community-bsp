@@ -11,9 +11,8 @@ repos:
       meta-rz-bsp:
   poky:
     url: "https://git.yoctoproject.org/git/poky"
-    # Use HEAD so we can get the below fix for yocto-check-layer script work:
-    # 8156bb675c78 ("meta-ide-support: Mark recipe as MACHINE-specific")
-    commit: 8156bb675c78dc4caa3468f380f6fb9029ecdfb5
+    # scarthgap-5.0.5
+    commit: dce4163d42f7036ea216b52b9135968d51bec4c1
     layers:
       meta:
       meta-poky:
@@ -27,6 +26,6 @@ repos:
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
     # scarthgap HEAD
-    commit: 72018ca1b1a471226917e8246e8bbf9a374ccf97
+    commit: 2e3126c9c16bb3df0560f6b3896d01539a3bfad7
     layers:
       meta-oe:
