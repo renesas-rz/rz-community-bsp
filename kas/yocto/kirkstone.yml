@@ -11,8 +11,8 @@ repos:
       meta-rz-bsp:
   poky:
     url: "https://git.yoctoproject.org/git/poky"
-    # kirkstone-4.0.22
-    commit: 7e87dc422d972e0dc98372318fcdc63a76347d16
+    # kirkstone-4.0.23
+    commit: 8e092852b63e998d990b8f8e1aa91297dec4430f
     layers:
       meta:
       meta-poky:
