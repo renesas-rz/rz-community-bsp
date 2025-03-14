@@ -1,0 +1,43 @@
+header:
+  version: 14
+  includes:
+    - kas/yocto/scarthgap.yml
+distro: common-torizon
+target: ${CONFIG_TARGET}
+bblayers_conf_header:
+  oeredirect: | 
+    OEROOT := "\${@os.path.abspath(os.path.dirname(d.getVar('FILE', True)))}/../.."
+local_conf_header:
+  torizon: |
+    OSTREE_KERNEL_ARGS:sota:append = "console=ttySC0,115200 earlycon root=LABEL=otaroot rootfstype=ext4"
+
+    DISTRO_FEATURES += " acl debuginfod ext2 ipv4 ipv6 usbgadget usbhost wifi xattr nfs zeroconf pci vfat seccomp"
+
+    PREFERRED_PROVIDER_u-boot-fw-utils = "libubootenv"
+    PREFERRED_RPROVIDER_u-boot-fw-utils = "libubootenv"
+    PREFERRED_PROVIDER_u-boot-default-script = "u-boot-distro-boot"
+    PREFERRED_PROVIDER_u-boot-default-script:sota = "u-boot-distro-boot"
+    IMAGE_BOOT_FILES:append = " boot.scr-${MACHINE};boot.scr"
+    WKS_FILE_DEPENDS:append = " u-boot-default-script"
+
+    hostname:pn-base-files = "torizon-rzv2l"
+
+    PREFERRED_PROVIDER_virtual/dtb = ""
+repos:
+  rz-community-bsp:
+    layers:
+      meta-rz-bsp:
+  meta-toradex-torizon:
+    url: https://github.com/torizon/meta-toradex-torizon.git
+    branch: scarthgap-7.x.y
+  meta-updater:
+    url: https://github.com/uptane/meta-updater.git
+    branch: scarthgap
+  meta-virtualization:
+    url: git://git.yoctoproject.org/meta-virtualization.git
+    branch: scarthgap
+  meta-openembedded:
+    layers:
+      meta-filesystems:
+      meta-python:
+      meta-networking:

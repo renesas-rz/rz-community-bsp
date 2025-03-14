@@ -7,4 +7,7 @@
 /meta-linux-mainline/
 /meta-openembedded/
 /meta-rz-panfrost/
+/meta-toradex-torizon/
+/meta-updater/
+/meta-virtualization/
 /poky/

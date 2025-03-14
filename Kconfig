@@ -28,6 +28,16 @@ choice
 	string
 	depends on YOCTO_SCARTHGAP
 	default "kas/yocto/scarthgap.yml"
+
+	config TORADEX_TORIZON
+	bool "Toradex Torizon"
+	help
+		Select Toradex Torizon
+
+	config KAS_INCLUDE_TORADEX_TORIZON
+	string
+	depends on TORADEX_TORIZON
+	default "kas/toradex/torizon.yml"
 endchoice
 endmenu
 
@@ -133,6 +143,16 @@ choice
 endchoice
 endmenu
 
+config RZ_BSP_IMAGE
+bool
+default y
+depends on YOCTO_KIRKSTONE || YOCTO_SCARTHGAP
+
+config RZ_IMAGE_TORADEX
+bool
+default y 
+depends on TORADEX_TORIZON
+
 menu "Image"
 choice
 	prompt "Select the image to build"
@@ -140,6 +160,7 @@ choice
 
 	config IMAGE_RENESAS_IMAGE_MINIMAL
 	bool "renesas-image-minimal"
+	depends on RZ_BSP_IMAGE
 	help
 		Use a basic image based on core-image
 
@@ -149,7 +170,7 @@ choice
 	default "kas/image/renesas-image-minimal.yml"
 
 	config IMAGE_RENESAS_IMAGE_DEMO
-	depends on MACHINE_SMARC-RZG2L || MACHINE_SMARC-RZG2LC
+	depends on (MACHINE_SMARC-RZG2L || MACHINE_SMARC-RZG2LC) && RZ_BSP_IMAGE
 	bool "renesas-image-demo"
 	help
 		Build a demo image including Weston/Wayland support.
@@ -159,6 +180,28 @@ choice
 	string
 	depends on IMAGE_RENESAS_IMAGE_DEMO
 	default "kas/image/renesas-image-demo.yml"
+
+	config IMAGE_TORADEX_DOCKER
+	bool "toradex-docker"
+	depends on RZ_IMAGE_TORADEX
+	help
+		Build a Toradex Torizon image with docker support
+
+	config KAS_INCLUDE_IMAGE_TORADEX_DOCKER
+	string
+	depends on IMAGE_TORADEX_DOCKER
+	default "kas/image/toradex-docker.yml"
+
+	config IMAGE_TORADEX_MINIMAL
+	bool "toradex-minimal"
+	depends on RZ_IMAGE_TORADEX
+	help
+		Build a Toradex Torizon minimal image
+	
+	config KAS_INCLUDE_IMAGE_TORADEX_MINIMAL
+	string
+	depends on IMAGE_TORADEX_MINIMAL
+	default "kas/image/toradex-minimal.yml"
 endchoice
 endmenu
 
