@@ -2,8 +2,10 @@ stages:
   - pre-flight-checks
   - build:kirkstone
   - build:scarthgap
+  - build:walnascar
   - test:kirkstone
   - test:scarthgap
+  - test:walnascar
   - deploy
 
 variables:
@@ -27,7 +29,7 @@ yocto-check-layer:
       "yocto-check-layer-wrapper ${CI_PROJECT_DIR}/meta-rz-bsp --dependency ${CI_PROJECT_DIR}/meta-arm/meta-arm ${CI_PROJECT_DIR}/meta-arm/meta-arm-toolchain ${CI_PROJECT_DIR}/meta-openembedded/meta-oe ${CI_PROJECT_DIR}/poky/meta ${CI_PROJECT_DIR}/poky/meta-poky --no-auto-dependency --machines hihope-rzg2h hihope-rzg2m hihope-rzg2n ek874 smarc-rzg2l smarc-rzg2lc smarc-rzg2ul smarc-rzv2l"
   parallel:
     matrix:
-      - CI_KAS_CONFIG: [kas/yocto/kirkstone.yml, kas/yocto/scarthgap.yml]
+      - CI_KAS_CONFIG: [kas/yocto/kirkstone.yml, kas/yocto/scarthgap.yml, kas/yocto/walnascar.yml]
 
 pre-commit:
   stage: pre-flight-checks
@@ -293,6 +295,11 @@ push-to-kirkstone:
   variables:
     CI_KAS_YOCTO: kas/yocto/scarthgap.yml
 
+.build-walnascar:
+  stage: build:walnascar
+  variables:
+    CI_KAS_YOCTO: kas/yocto/walnascar.yml
+
 .kirkstone-g2h-family:
   extends: .build-kirkstone
   script:
@@ -322,6 +329,28 @@ push-to-kirkstone:
 
 .scarthgap-g2l-family:
   extends: .build-scarthgap
+  script:
+    - *build-g2l-family-mainline
+    - *build-g2l-family-lts-66
+    - *build-g2l-family-lts-612
+    - *build-g2l-family-cip-510
+    - *build-g2l-family-cip-61
+    - *build-g2l-family-cip-612
+    - *build-g2l-family-bsp
+
+.walnascar-g2h-family:
+  extends: .build-walnascar
+  script:
+    - *build-g2h-family-mainline
+    - *build-g2h-family-lts-66
+    - *build-g2h-family-lts-612
+    - *build-g2h-family-cip-510
+    - *build-g2h-family-cip-61
+    - *build-g2h-family-cip-612
+    - *build-g2h-family-bsp
+
+.walnascar-g2l-family:
+  extends: .build-walnascar
   script:
     - *build-g2l-family-mainline
     - *build-g2l-family-lts-66
@@ -428,6 +457,31 @@ build:scarthgap:smarc-rzv2l:
   extends: [.build-base, .renesas-image-minimal, .scarthgap-g2l-family, .smarc-rzv2l]
 
 
+build:walnascar:hihope-rzg2h:
+  extends: [.build-base, .renesas-image-minimal, .walnascar-g2h-family, .hihope-rzg2h]
+
+build:walnascar:hihope-rzg2m:
+  extends: [.build-base, .renesas-image-minimal, .walnascar-g2h-family, .hihope-rzg2m]
+
+build:walnascar:hihope-rzg2n:
+  extends: [.build-base, .renesas-image-minimal, .walnascar-g2h-family, .hihope-rzg2n]
+
+build:walnascar:ek874:
+  extends: [.build-base, .renesas-image-minimal, .walnascar-g2h-family, .ek874]
+
+build:walnascar:smarc-rzg2l:
+  extends: [.build-base, .renesas-image-minimal, .walnascar-g2l-family, .smarc-rzg2l]
+
+build:walnascar:smarc-rzg2lc:
+  extends: [.build-base, .renesas-image-minimal, .walnascar-g2l-family, .smarc-rzg2lc]
+
+build:walnascar:smarc-rzg2ul:
+  extends: [.build-base, .renesas-image-minimal, .walnascar-g2l-family, .smarc-rzg2ul]
+
+build:walnascar:smarc-rzv2l:
+  extends: [.build-base, .renesas-image-minimal, .walnascar-g2l-family, .smarc-rzv2l]
+
+
 # SDK build jobs
 build:sdk:kirkstone:hihope-rzg2h:
   extends: [.build-base, .renesas-image-minimal, .build-kirkstone, .hihope-rzg2h, .build-sdk]
@@ -477,6 +531,31 @@ build:sdk:scarthgap:smarc-rzg2ul:
 
 build:sdk:scarthgap:smarc-rzv2l:
   extends: [.build-base, .renesas-image-minimal, .build-scarthgap, .smarc-rzv2l, .build-sdk]
+
+
+build:sdk:walnascar:hihope-rzg2h:
+  extends: [.build-base, .renesas-image-minimal, .build-walnascar, .hihope-rzg2h, .build-sdk]
+
+build:sdk:walnascar:hihope-rzg2m:
+  extends: [.build-base, .renesas-image-minimal, .build-walnascar, .hihope-rzg2m, .build-sdk]
+
+build:sdk:walnascar:hihope-rzg2n:
+  extends: [.build-base, .renesas-image-minimal, .build-walnascar, .hihope-rzg2n, .build-sdk]
+
+build:sdk:walnascar:ek874:
+  extends: [.build-base, .renesas-image-minimal, .build-walnascar, .ek874, .build-sdk]
+
+build:sdk:walnascar:smarc-rzg2l:
+  extends: [.build-base, .renesas-image-minimal, .build-walnascar, .smarc-rzg2l, .build-sdk]
+
+build:sdk:walnascar:smarc-rzg2lc:
+  extends: [.build-base, .renesas-image-minimal, .build-walnascar, .smarc-rzg2lc, .build-sdk]
+
+build:sdk:walnascar:smarc-rzg2ul:
+  extends: [.build-base, .renesas-image-minimal, .build-walnascar, .smarc-rzg2ul, .build-sdk]
+
+build:sdk:walnascar:smarc-rzv2l:
+  extends: [.build-base, .renesas-image-minimal, .build-walnascar, .smarc-rzv2l, .build-sdk]
 
 
 ### TESTING ###
@@ -775,6 +854,128 @@ test:sdk:scarthgap:smarc-rzg2ul:
 test:sdk:scarthgap:smarc-rzv2l:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:smarc-rzv2l"]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .smarc-rzv2l]
+  variables:
+    BUILD_NAME: sdk
+
+
+test:walnascar:hihope-rzg2h:
+  stage: test:walnascar
+  needs: ["build:walnascar:hihope-rzg2h"]
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2h]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:walnascar:hihope-rzg2m:
+  stage: test:walnascar
+  needs: ["build:walnascar:hihope-rzg2m"]
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2m]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:walnascar:hihope-rzg2n:
+  stage: test:walnascar
+  needs: ["build:walnascar:hihope-rzg2n"]
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2n]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:walnascar:ek874:
+  stage: test:walnascar
+  needs: ["build:walnascar:ek874"]
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .ek874]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:walnascar:smarc-rzg2l:
+  stage: test:walnascar
+  needs: ["build:walnascar:smarc-rzg2l"]
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2l]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:walnascar:smarc-rzg2lc:
+  stage: test:walnascar
+  needs: ["build:walnascar:smarc-rzg2lc"]
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:walnascar:smarc-rzg2ul:
+  stage: test:walnascar
+  needs: ["build:walnascar:smarc-rzg2ul"]
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:walnascar:smarc-rzv2l:
+  stage: test:walnascar
+  needs: ["build:walnascar:smarc-rzv2l"]
+  extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .smarc-rzv2l]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+
+test:sdk:walnascar:hihope-rzg2h:
+  stage: test:walnascar
+  needs: ["build:sdk:walnascar:hihope-rzg2h"]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2h]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:walnascar:hihope-rzg2m:
+  stage: test:walnascar
+  needs: ["build:sdk:walnascar:hihope-rzg2m"]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2m]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:walnascar:hihope-rzg2n:
+  stage: test:walnascar
+  needs: ["build:sdk:walnascar:hihope-rzg2n"]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2n]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:walnascar:ek874:
+  stage: test:walnascar
+  needs: ["build:sdk:walnascar:ek874"]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .ek874]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:walnascar:smarc-rzg2l:
+  stage: test:walnascar
+  needs: ["build:sdk:walnascar:smarc-rzg2l"]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2l]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:walnascar:smarc-rzg2lc:
+  stage: test:walnascar
+  needs: ["build:sdk:walnascar:smarc-rzg2lc"]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:walnascar:smarc-rzg2ul:
+  stage: test:walnascar
+  needs: ["build:sdk:walnascar:smarc-rzg2ul"]
+  extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:walnascar:smarc-rzv2l:
+  stage: test:walnascar
+  needs: ["build:sdk:walnascar:smarc-rzv2l"]
   extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .smarc-rzv2l]
   variables:
     BUILD_NAME: sdk
