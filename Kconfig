@@ -197,6 +197,16 @@ choice
 	depends on KERNEL_CIP_6.1
 	default "kas/kernel/cip-6.1.yml"
 
+	config KERNEL_CIP_6.12
+	bool "CIP SLTS v6.12"
+	help
+		Use the CIP SLTS Linux kernel v6.12
+
+	config KAS_INCLUDE_KERNEL_CIP_6.12
+	string
+	depends on KERNEL_CIP_6.12
+	default "kas/kernel/cip-6.12.yml"
+
 	config KERNEL_LTS_6.6
 	bool "LTS v6.6"
 	help
