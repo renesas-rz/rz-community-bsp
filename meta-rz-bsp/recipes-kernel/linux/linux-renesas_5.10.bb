@@ -1,10 +1,10 @@
-DESCRIPTION = "Linux kernel from the Renesas RZ BSP v3.0.6-update4 based on \
+DESCRIPTION = "Linux kernel from the Renesas RZ BSP v3.0.7 based on \
 	linux-5.10.y-cip"
 
 require linux.inc
 
 KERNEL_URL = "git://github.com/renesas-rz/rz_linux-cip.git"
-KBRANCH = "rz-5.10-cip41"
-SRCREV = "9e113d74d2ab12af3e8aec11977e570d1fa8610a"
+KBRANCH = "rz-5.10-cip54"
+SRCREV = "b84076ccc441caa2e42749c4b1ada14ec17347cd"
 
-LINUX_VERSION = "5.10.201-cip41"
+LINUX_VERSION = "5.10.229-cip54"
