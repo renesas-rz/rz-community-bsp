@@ -11,8 +11,8 @@ repos:
       meta-rz-bsp:
   poky:
     url: "https://git.yoctoproject.org/git/poky"
-    # scarthgap-5.0.8
-    commit: dc4827b3660bc1a03a2bc3b0672615b50e9137ff
+    # scarthgap-5.0.9
+    commit: bab0f9f62af9af580744948dd3240f648a99879a
     layers:
       meta:
       meta-poky:
@@ -26,6 +26,6 @@ repos:
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
     # scarthgap HEAD
-    commit: edd1a1e284fdcb80cd48d411f235d47f23bc27ae
+    commit: e92d0173a80ea7592c866618ef5293203c50544c
     layers:
       meta-oe:
