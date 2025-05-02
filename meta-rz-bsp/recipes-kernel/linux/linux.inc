@@ -23,3 +23,5 @@ do_configure:append:rzg2h-family () {
 	install -d ${STAGING_KERNEL_DIR}/firmware
 	install -m 755 ${WORKDIR}/r8a779x_usb3_v3.dlmem ${STAGING_KERNEL_DIR}/firmware
 }
+
+ERROR_QA:remove = "buildpaths"
