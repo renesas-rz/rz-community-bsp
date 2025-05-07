@@ -20,8 +20,14 @@ SRC_URI:append:rzg2h-family = " \
 "
 
 do_configure:append:rzg2h-family () {
+	# Yocto Styhead changed the way unpack is done in a way that isn't
+	# compatible with older versions of Yocto. This results in some files
+	# being unpaced to different locations depending on the Yocto verison.
+	# Use the new UNPACKDIR variable to help guide where we should expect to
+	# find these files.
+	FIRMWAREDIR="${@d.getVar('UNPACKDIR', True) if d.getVar('UNPACKDIR') else d.getVar('WORKDIR', True)}"
 	install -d ${STAGING_KERNEL_DIR}/firmware
-	install -m 755 ${WORKDIR}/r8a779x_usb3_v3.dlmem ${STAGING_KERNEL_DIR}/firmware
+	install -m 755 ${FIRMWAREDIR}/r8a779x_usb3_v3.dlmem ${STAGING_KERNEL_DIR}/firmware
 }
 
 ERROR_QA:remove = "buildpaths"
