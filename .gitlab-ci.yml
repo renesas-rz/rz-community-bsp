@@ -1,11 +1,11 @@
 stages:
   - pre-flight-checks
-  - build:kirkstone
-  - build:scarthgap
   - build:walnascar
-  - test:kirkstone
-  - test:scarthgap
+  - build:scarthgap
+  - build:kirkstone
   - test:walnascar
+  - test:scarthgap
+  - test:kirkstone
   - deploy
 
 variables:
