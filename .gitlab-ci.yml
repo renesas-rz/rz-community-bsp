@@ -98,7 +98,6 @@ push-to-walnascar:
           tar czf dependencies/"${repo}".tar.gz "${repo}"
         fi
       done
-  retry: 2
   cache:
     - key: "dependencies"
       paths:
