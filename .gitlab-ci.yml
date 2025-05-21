@@ -125,7 +125,8 @@ push-to-walnascar:
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${DTB} ${TEST_BIN_DIR}
     - cp -r build/conf ${BUILD_OUTPUT_DIR}
     - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}
-    - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}
+    - tar czf licenses.tar.gz build/tmp/deploy/licenses
+    - cp licenses.tar.gz ${BUILD_OUTPUT_DIR}
 
 .build-g2h-family-mainline: &build-g2h-family-mainline
     # kernel: mainline
@@ -278,7 +279,8 @@ push-to-walnascar:
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${DTB} ${TEST_BIN_DIR}
     - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}
-    - cp -r build/tmp/deploy/licenses ${BUILD_OUTPUT_DIR}
+    - tar czf licenses.tar.gz build/tmp/deploy/licenses
+    - cp licenses.tar.gz ${BUILD_OUTPUT_DIR}
     # Install SDK
     - rm -rf ${SDK_TMP}
     - mkdir -p ${SDK_TMP}
