@@ -4,7 +4,10 @@ header:
 local_conf_header:
   debug: |
     IMAGE_FEATURES:append = " \
-      debug-tweaks \
+      allow-empty-password \
+      allow-root-login \
+      empty-root-password \
+      post-install-logging \
     "
     CORE_IMAGE_EXTRA_INSTALL += " \
       packagegroup-rz-tools-hw \

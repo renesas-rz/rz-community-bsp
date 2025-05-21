@@ -1,0 +1,31 @@
+header:
+  version: 14
+  includes:
+    - kas/base.yml
+
+distro: poky
+
+repos:
+  rz-community-bsp:
+    layers:
+      meta-rz-bsp:
+  poky:
+    url: "https://git.yoctoproject.org/git/poky"
+    # walnascar-5.2
+    commit: 9b96fdbb0cab02f4a6180e812b02bc9d4c41b1a5
+    layers:
+      meta:
+      meta-poky:
+  meta-arm:
+    url: https://git.yoctoproject.org/meta-arm
+    # walnascar HEAD
+    commit: 42928dcc171629b495bbfcd8eda17ef6b8bdbfa3
+    layers:
+      meta-arm-toolchain:
+      meta-arm:
+  meta-openembedded:
+    url: https://git.openembedded.org/meta-openembedded
+    # walnascar HEAD
+    commit: 0d2d2d193a1619b6dbebaf335f1ef785478049e3
+    layers:
+      meta-oe:

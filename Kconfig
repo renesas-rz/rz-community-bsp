@@ -28,6 +28,16 @@ choice
 	string
 	depends on YOCTO_SCARTHGAP
 	default "kas/yocto/scarthgap.yml"
+
+	config YOCTO_WALNASCAR
+	bool "Yocto Walnascar"
+	help
+		Select Yocto Walnascar
+
+	config KAS_INCLUDE_YOCTO_WALNASCAR
+	string
+	depends on YOCTO_WALNASCAR
+	default "kas/yocto/walnascar.yml"
 endchoice
 endmenu
 

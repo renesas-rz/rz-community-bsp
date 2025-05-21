@@ -6,9 +6,17 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/GPL-2.0-or-later;md5=fed5435554
 
 inherit native
 
-S = "${WORKDIR}"
-
 SRC_URI = "file://bootparameter.c"
+
+# Yocto Styhead changed the way unpack is done in a way that isn't compatible
+# with older versions of Yocto. Add some hackery so that the same recipe can be
+# used with all of the Yocto versions we support.
+S = "${WORKDIR}/sources"
+UNPACKDIR = "${S}"
+do_unpack_extra () {
+	find ${WORKDIR} -name bootparameter.c -exec  mv {} ${S} \;
+}
+addtask unpack_extra after do_unpack before do_patch
 
 do_compile () {
 	${CC} bootparameter.c -o bootparameter
@@ -16,5 +24,5 @@ do_compile () {
 
 do_install () {
 	install -d ${D}${bindir}
-	install ${WORKDIR}/bootparameter ${D}${bindir}
+	install ${UNPACKDIR}/bootparameter ${D}${bindir}
 }
