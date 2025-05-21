@@ -112,7 +112,6 @@ push-to-walnascar:
     paths:
       - ${TEST_BIN_DIR_TOP}
       - ${BUILD_OUTPUT_DIR_TOP}
-      - build/tmp/work*/**/temp/log.do_*.*
 
 .copy-output: &copy-output
     - export TEST_BIN_DIR=${TEST_BIN_DIR_TOP}/${CI_BITBAKE_IMAGE}/${BUILD_NAME}
