@@ -16,9 +16,9 @@ official BSPs provided on [renesas.com](https://renesas.com).
 
 | Name | Layers | Repository | Branch | Revision |
 | --- | --- | --- | --- | --- |
-| poky | meta<br>meta-poky | https://git.yoctoproject.org/poky | kirkstone<br>scarthgap<br>walnascar | kirkstone-4.0.27<br>scarthgap-5.0.9<br>walnascar-5.2 |
-| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | kirkstone<br>scarthgap<br>walnascar | yocto-4.0.6<br>yocto-5.0.1<br>42928dcc1716 |
-| meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | kirkstone<br>scarthgap<br>walnascar | e42549cef364<br>e92d0173a80e<br>0d2d2d193a16 |
+| poky | meta<br>meta-poky | https://git.yoctoproject.org/poky | kirkstone<br>scarthgap<br>walnascar | kirkstone-4.0.27<br>scarthgap-5.0.9<br>walnascar-5.2.1 |
+| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | kirkstone<br>scarthgap<br>walnascar | yocto-4.0.6<br>yocto-5.0.1<br>yocto-5.2 |
+| meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | kirkstone<br>scarthgap<br>walnascar | e42549cef364<br>e92d0173a80e<br>2169c9afcc09 |
 
 ### Optional Dependencies
 
