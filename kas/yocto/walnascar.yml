@@ -11,21 +11,21 @@ repos:
       meta-rz-bsp:
   poky:
     url: "https://git.yoctoproject.org/git/poky"
-    # walnascar-5.2
-    commit: 9b96fdbb0cab02f4a6180e812b02bc9d4c41b1a5
+    # walnascar-5.2.1
+    commit: fd9b605507a20d850a9991316cd190c1d20dc4a6
     layers:
       meta:
       meta-poky:
   meta-arm:
     url: https://git.yoctoproject.org/meta-arm
-    # walnascar HEAD
-    commit: 42928dcc171629b495bbfcd8eda17ef6b8bdbfa3
+    # yocto-5.2
+    commit: 4f8d2f4b2fa23b89098a8e7347d6bb26228acd68
     layers:
       meta-arm-toolchain:
       meta-arm:
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
     # walnascar HEAD
-    commit: 0d2d2d193a1619b6dbebaf335f1ef785478049e3
+    commit: 2169c9afcc0945045bea49f58011080942d4ddb4
     layers:
       meta-oe:
