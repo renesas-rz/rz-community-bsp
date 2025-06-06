@@ -8,6 +8,7 @@ stages:
   - test:kirkstone
   - yocto-check-layer
   - deploy
+  - release
 
 variables:
   TEST_BIN_DIR_TOP: test_binaries
@@ -15,14 +16,12 @@ variables:
 
 workflow:
   rules:
-    - if: $CI_COMMIT_REF_NAME == "kirkstone" && $CI_PIPELINE_SOURCE == "push"
-      when: never
-    - if: $CI_COMMIT_REF_NAME == "walnascar" && $CI_PIPELINE_SOURCE == "push"
+    - if: $CI_COMMIT_BRANCH && $CI_PIPELINE_SOURCE == "push"
       when: never
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_PIPELINE_SOURCE == "web"
+    - if: $CI_PIPELINE_SOURCE == "schedule"
     - if: $CI_COMMIT_TAG
-    - if: $CI_COMMIT_REF_PROTECTED == "true"
 
 yocto-check-layer:
   stage: yocto-check-layer
@@ -79,6 +78,22 @@ push-to-walnascar:
     - git remote remove ci || true
     - git remote add ci "https://CI_DEPLOY_TOKEN:$CI_DEPLOY_TOKEN@gitlab.renesas.solutions/spl2/civil-infrastructure-platform/rz-community-bsp.git"
     - git push -f ci HEAD:walnascar
+
+push-to-github:
+  stage: release
+  image: ubuntu:24.04
+  dependencies: []
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+  before_script:
+    - apt update && apt install -y git
+    - git config --global --add safe.directory ${CI_PROJECT_DIR}
+  script:
+    - git remote remove github || true
+    - git remote add github "https://GITHUB_DEPLOY_TOKEN:$GITHUB_DEPLOY_TOKEN@github.com/renesas-rz/rz-community-bsp.git"
+    - git push -f github HEAD:walnascar
+    - git push -f github HEAD:scarthgap
+    - git push -f github HEAD:kirkstone
 
 ### BUILDING ###
 .build-base:
