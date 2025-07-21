@@ -28,6 +28,7 @@ yocto-check-layer:
   image: ghcr.io/siemens/kas/kas:4.4
   tags:
     - yocto
+    - ree-du1sdd1
   needs: []
   script:
     - kas checkout --update --force-checkout ${CI_KAS_CONFIG}
