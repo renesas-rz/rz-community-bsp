@@ -31,11 +31,7 @@ yocto-check-layer:
     - ree-du1sdd1
   needs: []
   script:
-    - kas checkout --update --force-checkout ${CI_KAS_CONFIG}
-    - rm -f meta-openembedded/meta-oe/recipes-security/kernel-hardening-checker/kernel-hardening-checker_0.6.10.bb
-    - rm -f meta-openembedded/meta-oe/recipes-security/spectre-meltdown-checker/spectre-meltdown-checker_0.46.bb
-    - rm -f meta-openembedded/meta-oe/recipes-support/smarty/smarty_5.4.3.bb
-    - kas shell ${CI_KAS_CONFIG} -c \
+    - kas shell --update --force-checkout ${CI_KAS_CONFIG} -c \
       "yocto-check-layer-wrapper ${CI_PROJECT_DIR}/meta-rz-bsp --dependency ${CI_PROJECT_DIR}/meta-arm/meta-arm ${CI_PROJECT_DIR}/meta-arm/meta-arm-toolchain ${CI_PROJECT_DIR}/meta-openembedded/meta-oe ${CI_PROJECT_DIR}/poky/meta ${CI_PROJECT_DIR}/poky/meta-poky --no-auto-dependency --machines hihope-rzg2h hihope-rzg2m hihope-rzg2n ek874 smarc-rzg2l smarc-rzg2lc smarc-rzg2ul smarc-rzv2l"
   parallel:
     matrix:
