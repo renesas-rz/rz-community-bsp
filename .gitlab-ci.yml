@@ -605,7 +605,7 @@ build:sdk:walnascar:smarc-rzv2l:
 ### TESTING ###
 # BUILD_JOB_ID AND BITBAKE_MACHINE come from job.env shared from the build job
 .test-base:
-  image: gitlab.renesas.solutions:5050/spl2/continuous-integration/dockerfiles:ubuntu-20.04-latest
+  image: gitlab.renesas.solutions:5050/spl2/continuous-integration/dockerfiles:ubuntu-24.04-latest
   tags:
     - lava-job
   variables:
