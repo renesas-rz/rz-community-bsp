@@ -449,12 +449,16 @@ save_junit_results () {
 	local lava_api_url=$(yq -r ".\"${LAVACLI_IDENTITY}\".uri" "${lava_config_file}" | \
 			sed 's|RPC2|api/v0.2|g')
 
-	curl -s -o "${JUNIT_DIR}"/results_"${LAVA_JOB_ID}".xml "${lava_api_url}"/jobs/"${LAVA_JOB_ID}"/junit/
+	local junit_results_file="${JUNIT_DIR}/results_${LAVA_JOB_ID}.xml"
+	curl -s -o "${junit_results_file}" "${lava_api_url}"/jobs/"${LAVA_JOB_ID}"/junit/
 	local ret=$?
 	if [[ ${ret} -ne 0 ]]; then
 		print_error "Error downloading junit test results from LAVA"
 		exit 1
 	fi
+
+	# Strip out the results from the lava test suite
+	sed -i '/<testsuite[^>]*name="lava"/,/<\/testsuite>/d' "${junit_results_file}"
 }
 
 get_results () {
