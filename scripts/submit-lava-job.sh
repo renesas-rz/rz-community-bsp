@@ -3,6 +3,7 @@
 
 # This script assumes that lavacli is already installed and that the
 # ~/.config/lavacli.yml file has been configured correctly.
+# It also depends on the yq tool
 
 set -uo pipefail
 
@@ -11,6 +12,7 @@ SCRIPT_NAME="$0"
 # Set variable defaults
 DEBUG=false
 SUBMIT_ONLY=false
+LAVACLI_IDENTITY=default
 
 setup () {
 	print_debug "Entering setup()"
@@ -36,10 +38,9 @@ print_help () {
 	and that the ~/.config/lavacli.yml file has been configured correctly.
 
 	USAGE: ${SCRIPT_NAME} \\
-		[-f DIR] [-g JOB_ID] [-j <DIR>] [-s] [-t <TEST_DEFINITION>] \\
-		[-u <USER>] [-Ud DTB_URL] -[Uk KERNEL_URL] [-Ur ROOTFS_URL] \\
-		[-d] [-h] \\
-		-b <BASE_TEMPLATE> -e <ENV>
+		[-f DIR] [-g JOB_ID] [-i LAVACLI_IDENTITY] [-j DIR] [-s] \\
+		[-t TEST_DEFINITION] [-u USER] [-Ud DTB_URL] -[Uk KERNEL_URL] \\
+		[-Ur ROOTFS_URL] [-d] [-h] -b BASE_TEMPLATE -e ENV
 
 	OPTIONS:
 	-b, --base-template <BASE_TEMPLATE>
@@ -66,12 +67,18 @@ print_help () {
 		If this option is provided -Ud, -Uk and -Ur will be ignored.
 		If this option is not provided -Ud, -Uk and -Ur must be provided
 		instead.
+	-i, --lavacli-identity <IDENTITY>
+		The lavacli identity to use to submit the LAVA job. This must
+		match one of the identities listed in ~/.config/lavacli.yml. If
+		this option is omitted the ${LAVACLI_IDENTITY} identity will be
+		used.
 	-j, --junit-dir <DIR>
 		Save the LAVA test results in junit format to a file in the
 		specified directory. The file will be called
 		"results_<lava-job-number>.xml".
 		If this argument is not provided or --submit-only is set, the
 		test restuls will not be saved to a file.
+		This option depends on the yq tool.
 	-s, --submit-only
 		Submit LAVA job only; don't wait for the job to complete and
 		don't gather the test results.
@@ -138,13 +145,22 @@ parse_options () {
 		BUILD_JOB_ID="${2}"
 		shift 2
 		;;
+	-i|--lavacli-identity)
+		LAVACLI_IDENTITY="${2}"
+		shift 2
+		;;
 	-j|--junit-dir)
 		if [ ! -d "${2}" ]; then
 			print_error "For option '${1}' there is no such directory: '${2}'"
 			print_help
 			exit 1
 		fi
-		JUNIT_DIR="$(realpath "${2}")"
+
+		if ! command -v yq >/dev/null 2>&1; then
+			echo "Ignoring --junit-dir option as yq is not installed."
+		else
+			JUNIT_DIR="$(realpath "${2}")"
+		fi
 		shift 2
 		;;
 	-s|--submit-only)
@@ -251,6 +267,7 @@ debug_print_variables () {
 	if [ -n "${LAVA_USER+x}" ]; then
 		print_debug "LAVA_USER=${LAVA_USER}"
 	fi
+	print_debug "LAVACLI_IDENTITY=${LAVACLI_IDENTITY}"
 	print_debug "SUBMIT_ONLY=${SUBMIT_ONLY}"
 	print_debug "TEMPLATE_FILE=${TEMPLATE_FILE}"
 	if [ -n "${TEST_FILES+x}" ]; then
@@ -357,7 +374,7 @@ check_lava_configuration () {
 	echo "Checking that the LAVA configuration is valid"
 
 	# Check that the lavacli configuration is valid
-	lavacli system whoami > /dev/null
+	lavacli -i ${LAVACLI_IDENTITY} system whoami > /dev/null
 	ret=$?
 	if [[ ${ret} -ne 0 ]]; then
 		if [[ ${ret} -eq 127 ]]; then
@@ -374,7 +391,7 @@ check_job_definition_is_valid () {
 	print_debug "Entering check_job_definition_is_valid()"
 	echo "Validating LAVA job definition"
 
-	lavacli jobs validate "${DEFINITION}"
+	lavacli -i ${LAVACLI_IDENTITY} jobs validate "${DEFINITION}"
 	local ret=$?
 	if [[ ${ret} -ne 0 ]]; then
 		print_error "Job definition is not valid"
@@ -388,7 +405,7 @@ submit_job () {
 	print_debug "Entering submit_job()"
 	echo "Submitting LAVA job"
 
-	local lava_job_url=$(lavacli jobs submit "${DEFINITION}" --url)
+	local lava_job_url=$(lavacli -i ${LAVACLI_IDENTITY} jobs submit "${DEFINITION}" --url)
 	local ret=$?
 	if [[ ${ret} -ne 0 ]]; then
 		print_error "Something went wrong when submitting the LAVA test job"
@@ -409,7 +426,7 @@ wait_for_job_to_complete () {
 	# to put the check in a loop until it is successful. That said, let's
 	# not be stuck in a loop forever...
 	for count in {1..10}; do
-		lavacli jobs wait "${LAVA_JOB_ID}"
+		lavacli -i ${LAVACLI_IDENTITY} jobs wait "${LAVA_JOB_ID}"
 		local ret=$?
 		if [[ ${ret} -eq 0 ]]; then
 			print_debug "LAVA job ${LAVA_JOB_ID} is complete"
@@ -429,23 +446,26 @@ save_junit_results () {
 	print_debug "Entering save_junit_results()"
 
 	local lava_config_file="${HOME}/.config/lavacli.yaml"
-	local lava_api_url=$(grep uri "${lava_config_file}" | \
-			cut -d " " -f 4 | \
+	local lava_api_url=$(yq -r ".\"${LAVACLI_IDENTITY}\".uri" "${lava_config_file}" | \
 			sed 's|RPC2|api/v0.2|g')
 
-	curl -s -o "${JUNIT_DIR}"/results_"${LAVA_JOB_ID}".xml "${lava_api_url}"/jobs/"${LAVA_JOB_ID}"/junit/
+	local junit_results_file="${JUNIT_DIR}/results_${LAVA_JOB_ID}.xml"
+	curl -s -o "${junit_results_file}" "${lava_api_url}"/jobs/"${LAVA_JOB_ID}"/junit/
 	local ret=$?
 	if [[ ${ret} -ne 0 ]]; then
 		print_error "Error downloading junit test results from LAVA"
 		exit 1
 	fi
+
+	# Strip out the results from the lava test suite
+	sed -i '/<testsuite[^>]*name="lava"/,/<\/testsuite>/d' "${junit_results_file}"
 }
 
 get_results () {
 	print_debug "Entering get_results()"
 	echo "Getting LAVA test job results"
 
-	lavacli results "${LAVA_JOB_ID}"
+	lavacli -i ${LAVACLI_IDENTITY} results "${LAVA_JOB_ID}"
 	local ret=$?
 	if [[ ${ret} -ne 0 ]]; then
 		print_error "Error obtaining LAVA test results"
@@ -462,7 +482,7 @@ get_job_result () {
 	echo "Getting overall LAVA test job result"
 
 	local lavacli_output="${TMP}"/lavacli_output
-	lavacli jobs show "${LAVA_JOB_ID}" > "${lavacli_output}"
+	lavacli -i ${LAVACLI_IDENTITY} jobs show "${LAVA_JOB_ID}" > "${lavacli_output}"
 	local ret=$?
 	if [[ ${ret} -ne 0 ]]; then
 		print_error "Error obtaining LAVA job results"
