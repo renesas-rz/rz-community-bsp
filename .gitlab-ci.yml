@@ -25,7 +25,7 @@ workflow:
 
 yocto-check-layer:
   stage: yocto-check-layer
-  image: ghcr.io/siemens/kas/kas:4.4
+  image: ghcr.io/siemens/kas/kas:5.0
   tags:
     - yocto
     - ree-du1sdd1
@@ -94,7 +94,7 @@ push-to-github:
 
 ### BUILDING ###
 .build-base:
-  image: ghcr.io/siemens/kas/kas:4.4
+  image: ghcr.io/siemens/kas/kas:5.0
   tags:
     - yocto
   needs: []

@@ -16,6 +16,10 @@ repos:
     layers:
       meta:
       meta-poky:
+    patches:
+      upgrade-kern-tools:
+        repo: rz-community-bsp
+        path: patches/kirkstone-0001-kern-tools-fix-symbol_why-for-v6.18-rc1.patch
   meta-arm:
     url: https://git.yoctoproject.org/meta-arm
     # yocto-4.0.6

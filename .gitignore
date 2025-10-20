@@ -2,6 +2,7 @@
 *.swp
 /.config.yaml
 /.config.yaml.old
+/.kas_shell_history
 /build/
 /meta-arm/
 /meta-linux-mainline/

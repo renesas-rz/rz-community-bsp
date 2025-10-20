@@ -1,0 +1,87 @@
+From 765990303ca04b731b606a86c3d583b464b9d137 Mon Sep 17 00:00:00 2001
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 15 Oct 2025 23:08:43 -0400
+Subject: [PATCH] kern-tools: fix symbol_why for v6.18-rc1+
+
+commit f589e1df23251d8319063da0a61c1016b2a0bf85 (HEAD -> master)
+Author: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date:   Wed Oct 15 18:12:20 2025 -0400
+
+    tools/Kconfiglib: add support for transitional attribute
+
+    We need to update the parser to handle:
+
+    commit f9afce4f32e9a120fc902fa6c9e0b90ad799a6ec
+    Author: Kees Cook <kees@kernel.org>
+    Date:   Tue Sep 23 14:34:18 2025 -0700
+
+        kconfig: Add transitional symbol attribute for migration support
+
+        During kernel option migrations (e.g. CONFIG_CFI_CLANG to CONFIG_CFI),
+        existing .config files need to maintain backward compatibility while
+        preventing deprecated options from appearing in newly generated
+        configurations. This is challenging with existing Kconfig mechanisms
+        because:
+
+        1. Simply removing old options breaks existing .config files.
+        2. Manually listing an option as "deprecated" leaves it needlessly
+           visible and still writes them to new .config files.
+        3. Using any method to remove visibility (.e.g no 'prompt', 'if n',
+           etc) prevents the option from being processed at all.
+
+        Add a "transitional" attribute that creates symbols which are:
+        - Processed during configuration (can influence other symbols' defaults)
+        - Hidden from user menus (no prompts appear)
+        - Omitted from newly written .config files (gets migrated)
+        - Restricted to only having help sections (no defaults, selects, etc)
+          making it truly just a "prior value pass-through" option.
+
+        The transitional syntax requires a type argument and prevents type
+        redefinition:
+
+            config NEW_OPTION
+                bool "New option"
+                default OLD_OPTION
+
+            config OLD_OPTION
+                bool
+                transitional
+                help
+                  Transitional config for OLD_OPTION migration.
+
+        This allows seamless migration: olddefconfig processes existing
+        CONFIG_OLD_OPTION=y settings to enable CONFIG_NEW_OPTION=y, while
+        CONFIG_OLD_OPTION is omitted from newly generated .config files.
+
+        Added positive and negative testing via "testconfig" make target.
+
+        Co-developed-by: Vegard Nossum <vegard.nossum@oracle.com>
+        Signed-off-by: Vegard Nossum <vegard.nossum@oracle.com>
+        Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+        Tested-by: Nathan Chancellor <nathan@kernel.org>
+        Link: https://lore.kernel.org/r/20250923213422.1105654-2-kees@kernel.org
+        Signed-off-by: Kees Cook <kees@kernel.org>
+
+(From OE-Core rev: 8306d2bdcc48718aaa35dfa56b5364d90ea2a1db)
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index 8eff00821ad6..e6f5b97f1a37 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "\
+ 
+ DEPENDS += "git-replacement-native"
+ 
+-SRCREV = "7160ebe8b865dd6028aef278efa219433db93f7e"
++SRCREV = "f589e1df23251d8319063da0a61c1016b2a0bf85"
+ PV = "0.3+git"
+ 
+ inherit native
+-- 
+2.43.0
