@@ -205,8 +205,8 @@ parse_options () {
 	done
 }
 
-check_manditory_arguments () {
-	print_debug "Entering check_manditory_arguments()"
+check_mandatory_arguments () {
+	print_debug "Entering check_mandatory_arguments()"
 
 	if [ -z "${TEMPLATE_FILE}" ]; then
 		print_error "Option -b|--base-template must be provided."
@@ -510,7 +510,7 @@ setup
 parse_options "$@"
 
 # Check manditory arguments have been set
-check_manditory_arguments
+check_mandatory_arguments
 
 # Check that lavalcli is working
 check_lava_configuration
