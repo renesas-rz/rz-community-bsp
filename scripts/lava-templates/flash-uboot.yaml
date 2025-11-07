@@ -1,0 +1,17 @@
+- deploy:
+    timeout:
+      minutes: 3
+    to: flasher
+    images:
+      fw:
+        url: PLACEHOLDER_FW_URL
+      sa0:
+        url: PLACEHOLDER_SA0_URL
+      bl2:
+        url: PLACEHOLDER_BL2_URL
+      sa6:
+        url: PLACEHOLDER_SA6_URL
+      bl31:
+        url: PLACEHOLDER_BL31_URL
+      uboot:
+        url: PLACEHOLDER_UBOOT_URL

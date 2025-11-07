@@ -1,0 +1,11 @@
+- deploy:
+    timeout:
+      minutes: 3
+    to: flasher
+    images:
+      fw:
+        url: PLACEHOLDER_FW_URL
+      bl2:
+        url: PLACEHOLDER_BL2_URL
+      fip:
+        url: PLACEHOLDER_FIP_URL
