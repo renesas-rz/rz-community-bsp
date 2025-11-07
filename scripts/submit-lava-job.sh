@@ -13,6 +13,8 @@ SCRIPT_NAME="$0"
 DEBUG=false
 SUBMIT_ONLY=false
 LAVACLI_IDENTITY=default
+TEST_FILES=()
+TEMPLATE_FILES=()
 
 setup () {
 	print_debug "Entering setup()"
@@ -40,14 +42,9 @@ print_help () {
 	USAGE: ${SCRIPT_NAME} \\
 		[-f DIR] [-g JOB_ID] [-i LAVACLI_IDENTITY] [-j DIR] [-s] \\
 		[-t TEST_DEFINITION] [-u USER] [-Ud DTB_URL] -[Uk KERNEL_URL] \\
-		[-Ur ROOTFS_URL] [-d] [-h] -b BASE_TEMPLATE -e ENV
+		[-Ur ROOTFS_URL] [-d] [-h] -l LAVA_TEMPLATE -e ENV
 
 	OPTIONS:
-	-b, --base-template <BASE_TEMPLATE>
-		Use this template file as the base for the LAVA job definition.
-		This script will replace PLACEHOLDER variables in the template
-		file with the corresponding values from the env file provided
-		by the -e option.
 	-d, --debug
 		Enable the output of various information useful for script
 		debugging.
@@ -79,6 +76,13 @@ print_help () {
 		If this argument is not provided or --submit-only is set, the
 		test restuls will not be saved to a file.
 		This option depends on the yq tool.
+	-l, --lava-template <LAVA_TEMPLATE>
+		Use this template file as the base for the LAVA job definition.
+		This script will replace PLACEHOLDER variables in the template
+		file with the corresponding values from the env file provided
+		by the -e option.
+		This option can be provided multiple times. The files will be
+		combined into a single job definition in the order provided.
 	-s, --submit-only
 		Submit LAVA job only; don't wait for the job to complete and
 		don't gather the test results.
@@ -115,15 +119,6 @@ parse_options () {
 
 	while [[ $# -gt 0 ]]; do
 	case $1 in
-	-b|--base-template)
-		if [ ! -f "${2}" ]; then
-			print_error "For option '${1}' there is no such file: '${2}'"
-			print_help
-			exit 1
-		fi
-		TEMPLATE_FILE="$(realpath "${2}")"
-		shift 2
-		;;
 	-d|--debug)
 		DEBUG=true
 		shift
@@ -161,6 +156,15 @@ parse_options () {
 		else
 			JUNIT_DIR="$(realpath "${2}")"
 		fi
+		shift 2
+		;;
+	-l|--lava-template)
+		if [ ! -f "${2}" ]; then
+			print_error "For option '${1}' there is no such file: '${2}'"
+			print_help
+			exit 1
+		fi
+		TEMPLATE_FILES+=("$(realpath "${2}")")
 		shift 2
 		;;
 	-s|--submit-only)
@@ -208,8 +212,9 @@ parse_options () {
 check_mandatory_arguments () {
 	print_debug "Entering check_mandatory_arguments()"
 
-	if [ -z "${TEMPLATE_FILE}" ]; then
-		print_error "Option -b|--base-template must be provided."
+
+	if [ ${#TEMPLATE_FILES[@]} -eq 0 ]; then
+		print_error "At least one -b|--base-template must be provided (can be given multiple times)."
 		print_help
 		exit 1
 	fi
@@ -269,7 +274,9 @@ debug_print_variables () {
 	fi
 	print_debug "LAVACLI_IDENTITY=${LAVACLI_IDENTITY}"
 	print_debug "SUBMIT_ONLY=${SUBMIT_ONLY}"
-	print_debug "TEMPLATE_FILE=${TEMPLATE_FILE}"
+	if [ ${#TEMPLATE_FILES[@]} -gt 0 ]; then
+	print_debug "TEMPLATE_FILES=${TEMPLATE_FILES[*]}"
+	fi
 	if [ -n "${TEST_FILES+x}" ]; then
 		print_debug "TEST_FILES=${TEST_FILES[*]}"
 	fi
@@ -290,7 +297,16 @@ prepare_template () {
 	echo "Creating LAVA job definition"
 
 	DEFINITION="${TMP}/DEFINITION.yaml"
-	cat "${TEMPLATE_FILE}" > "${DEFINITION}"
+
+	# Combine all base templates in the order provided
+	: > "${DEFINITION}"  # truncate/create
+	for tf in "${TEMPLATE_FILES[@]}"; do
+		print_debug "Appending template: ${tf}"
+		# Ensure a trailing newline so YAML front matter doesn't run together
+		cat "${tf}" >> "${DEFINITION}"
+		# Add a newline separator if the file does not end with one
+		tail -c1 "${tf}" | read -r _ || echo >> "${DEFINITION}"
+	done
 
 	# Get variables from user provided environment file
 	source "${ENV_FILE}"
