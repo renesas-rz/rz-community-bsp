@@ -220,18 +220,18 @@ check_mandatory_arguments () {
 		exit 1
 	fi
 
-	if [ -z "${BUILD_JOB_ID}" ]; then
-		if [ -z "${URL_DTB}" ] || [ -z "${URL_KERNEL}" ] || [ -z "${URL_ROOTFS}" ]; then
-			print_error "Either option -g|--build-job, or all three of -Ud|--url-dtb, -Uk|--url-kernel and -Ur|--url-rootfs must be provided."
-			print_help
-			exit 1
-		fi
-
-		if [ -z "${TEST_FILE_DIR}" ]; then
-			print_error "Option -f|--test-file-dir must be provided when -g|--build-job is being used."
-			print_help
-			exit 1
-		fi
+	if [ -n "${BUILD_JOB_ID}" ]; then
+	    if [ -z "${TEST_FILE_DIR}" ]; then
+	        print_error "Option -f|--test-file-dir must be provided when -g|--build-job is being used."
+	        print_help
+	        exit 1
+	    fi
+	else
+	    if [ -z "${URL_DTB}" ] || [ -z "${URL_KERNEL}" ] || [ -z "${URL_ROOTFS}" ]; then
+	        print_error "Either option -g|--build-job, or all three of -Ud|--url-dtb, -Uk|--url-kernel and -Ur|--url-rootfs must be provided."
+	        print_help
+	        exit 1
+	    fi
 	fi
 }
 
