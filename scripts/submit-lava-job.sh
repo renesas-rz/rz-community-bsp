@@ -226,17 +226,17 @@ check_mandatory_arguments () {
 	fi
 
 	if [ -n "${BUILD_JOB_ID}" ]; then
-	    if [ -z "${TEST_FILE_DIR}" ]; then
-	        print_error "Option -f|--test-file-dir must be provided when -g|--build-job is being used."
-	        print_help
-	        exit 1
-	    fi
+		if [ -z "${TEST_FILE_DIR}" ]; then
+			print_error "Option -f|--test-file-dir must be provided when -g|--build-job is being used."
+			print_help
+			exit 1
+	fi
 	else
-	    if [ -z "${URL_DTB}" ] || [ -z "${URL_KERNEL}" ] || [ -z "${URL_ROOTFS}" ]; then
-	        print_error "Either option -g|--build-job, or all three of -Ud|--url-dtb, -Uk|--url-kernel and -Ur|--url-rootfs must be provided."
-	        print_help
-	        exit 1
-	    fi
+		if [ -z "${URL_DTB}" ] || [ -z "${URL_KERNEL}" ] || [ -z "${URL_ROOTFS}" ]; then
+			print_error "Either option -g|--build-job, or all three of -Ud|--url-dtb, -Uk|--url-kernel and -Ur|--url-rootfs must be provided."
+			print_help
+			exit 1
+		fi
 	fi
 }
 
@@ -334,16 +334,35 @@ prepare_template () {
 		URL_DTB=${base_url}/"${DTB}"
 		URL_KERNEL=${base_url}/"${KERNEL}"
 		URL_ROOTFS=${base_url}/"${ROOTFS}"
+		URL_FW=${base_url}/"${FW}"
+		URL_BL2=${base_url}/"${BL2}"
+		URL_FIP=${base_url}/"${FIP}"
+		URL_SA0=${base_url}/"${SA0}"
+		URL_SA6=${base_url}/"${SA6}"
+		URL_BL31=${base_url}/"${BL31}"
+		URL_UBOOT=${base_url}/"${UBOOT}"
 	fi
 
-	print_debug "Replacing PLACEHOLDER_DTB_URL with \"${URL_DTB}\""
-	sed -i "s|PLACEHOLDER_DTB_URL|${URL_DTB}|g" "${DEFINITION}"
+	declare -A URLS=(
+		[PLACEHOLDER_DTB_URL]="$URL_DTB"
+		[PLACEHOLDER_KERNEL_URL]="$URL_KERNEL"
+		[PLACEHOLDER_ROOTFS_URL]="$URL_ROOTFS"
+		[PLACEHOLDER_FW_URL]="$URL_FW"
+		[PLACEHOLDER_BL2_URL]="$URL_BL2"
+		[PLACEHOLDER_FIP_URL]="$URL_FIP"
+		[PLACEHOLDER_SA0_URL]="$URL_SA0"
+		[PLACEHOLDER_SA6_URL]="$URL_SA6"
+		[PLACEHOLDER_BL31_URL]="$URL_BL31"
+		[PLACEHOLDER_UBOOT_URL]="$URL_UBOOT"
+	)
 
-	print_debug "Replacing PLACEHOLDER_KERNEL_URL with \"${URL_KERNEL}\""
-	sed -i "s|PLACEHOLDER_KERNEL_URL|${URL_KERNEL}|g" "${DEFINITION}"
-
-	print_debug "Replacing PLACEHOLDER_ROOTFS_URL with \"${URL_ROOTFS}\""
-	sed -i "s|PLACEHOLDER_ROOTFS_URL|${URL_ROOTFS}|g" "${DEFINITION}"
+	for placeholder in "${!URLS[@]}"; do
+		value="${URLS[$placeholder]}"
+		if grep -qF -- "$placeholder" "$DEFINITION"; then
+			print_debug "Replacing ${placeholder} with \"${value}\""
+			sed -i "s|${placeholder}|${value}|g" "$DEFINITION"
+		fi
+	done
 
 	# Add test definitions
 	for test in "${TEST_FILES[@]}"; do
