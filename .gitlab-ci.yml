@@ -134,6 +134,13 @@ push-to-github:
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${DTB} ${TEST_BIN_DIR}
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${FW} ${TEST_BIN_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${BL2} ${TEST_BIN_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${FIP} ${TEST_BIN_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${SA0} ${TEST_BIN_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${SA6} ${TEST_BIN_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${BL31} ${TEST_BIN_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${UBOOT} ${TEST_BIN_DIR} || true
     - cp -r build/conf ${BUILD_OUTPUT_DIR}
     - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}
     - tar czf licenses.tar.gz build/tmp/deploy/licenses
@@ -289,6 +296,13 @@ push-to-github:
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${KERNEL} ${TEST_BIN_DIR}
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${TEST_BIN_DIR}
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${DTB} ${TEST_BIN_DIR}
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${FW} ${TEST_BIN_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${BL2} ${TEST_BIN_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${FIP} ${TEST_BIN_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${SA0} ${TEST_BIN_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${SA6} ${TEST_BIN_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${BL31} ${TEST_BIN_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${UBOOT} ${TEST_BIN_DIR} || true
     - cp -r build/tmp/deploy/images ${BUILD_OUTPUT_DIR}
     - tar czf licenses.tar.gz build/tmp/deploy/licenses
     - cp licenses.tar.gz ${BUILD_OUTPUT_DIR}
@@ -401,18 +415,21 @@ push-to-github:
     CI_BITBAKE_MACHINE: hihope-rzg2h
     CI_KAS_MACHINE: kas/machine/hihope-rzg2h.yml
     LAVACLI_IDENTITY: magma
+    FLASH_TEMPLATE: flash-uboot.yaml
 
 .hihope-rzg2m:
   variables:
     CI_BITBAKE_MACHINE: hihope-rzg2m
     CI_KAS_MACHINE: kas/machine/hihope-rzg2m.yml
     LAVACLI_IDENTITY: magma
+    FLASH_TEMPLATE: flash-uboot.yaml
 
 .hihope-rzg2n:
   variables:
     CI_BITBAKE_MACHINE: hihope-rzg2n
     CI_KAS_MACHINE: kas/machine/hihope-rzg2n.yml
     LAVACLI_IDENTITY: magma
+    FLASH_TEMPLATE: flash-uboot.yaml
 
 .ek874:
   variables:
@@ -425,24 +442,28 @@ push-to-github:
     CI_BITBAKE_MACHINE: smarc-rzg2l
     CI_KAS_MACHINE: kas/machine/smarc-rzg2l.yml
     LAVACLI_IDENTITY: magma
+    FLASH_TEMPLATE: flash-fip.yaml
 
 .smarc-rzg2lc:
   variables:
     CI_BITBAKE_MACHINE: smarc-rzg2lc
     CI_KAS_MACHINE: kas/machine/smarc-rzg2lc.yml
     LAVACLI_IDENTITY: magma
+    FLASH_TEMPLATE: flash-fip.yaml
 
 .smarc-rzg2ul:
   variables:
     CI_BITBAKE_MACHINE: smarc-rzg2ul
     CI_KAS_MACHINE: kas/machine/smarc-rzg2ul.yml
     LAVACLI_IDENTITY: magma
+    FLASH_TEMPLATE: flash-fip.yaml
 
 .smarc-rzv2l:
   variables:
     CI_BITBAKE_MACHINE: smarc-rzv2l
     CI_KAS_MACHINE: kas/machine/smarc-rzv2l.yml
     LAVACLI_IDENTITY: magma
+    FLASH_TEMPLATE: flash-fip.yaml
 
 # Build jobs
 build:kirkstone:hihope-rzg2h:
@@ -638,6 +659,10 @@ build:sdk:walnascar:smarc-rzv2l:
   variables:
     TEMPLATES: "-l scripts/lava-templates/base.yaml -l scripts/lava-templates/deploy.yaml -l scripts/lava-templates/boot.yaml"
 
+.lava-templates-bootloader:
+  variables:
+    TEMPLATES: "-l scripts/lava-templates/base.yaml -l scripts/lava-templates/${FLASH_TEMPLATE} -l scripts/lava-templates/deploy.yaml -l scripts/lava-templates/boot.yaml"
+
 .standard-test-cases:
   variables:
     TESTS: "-t scripts/lava-templates/test-uname.yaml"
@@ -650,7 +675,7 @@ build:sdk:walnascar:smarc-rzv2l:
 test:kirkstone:hihope-rzg2h:
   stage: test:kirkstone
   needs: ["build:kirkstone:hihope-rzg2h"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2h]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2h]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10]
@@ -658,7 +683,7 @@ test:kirkstone:hihope-rzg2h:
 test:kirkstone:hihope-rzg2m:
   stage: test:kirkstone
   needs: ["build:kirkstone:hihope-rzg2m"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2m]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2m]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10]
@@ -666,7 +691,7 @@ test:kirkstone:hihope-rzg2m:
 test:kirkstone:hihope-rzg2n:
   stage: test:kirkstone
   needs: ["build:kirkstone:hihope-rzg2n"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2n]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2n]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10]
@@ -682,7 +707,7 @@ test:kirkstone:hihope-rzg2n:
 test:kirkstone:smarc-rzg2l:
   stage: test:kirkstone
   needs: ["build:kirkstone:smarc-rzg2l"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2l]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2l]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10]
@@ -690,7 +715,7 @@ test:kirkstone:smarc-rzg2l:
 test:kirkstone:smarc-rzg2lc:
   stage: test:kirkstone
   needs: ["build:kirkstone:smarc-rzg2lc"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10]
@@ -698,7 +723,7 @@ test:kirkstone:smarc-rzg2lc:
 test:kirkstone:smarc-rzg2ul:
   stage: test:kirkstone
   needs: ["build:kirkstone:smarc-rzg2ul"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10]
@@ -706,7 +731,7 @@ test:kirkstone:smarc-rzg2ul:
 test:kirkstone:smarc-rzv2l:
   stage: test:kirkstone
   needs: ["build:kirkstone:smarc-rzv2l"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .smarc-rzv2l]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzv2l]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10]
@@ -715,21 +740,21 @@ test:kirkstone:smarc-rzv2l:
 test:sdk:kirkstone:hihope-rzg2h:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:hihope-rzg2h"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2h]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2h]
   variables:
     BUILD_NAME: sdk
 
 test:sdk:kirkstone:hihope-rzg2m:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:hihope-rzg2m"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2m]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2m]
   variables:
     BUILD_NAME: sdk
 
 test:sdk:kirkstone:hihope-rzg2n:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:hihope-rzg2n"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2n]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2n]
   variables:
     BUILD_NAME: sdk
 
@@ -743,28 +768,28 @@ test:sdk:kirkstone:hihope-rzg2n:
 test:sdk:kirkstone:smarc-rzg2l:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:smarc-rzg2l"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2l]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2l]
   variables:
     BUILD_NAME: sdk
 
 test:sdk:kirkstone:smarc-rzg2lc:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:smarc-rzg2lc"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
   variables:
     BUILD_NAME: sdk
 
 test:sdk:kirkstone:smarc-rzg2ul:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:smarc-rzg2ul"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
   variables:
     BUILD_NAME: sdk
 
 test:sdk:kirkstone:smarc-rzv2l:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:smarc-rzv2l"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .smarc-rzv2l]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzv2l]
   variables:
     BUILD_NAME: sdk
 
@@ -772,7 +797,7 @@ test:sdk:kirkstone:smarc-rzv2l:
 test:scarthgap:hihope-rzg2h:
   stage: test:scarthgap
   needs: ["build:scarthgap:hihope-rzg2h"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2h]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2h]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
@@ -780,7 +805,7 @@ test:scarthgap:hihope-rzg2h:
 test:scarthgap:hihope-rzg2m:
   stage: test:scarthgap
   needs: ["build:scarthgap:hihope-rzg2m"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2m]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2m]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
@@ -788,7 +813,7 @@ test:scarthgap:hihope-rzg2m:
 test:scarthgap:hihope-rzg2n:
   stage: test:scarthgap
   needs: ["build:scarthgap:hihope-rzg2n"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2n]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2n]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
@@ -804,7 +829,7 @@ test:scarthgap:hihope-rzg2n:
 test:scarthgap:smarc-rzg2l:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2l"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2l]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2l]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
@@ -812,7 +837,7 @@ test:scarthgap:smarc-rzg2l:
 test:scarthgap:smarc-rzg2l-demo:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2l-demo"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-demo, .smarc-rzg2l]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-demo, .smarc-rzg2l]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
@@ -820,7 +845,7 @@ test:scarthgap:smarc-rzg2l-demo:
 test:scarthgap:smarc-rzg2lc:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2lc"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
@@ -828,7 +853,7 @@ test:scarthgap:smarc-rzg2lc:
 test:scarthgap:smarc-rzg2lc-demo:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2lc-demo"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-demo, .smarc-rzg2lc]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-demo, .smarc-rzg2lc]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
@@ -836,7 +861,7 @@ test:scarthgap:smarc-rzg2lc-demo:
 test:scarthgap:smarc-rzg2ul:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzg2ul"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
@@ -844,7 +869,7 @@ test:scarthgap:smarc-rzg2ul:
 test:scarthgap:smarc-rzv2l:
   stage: test:scarthgap
   needs: ["build:scarthgap:smarc-rzv2l"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .smarc-rzv2l]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzv2l]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
@@ -853,21 +878,21 @@ test:scarthgap:smarc-rzv2l:
 test:sdk:scarthgap:hihope-rzg2h:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:hihope-rzg2h"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2h]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2h]
   variables:
     BUILD_NAME: sdk
 
 test:sdk:scarthgap:hihope-rzg2m:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:hihope-rzg2m"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2m]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2m]
   variables:
     BUILD_NAME: sdk
 
 test:sdk:scarthgap:hihope-rzg2n:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:hihope-rzg2n"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2n]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2n]
   variables:
     BUILD_NAME: sdk
 
@@ -881,28 +906,28 @@ test:sdk:scarthgap:hihope-rzg2n:
 test:sdk:scarthgap:smarc-rzg2l:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:smarc-rzg2l"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2l]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2l]
   variables:
     BUILD_NAME: sdk
 
 test:sdk:scarthgap:smarc-rzg2lc:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:smarc-rzg2lc"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
   variables:
     BUILD_NAME: sdk
 
 test:sdk:scarthgap:smarc-rzg2ul:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:smarc-rzg2ul"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
   variables:
     BUILD_NAME: sdk
 
 test:sdk:scarthgap:smarc-rzv2l:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:smarc-rzv2l"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .smarc-rzv2l]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzv2l]
   variables:
     BUILD_NAME: sdk
 
@@ -910,7 +935,7 @@ test:sdk:scarthgap:smarc-rzv2l:
 test:walnascar:hihope-rzg2h:
   stage: test:walnascar
   needs: ["build:walnascar:hihope-rzg2h"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2h]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2h]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
@@ -918,7 +943,7 @@ test:walnascar:hihope-rzg2h:
 test:walnascar:hihope-rzg2m:
   stage: test:walnascar
   needs: ["build:walnascar:hihope-rzg2m"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2m]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2m]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
@@ -926,7 +951,7 @@ test:walnascar:hihope-rzg2m:
 test:walnascar:hihope-rzg2n:
   stage: test:walnascar
   needs: ["build:walnascar:hihope-rzg2n"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2n]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2n]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
@@ -942,7 +967,7 @@ test:walnascar:hihope-rzg2n:
 test:walnascar:smarc-rzg2l:
   stage: test:walnascar
   needs: ["build:walnascar:smarc-rzg2l"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2l]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2l]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
@@ -950,7 +975,7 @@ test:walnascar:smarc-rzg2l:
 test:walnascar:smarc-rzg2lc:
   stage: test:walnascar
   needs: ["build:walnascar:smarc-rzg2lc"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
@@ -958,7 +983,7 @@ test:walnascar:smarc-rzg2lc:
 test:walnascar:smarc-rzg2ul:
   stage: test:walnascar
   needs: ["build:walnascar:smarc-rzg2ul"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
@@ -966,7 +991,7 @@ test:walnascar:smarc-rzg2ul:
 test:walnascar:smarc-rzv2l:
   stage: test:walnascar
   needs: ["build:walnascar:smarc-rzv2l"]
-  extends: [.test-base, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .smarc-rzv2l]
+  extends: [.test-base, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzv2l]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
@@ -975,21 +1000,21 @@ test:walnascar:smarc-rzv2l:
 test:sdk:walnascar:hihope-rzg2h:
   stage: test:walnascar
   needs: ["build:sdk:walnascar:hihope-rzg2h"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2h]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2h]
   variables:
     BUILD_NAME: sdk
 
 test:sdk:walnascar:hihope-rzg2m:
   stage: test:walnascar
   needs: ["build:sdk:walnascar:hihope-rzg2m"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2m]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2m]
   variables:
     BUILD_NAME: sdk
 
 test:sdk:walnascar:hihope-rzg2n:
   stage: test:walnascar
   needs: ["build:sdk:walnascar:hihope-rzg2n"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2n]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2n]
   variables:
     BUILD_NAME: sdk
 
@@ -1003,27 +1028,27 @@ test:sdk:walnascar:hihope-rzg2n:
 test:sdk:walnascar:smarc-rzg2l:
   stage: test:walnascar
   needs: ["build:sdk:walnascar:smarc-rzg2l"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2l]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2l]
   variables:
     BUILD_NAME: sdk
 
 test:sdk:walnascar:smarc-rzg2lc:
   stage: test:walnascar
   needs: ["build:sdk:walnascar:smarc-rzg2lc"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
   variables:
     BUILD_NAME: sdk
 
 test:sdk:walnascar:smarc-rzg2ul:
   stage: test:walnascar
   needs: ["build:sdk:walnascar:smarc-rzg2ul"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
   variables:
     BUILD_NAME: sdk
 
 test:sdk:walnascar:smarc-rzv2l:
   stage: test:walnascar
   needs: ["build:sdk:walnascar:smarc-rzv2l"]
-  extends: [.test-base-sdk, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .smarc-rzv2l]
+  extends: [.test-base-sdk, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzv2l]
   variables:
     BUILD_NAME: sdk
