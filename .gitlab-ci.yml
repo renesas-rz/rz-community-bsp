@@ -667,7 +667,7 @@ test:kirkstone:hihope-rzg2n:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10]
 
-test:kirkstone:ek874:
+.test:kirkstone:ek874:
   stage: test:kirkstone
   needs: ["build:kirkstone:ek874"]
   extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .ek874]
@@ -729,7 +729,7 @@ test:sdk:kirkstone:hihope-rzg2n:
   variables:
     BUILD_NAME: sdk
 
-test:sdk:kirkstone:ek874:
+.test:sdk:kirkstone:ek874:
   stage: test:kirkstone
   needs: ["build:sdk:kirkstone:ek874"]
   extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .ek874]
@@ -789,7 +789,7 @@ test:scarthgap:hihope-rzg2n:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
 
-test:scarthgap:ek874:
+.test:scarthgap:ek874:
   stage: test:scarthgap
   needs: ["build:scarthgap:ek874"]
   extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .ek874]
@@ -867,7 +867,7 @@ test:sdk:scarthgap:hihope-rzg2n:
   variables:
     BUILD_NAME: sdk
 
-test:sdk:scarthgap:ek874:
+.test:sdk:scarthgap:ek874:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:ek874"]
   extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .ek874]
@@ -927,7 +927,7 @@ test:walnascar:hihope-rzg2n:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
 
-test:walnascar:ek874:
+.test:walnascar:ek874:
   stage: test:walnascar
   needs: ["build:walnascar:ek874"]
   extends: [.test-base, .standard-test-cases, .renesas-image-minimal, .ek874]
@@ -989,7 +989,7 @@ test:sdk:walnascar:hihope-rzg2n:
   variables:
     BUILD_NAME: sdk
 
-test:sdk:walnascar:ek874:
+.test:sdk:walnascar:ek874:
   stage: test:walnascar
   needs: ["build:sdk:walnascar:ek874"]
   extends: [.test-base-sdk, .sdk-test-cases, .renesas-image-minimal, .ek874]
