@@ -400,25 +400,25 @@ push-to-github:
   variables:
     CI_BITBAKE_MACHINE: hihope-rzg2h
     CI_KAS_MACHINE: kas/machine/hihope-rzg2h.yml
-    LAVACLI_IDENTITY: lava
+    LAVACLI_IDENTITY: magma
 
 .hihope-rzg2m:
   variables:
     CI_BITBAKE_MACHINE: hihope-rzg2m
     CI_KAS_MACHINE: kas/machine/hihope-rzg2m.yml
-    LAVACLI_IDENTITY: lava
+    LAVACLI_IDENTITY: magma
 
 .hihope-rzg2n:
   variables:
     CI_BITBAKE_MACHINE: hihope-rzg2n
     CI_KAS_MACHINE: kas/machine/hihope-rzg2n.yml
-    LAVACLI_IDENTITY: lava
+    LAVACLI_IDENTITY: magma
 
 .ek874:
   variables:
     CI_BITBAKE_MACHINE: ek874
     CI_KAS_MACHINE: kas/machine/ek874.yml
-    LAVACLI_IDENTITY: lava
+    LAVACLI_IDENTITY: magma
 
 .smarc-rzg2l:
   variables:
