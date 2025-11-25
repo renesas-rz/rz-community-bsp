@@ -1,0 +1,14 @@
+- deploy:
+    timeout:
+      minutes: 10
+    failure_retry: 3
+    failure_retry_interval: 60
+    to: tftp
+    kernel:
+      url: PLACEHOLDER_KERNEL_URL
+      type: image
+    nfsrootfs:
+      url: PLACEHOLDER_ROOTFS_URL
+      compression: gz
+    dtb:
+      url: PLACEHOLDER_DTB_URL

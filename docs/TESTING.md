@@ -19,6 +19,14 @@ Tests are run on each supported target using a
 tree binaries are loaded in U-Boot using TFTP. Once booted into the kernel all
 testing is done using network mounted filesystems (NFS).
 
+### Bootloaders
+
+The bootloaders (TF-A and U-Boot) built as part of this project are flashed and
+used on each platform tested.
+
+The configurations of which bootloader versions are used with which kernel
+versions can be seen in the test matrix below.
+
 ### Test cases
 
 **uname** \
@@ -61,187 +69,187 @@ Over time we hope to enhance CI support further.
 
 The table below details every build combination that is currently run in CI.
 
-| Yocto | Image | Kernel | U-Boot | TF-A | Machine | Test Cases |
-| --- | --- | --- | --- | --- | --- | --- |
-| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname |
-| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname<br>sdk-hello |
-| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2h | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname |
-| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname<br>sdk-hello |
-| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2m | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname |
-| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname<br>sdk-hello |
-| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2n | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname |
-| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname<br>sdk-hello |
-| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | ek874 | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname<br>sdk-hello |
-| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname<br>sdk-hello |
-| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname |
-| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname<br>sdk-hello |
-| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname |
-| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname<br>sdk-hello |
-| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname |
-| Scarthgap | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname |
-| Scarthgap | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname |
-| Scarthgap | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname |
-| Scarthgap | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname<br>sdk-hello |
-| Scarthgap | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2h | uname |
-| Scarthgap | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname |
-| Scarthgap | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname |
-| Scarthgap | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname |
-| Scarthgap | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname<br>sdk-hello |
-| Scarthgap | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2m | uname |
-| Scarthgap | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname |
-| Scarthgap | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname |
-| Scarthgap | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname |
-| Scarthgap | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname<br>sdk-hello |
-| Scarthgap | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2n | uname |
-| Scarthgap | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname |
-| Scarthgap | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname |
-| Scarthgap | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname |
-| Scarthgap | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname<br>sdk-hello |
-| Scarthgap | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | ek874 | uname |
-| Scarthgap | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Scarthgap | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Scarthgap | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Scarthgap | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname<br>sdk-hello |
-| Scarthgap | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Scarthgap | renesas-image-demo | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Scarthgap | renesas-image-demo | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Scarthgap | renesas-image-demo | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Scarthgap | renesas-image-demo | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Scarthgap | renesas-image-demo | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Scarthgap | renesas-image-demo | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Scarthgap | renesas-image-demo | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Scarthgap | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Scarthgap | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Scarthgap | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Scarthgap | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname<br>sdk-hello |
-| Scarthgap | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Scarthgap | renesas-image-demo | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Scarthgap | renesas-image-demo | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Scarthgap | renesas-image-demo | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Scarthgap | renesas-image-demo | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Scarthgap | renesas-image-demo | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Scarthgap | renesas-image-demo | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Scarthgap | renesas-image-demo | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Scarthgap | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname |
-| Scarthgap | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname |
-| Scarthgap | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname |
-| Scarthgap | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname<br>sdk-hello |
-| Scarthgap | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname |
-| Scarthgap | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname |
-| Scarthgap | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname |
-| Scarthgap | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname |
-| Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname |
-| Scarthgap | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname<br>sdk-hello |
-| Scarthgap | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname |
-| Walnascar | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname |
-| Walnascar | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname |
-| Walnascar | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname |
-| Walnascar | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname<br>sdk-hello |
-| Walnascar | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2h | uname |
-| Walnascar | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname |
-| Walnascar | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname |
-| Walnascar | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname |
-| Walnascar | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname<br>sdk-hello |
-| Walnascar | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2m | uname |
-| Walnascar | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname |
-| Walnascar | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname |
-| Walnascar | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname |
-| Walnascar | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname<br>sdk-hello |
-| Walnascar | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2n | uname |
-| Walnascar | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname |
-| Walnascar | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname |
-| Walnascar | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname |
+| Yocto | Image | Kernel | U-Boot | TF-A | Machine | Test Cases | Bootloaders Tested |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
+| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname<br>sdk-hello | Yes |
+| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2h | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
+| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname<br>sdk-hello | Yes |
+| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2m | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
+| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname<br>sdk-hello | Yes |
+| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2n | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | No |
+| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | No |
+| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | No |
+| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname<br>sdk-hello | No |
+| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | ek874 | uname | No |
+| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname<br>sdk-hello | Yes |
+| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname<br>sdk-hello | Yes |
+| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname<br>sdk-hello | Yes |
+| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname<br>sdk-hello | Yes |
+| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Scarthgap | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
+| Scarthgap | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname<br>sdk-hello | Yes |
+| Scarthgap | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2h | uname | Yes |
+| Scarthgap | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
+| Scarthgap | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname<br>sdk-hello | Yes |
+| Scarthgap | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2m | uname | Yes |
+| Scarthgap | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
+| Scarthgap | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname<br>sdk-hello | Yes |
+| Scarthgap | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2n | uname | Yes |
+| Scarthgap | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | No |
+| Scarthgap | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | No |
+| Scarthgap | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | No |
+| Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | No |
+| Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | No |
+| Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | No |
+| Scarthgap | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname<br>sdk-hello | No |
+| Scarthgap | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | ek874 | uname | No |
+| Scarthgap | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Scarthgap | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname<br>sdk-hello | Yes |
+| Scarthgap | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Scarthgap | renesas-image-demo | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Scarthgap | renesas-image-demo | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Scarthgap | renesas-image-demo | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Scarthgap | renesas-image-demo | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Scarthgap | renesas-image-demo | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Scarthgap | renesas-image-demo | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Scarthgap | renesas-image-demo | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Scarthgap | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Scarthgap | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname<br>sdk-hello | Yes |
+| Scarthgap | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Scarthgap | renesas-image-demo | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Scarthgap | renesas-image-demo | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Scarthgap | renesas-image-demo | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Scarthgap | renesas-image-demo | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Scarthgap | renesas-image-demo | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Scarthgap | renesas-image-demo | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Scarthgap | renesas-image-demo | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Scarthgap | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Scarthgap | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname<br>sdk-hello | Yes |
+| Scarthgap | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Scarthgap | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Scarthgap | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname<br>sdk-hello | Yes |
+| Scarthgap | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Walnascar | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
+| Walnascar | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
+| Walnascar | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
+| Walnascar | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname<br>sdk-hello | Yes |
+| Walnascar | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2h | uname | Yes |
+| Walnascar | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
+| Walnascar | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
+| Walnascar | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
+| Walnascar | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname<br>sdk-hello | Yes |
+| Walnascar | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2m | uname | Yes |
+| Walnascar | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
+| Walnascar | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
+| Walnascar | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
+| Walnascar | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname<br>sdk-hello | Yes |
+| Walnascar | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2n | uname | Yes |
+| Walnascar | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | No |
+| Walnascar | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | No |
+| Walnascar | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | No |
 | Walnascar | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname |
-| Walnascar | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname<br>sdk-hello |
-| Walnascar | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | ek874 | uname |
-| Walnascar | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Walnascar | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Walnascar | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Walnascar | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname<br>sdk-hello |
-| Walnascar | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname |
-| Walnascar | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Walnascar | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Walnascar | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Walnascar | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname<br>sdk-hello |
-| Walnascar | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname |
-| Walnascar | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname |
-| Walnascar | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname |
-| Walnascar | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname |
-| Walnascar | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname<br>sdk-hello |
-| Walnascar | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname |
-| Walnascar | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname |
-| Walnascar | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname |
-| Walnascar | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname |
-| Walnascar | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname |
-| Walnascar | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname<br>sdk-hello |
-| Walnascar | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname |
+| Walnascar | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | No | No |
+| Walnascar | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | No |
+| Walnascar | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname<br>sdk-hello | No |
+| Walnascar | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | ek874 | uname | No |
+| Walnascar | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Walnascar | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Walnascar | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Walnascar | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname<br>sdk-hello | Yes |
+| Walnascar | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Walnascar | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Walnascar | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Walnascar | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Walnascar | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname<br>sdk-hello | Yes |
+| Walnascar | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Walnascar | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Walnascar | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Walnascar | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Walnascar | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname<br>sdk-hello | Yes |
+| Walnascar | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Walnascar | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Walnascar | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Walnascar | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Walnascar | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Walnascar | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname<br>sdk-hello | Yes |
+| Walnascar | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |

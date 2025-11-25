@@ -1,0 +1,14 @@
+device_type: PLACEHOLDER_DEVICE_TYPE
+job_name: PLACEHOLDER_JOB_NAME
+priority: medium
+visibility: public
+
+timeouts:
+  job:
+    minutes: 15
+  action:
+    minutes: 10
+  connection:
+    minutes: 2
+
+actions:

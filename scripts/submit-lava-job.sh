@@ -13,6 +13,8 @@ SCRIPT_NAME="$0"
 DEBUG=false
 SUBMIT_ONLY=false
 LAVACLI_IDENTITY=default
+TEST_FILES=()
+TEMPLATE_FILES=()
 
 setup () {
 	print_debug "Entering setup()"
@@ -40,14 +42,9 @@ print_help () {
 	USAGE: ${SCRIPT_NAME} \\
 		[-f DIR] [-g JOB_ID] [-i LAVACLI_IDENTITY] [-j DIR] [-s] \\
 		[-t TEST_DEFINITION] [-u USER] [-Ud DTB_URL] -[Uk KERNEL_URL] \\
-		[-Ur ROOTFS_URL] [-d] [-h] -b BASE_TEMPLATE -e ENV
+		[-Ur ROOTFS_URL] [-d] [-h] -l LAVA_TEMPLATE -e ENV
 
 	OPTIONS:
-	-b, --base-template <BASE_TEMPLATE>
-		Use this template file as the base for the LAVA job definition.
-		This script will replace PLACEHOLDER variables in the template
-		file with the corresponding values from the env file provided
-		by the -e option.
 	-d, --debug
 		Enable the output of various information useful for script
 		debugging.
@@ -79,6 +76,13 @@ print_help () {
 		If this argument is not provided or --submit-only is set, the
 		test restuls will not be saved to a file.
 		This option depends on the yq tool.
+	-l, --lava-template <LAVA_TEMPLATE>
+		Use this template file as the base for the LAVA job definition.
+		This script will replace PLACEHOLDER variables in the template
+		file with the corresponding values from the env file provided
+		by the -e option.
+		This option can be provided multiple times. The files will be
+		combined into a single job definition in the order provided.
 	-s, --submit-only
 		Submit LAVA job only; don't wait for the job to complete and
 		don't gather the test results.
@@ -115,15 +119,6 @@ parse_options () {
 
 	while [[ $# -gt 0 ]]; do
 	case $1 in
-	-b|--base-template)
-		if [ ! -f "${2}" ]; then
-			print_error "For option '${1}' there is no such file: '${2}'"
-			print_help
-			exit 1
-		fi
-		TEMPLATE_FILE="$(realpath "${2}")"
-		shift 2
-		;;
 	-d|--debug)
 		DEBUG=true
 		shift
@@ -161,6 +156,15 @@ parse_options () {
 		else
 			JUNIT_DIR="$(realpath "${2}")"
 		fi
+		shift 2
+		;;
+	-l|--lava-template)
+		if [ ! -f "${2}" ]; then
+			print_error "For option '${1}' there is no such file: '${2}'"
+			print_help
+			exit 1
+		fi
+		TEMPLATE_FILES+=("$(realpath "${2}")")
 		shift 2
 		;;
 	-s|--submit-only)
@@ -205,11 +209,12 @@ parse_options () {
 	done
 }
 
-check_manditory_arguments () {
-	print_debug "Entering check_manditory_arguments()"
+check_mandatory_arguments () {
+	print_debug "Entering check_mandatory_arguments()"
 
-	if [ -z "${TEMPLATE_FILE}" ]; then
-		print_error "Option -b|--base-template must be provided."
+
+	if [ ${#TEMPLATE_FILES[@]} -eq 0 ]; then
+		print_error "At least one -b|--base-template must be provided (can be given multiple times)."
 		print_help
 		exit 1
 	fi
@@ -220,15 +225,15 @@ check_manditory_arguments () {
 		exit 1
 	fi
 
-	if [ -z "${BUILD_JOB_ID}" ]; then
-		if [ -z "${URL_DTB}" ] || [ -z "${URL_KERNEL}" ] || [ -z "${URL_ROOTFS}" ]; then
-			print_error "Either option -g|--build-job, or all three of -Ud|--url-dtb, -Uk|--url-kernel and -Ur|--url-rootfs must be provided."
-			print_help
-			exit 1
-		fi
-
+	if [ -n "${BUILD_JOB_ID}" ]; then
 		if [ -z "${TEST_FILE_DIR}" ]; then
 			print_error "Option -f|--test-file-dir must be provided when -g|--build-job is being used."
+			print_help
+			exit 1
+	fi
+	else
+		if [ -z "${URL_DTB}" ] || [ -z "${URL_KERNEL}" ] || [ -z "${URL_ROOTFS}" ]; then
+			print_error "Either option -g|--build-job, or all three of -Ud|--url-dtb, -Uk|--url-kernel and -Ur|--url-rootfs must be provided."
 			print_help
 			exit 1
 		fi
@@ -269,7 +274,9 @@ debug_print_variables () {
 	fi
 	print_debug "LAVACLI_IDENTITY=${LAVACLI_IDENTITY}"
 	print_debug "SUBMIT_ONLY=${SUBMIT_ONLY}"
-	print_debug "TEMPLATE_FILE=${TEMPLATE_FILE}"
+	if [ ${#TEMPLATE_FILES[@]} -gt 0 ]; then
+	print_debug "TEMPLATE_FILES=${TEMPLATE_FILES[*]}"
+	fi
 	if [ -n "${TEST_FILES+x}" ]; then
 		print_debug "TEST_FILES=${TEST_FILES[*]}"
 	fi
@@ -290,7 +297,16 @@ prepare_template () {
 	echo "Creating LAVA job definition"
 
 	DEFINITION="${TMP}/DEFINITION.yaml"
-	cat "${TEMPLATE_FILE}" > "${DEFINITION}"
+
+	# Combine all base templates in the order provided
+	: > "${DEFINITION}"  # truncate/create
+	for tf in "${TEMPLATE_FILES[@]}"; do
+		print_debug "Appending template: ${tf}"
+		# Ensure a trailing newline so YAML front matter doesn't run together
+		cat "${tf}" >> "${DEFINITION}"
+		# Add a newline separator if the file does not end with one
+		tail -c1 "${tf}" | read -r _ || echo >> "${DEFINITION}"
+	done
 
 	# Get variables from user provided environment file
 	source "${ENV_FILE}"
@@ -318,16 +334,35 @@ prepare_template () {
 		URL_DTB=${base_url}/"${DTB}"
 		URL_KERNEL=${base_url}/"${KERNEL}"
 		URL_ROOTFS=${base_url}/"${ROOTFS}"
+		URL_FW=${base_url}/"${FW}"
+		URL_BL2=${base_url}/"${BL2}"
+		URL_FIP=${base_url}/"${FIP}"
+		URL_SA0=${base_url}/"${SA0}"
+		URL_SA6=${base_url}/"${SA6}"
+		URL_BL31=${base_url}/"${BL31}"
+		URL_UBOOT=${base_url}/"${UBOOT}"
 	fi
 
-	print_debug "Replacing PLACEHOLDER_DTB_URL with \"${URL_DTB}\""
-	sed -i "s|PLACEHOLDER_DTB_URL|${URL_DTB}|g" "${DEFINITION}"
+	declare -A URLS=(
+		[PLACEHOLDER_DTB_URL]="$URL_DTB"
+		[PLACEHOLDER_KERNEL_URL]="$URL_KERNEL"
+		[PLACEHOLDER_ROOTFS_URL]="$URL_ROOTFS"
+		[PLACEHOLDER_FW_URL]="$URL_FW"
+		[PLACEHOLDER_BL2_URL]="$URL_BL2"
+		[PLACEHOLDER_FIP_URL]="$URL_FIP"
+		[PLACEHOLDER_SA0_URL]="$URL_SA0"
+		[PLACEHOLDER_SA6_URL]="$URL_SA6"
+		[PLACEHOLDER_BL31_URL]="$URL_BL31"
+		[PLACEHOLDER_UBOOT_URL]="$URL_UBOOT"
+	)
 
-	print_debug "Replacing PLACEHOLDER_KERNEL_URL with \"${URL_KERNEL}\""
-	sed -i "s|PLACEHOLDER_KERNEL_URL|${URL_KERNEL}|g" "${DEFINITION}"
-
-	print_debug "Replacing PLACEHOLDER_ROOTFS_URL with \"${URL_ROOTFS}\""
-	sed -i "s|PLACEHOLDER_ROOTFS_URL|${URL_ROOTFS}|g" "${DEFINITION}"
+	for placeholder in "${!URLS[@]}"; do
+		value="${URLS[$placeholder]}"
+		if grep -qF -- "$placeholder" "$DEFINITION"; then
+			print_debug "Replacing ${placeholder} with \"${value}\""
+			sed -i "s|${placeholder}|${value}|g" "$DEFINITION"
+		fi
+	done
 
 	# Add test definitions
 	for test in "${TEST_FILES[@]}"; do
@@ -510,7 +545,7 @@ setup
 parse_options "$@"
 
 # Check manditory arguments have been set
-check_manditory_arguments
+check_mandatory_arguments
 
 # Check that lavalcli is working
 check_lava_configuration
