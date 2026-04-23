@@ -59,7 +59,7 @@ The following layers are only required when certain options are selected:
 | Image Name | Description | Key Features |
 | --- | --- | --- |
 | renesas-image-minimal | Provides a basic BSP image based on Poky's core-image. | Linux kernel<br>U-Boot<br>Trusted-Firmware-A |
-| renesas-image-demo | Provides a more featured image that includes Weston/Wayland with Panfrost support. | Linux kernel<br>U-Boot<br>Trusted-Firmware-A<br>Weston<br>Wayland<br>Panfrost<br>Various debug tools |
+| renesas-image-demo | Provides a more featured image that includes Weston/Wayland with Panfrost support.<br>Supported with Scarthgap only. | Linux kernel<br>U-Boot<br>Trusted-Firmware-A<br>Weston<br>Wayland<br>Panfrost<br>Various debug tools |
 
 ### renesas-image-demo Notes
 

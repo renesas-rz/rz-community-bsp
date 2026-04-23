@@ -159,7 +159,7 @@ choice
 	default "kas/image/renesas-image-minimal.yml"
 
 	config IMAGE_RENESAS_IMAGE_DEMO
-	depends on MACHINE_SMARC-RZG2L || MACHINE_SMARC-RZG2LC
+	depends on YOCTO_SCARTHGAP && (MACHINE_SMARC-RZG2L || MACHINE_SMARC-RZG2LC)
 	bool "renesas-image-demo"
 	help
 		Build a demo image including Weston/Wayland support.
