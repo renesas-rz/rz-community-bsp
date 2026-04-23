@@ -1,0 +1,42 @@
+header:
+  version: 14
+  includes:
+    - kas/base.yml
+
+distro: poky
+
+repos:
+  rz-community-bsp:
+    layers:
+      meta-rz-bsp:
+  openembedded-core:
+    url: https://git.openembedded.org/openembedded-core
+    # yocto-5.3.3
+    commit: ab57471acad7ce2a037480dc7b301104620f1ebf
+    layers:
+      meta:
+  bitbake:
+    url: https://git.openembedded.org/bitbake
+    # yocto-5.3.3
+    commit: 7af7e04f3adc8ba144d9e2e6b37ed4ddb3b59df0
+    layers:
+      bitbake: disabled
+  meta-yocto:
+    url: https://git.yoctoproject.org/meta-yocto
+    # yocto-5.3.3
+    commit: 9b98ec5e6cfb6c9dc74d3c2e6304eeb274f7c487
+    layers:
+      meta-poky:
+  meta-arm:
+    url: https://git.yoctoproject.org/meta-arm
+    # whinlatter HEAD
+    commit: 4dc2a7bf29c1853b95dda53d9527f0a23049295f
+    layers:
+      meta-arm-toolchain:
+      meta-arm:
+  meta-openembedded:
+    url: https://git.openembedded.org/meta-openembedded
+    # whinlatter HEAD
+    commit: 8bcdb0cc1dab116253b409e78fb868ced7d8397c
+    layers:
+      meta-oe:

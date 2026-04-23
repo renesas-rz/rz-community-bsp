@@ -1,7 +1,9 @@
 stages:
   - pre-flight-checks
+  - build:whinlatter
   - build:scarthgap
   - build:kirkstone
+  - test:whinlatter
   - test:scarthgap
   - test:kirkstone
   - yocto-check-layer
@@ -68,6 +70,22 @@ push-to-kirkstone:
     - git remote add ci "https://CI_DEPLOY_TOKEN:$CI_DEPLOY_TOKEN@gitlab.global.renesas.com/spl2/civil-infrastructure-platform/rz-community-bsp.git"
     - git push -f ci HEAD:kirkstone
 
+push-to-whinlatter:
+  stage: deploy
+  image: ubuntu:24.04
+  tags:
+    - small
+  dependencies: []
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+  before_script:
+    - apt update && apt install -y git
+    - git config --global --add safe.directory ${CI_PROJECT_DIR}
+  script:
+    - git remote remove ci || true
+    - git remote add ci "https://CI_DEPLOY_TOKEN:$CI_DEPLOY_TOKEN@gitlab.global.renesas.com/spl2/civil-infrastructure-platform/rz-community-bsp.git"
+    - git push -f ci HEAD:whinlatter
+
 deploy-binaries:
   stage: deploy
   image: gitlab.global.renesas.com:5005/spl2/continuous-integration/dockerfiles:ubuntu-24.04-latest
@@ -96,6 +114,7 @@ push-to-github:
   script:
     - git remote remove github || true
     - git remote add github "https://GITHUB_DEPLOY_TOKEN:$GITHUB_DEPLOY_TOKEN@github.com/renesas-rz/rz-community-bsp.git"
+    - git push -f github HEAD:whinlatter
     - git push -f github HEAD:scarthgap
     - git push -f github HEAD:kirkstone
 
@@ -335,6 +354,10 @@ push-to-github:
   variables:
     CI_YOCTO_VER: scarthgap
 
+.whinlatter:
+  variables:
+    CI_YOCTO_VER: whinlatter
+
 .build-kirkstone:
   stage: build:kirkstone
   extends: .kirkstone
@@ -346,6 +369,12 @@ push-to-github:
   extends: .scarthgap
   variables:
     CI_KAS_YOCTO: kas/yocto/scarthgap.yml
+
+.build-whinlatter:
+  stage: build:whinlatter
+  extends: .whinlatter
+  variables:
+    CI_KAS_YOCTO: kas/yocto/whinlatter.yml
 
 .kirkstone-g2h-family:
   extends: .build-kirkstone
@@ -379,6 +408,30 @@ push-to-github:
 
 .scarthgap-g2l-family:
   extends: .build-scarthgap
+  script:
+    - *build-g2l-family-mainline
+    - *build-g2l-family-lts-66
+    - *build-g2l-family-lts-612
+    - *build-g2l-family-cip-510
+    - *build-g2l-family-cip-61
+    - *build-g2l-family-cip-612
+    - *build-g2l-family-bsp
+    - *upload-artifacts
+
+.whinlatter-g2h-family:
+  extends: .build-whinlatter
+  script:
+    - *build-g2h-family-mainline
+    - *build-g2h-family-lts-66
+    - *build-g2h-family-lts-612
+    - *build-g2h-family-cip-510
+    - *build-g2h-family-cip-61
+    - *build-g2h-family-cip-612
+    - *build-g2h-family-bsp
+    - *upload-artifacts
+
+.whinlatter-g2l-family:
+  extends: .build-whinlatter
   script:
     - *build-g2l-family-mainline
     - *build-g2l-family-lts-66
@@ -501,6 +554,31 @@ build:scarthgap:smarc-rzv2l:
   extends: [.build-base, .renesas-image-minimal, .scarthgap-g2l-family, .smarc-rzv2l]
 
 
+build:whinlatter:hihope-rzg2h:
+  extends: [.build-base, .renesas-image-minimal, .whinlatter-g2h-family, .hihope-rzg2h]
+
+build:whinlatter:hihope-rzg2m:
+  extends: [.build-base, .renesas-image-minimal, .whinlatter-g2h-family, .hihope-rzg2m]
+
+build:whinlatter:hihope-rzg2n:
+  extends: [.build-base, .renesas-image-minimal, .whinlatter-g2h-family, .hihope-rzg2n]
+
+build:whinlatter:ek874:
+  extends: [.build-base, .renesas-image-minimal, .whinlatter-g2h-family, .ek874]
+
+build:whinlatter:smarc-rzg2l:
+  extends: [.build-base, .renesas-image-minimal, .whinlatter-g2l-family, .smarc-rzg2l]
+
+build:whinlatter:smarc-rzg2lc:
+  extends: [.build-base, .renesas-image-minimal, .whinlatter-g2l-family, .smarc-rzg2lc]
+
+build:whinlatter:smarc-rzg2ul:
+  extends: [.build-base, .renesas-image-minimal, .whinlatter-g2l-family, .smarc-rzg2ul]
+
+build:whinlatter:smarc-rzv2l:
+  extends: [.build-base, .renesas-image-minimal, .whinlatter-g2l-family, .smarc-rzv2l]
+
+
 # SDK build jobs
 build:sdk:kirkstone:hihope-rzg2h:
   extends: [.build-base, .renesas-image-minimal, .build-kirkstone, .hihope-rzg2h, .build-sdk]
@@ -550,6 +628,31 @@ build:sdk:scarthgap:smarc-rzg2ul:
 
 build:sdk:scarthgap:smarc-rzv2l:
   extends: [.build-base, .renesas-image-minimal, .build-scarthgap, .smarc-rzv2l, .build-sdk]
+
+
+build:sdk:whinlatter:hihope-rzg2h:
+  extends: [.build-base, .renesas-image-minimal, .build-whinlatter, .hihope-rzg2h, .build-sdk]
+
+build:sdk:whinlatter:hihope-rzg2m:
+  extends: [.build-base, .renesas-image-minimal, .build-whinlatter, .hihope-rzg2m, .build-sdk]
+
+build:sdk:whinlatter:hihope-rzg2n:
+  extends: [.build-base, .renesas-image-minimal, .build-whinlatter, .hihope-rzg2n, .build-sdk]
+
+build:sdk:whinlatter:ek874:
+  extends: [.build-base, .renesas-image-minimal, .build-whinlatter, .ek874, .build-sdk]
+
+build:sdk:whinlatter:smarc-rzg2l:
+  extends: [.build-base, .renesas-image-minimal, .build-whinlatter, .smarc-rzg2l, .build-sdk]
+
+build:sdk:whinlatter:smarc-rzg2lc:
+  extends: [.build-base, .renesas-image-minimal, .build-whinlatter, .smarc-rzg2lc, .build-sdk]
+
+build:sdk:whinlatter:smarc-rzg2ul:
+  extends: [.build-base, .renesas-image-minimal, .build-whinlatter, .smarc-rzg2ul, .build-sdk]
+
+build:sdk:whinlatter:smarc-rzv2l:
+  extends: [.build-base, .renesas-image-minimal, .build-whinlatter, .smarc-rzv2l, .build-sdk]
 
 
 ### TESTING ###
@@ -858,5 +961,127 @@ test:sdk:scarthgap:smarc-rzv2l:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:smarc-rzv2l"]
   extends: [.test-base-sdk, .scarthgap, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzv2l]
+  variables:
+    BUILD_NAME: sdk
+
+
+test:whinlatter:hihope-rzg2h:
+  stage: test:whinlatter
+  needs: ["build:whinlatter:hihope-rzg2h"]
+  extends: [.test-base, .whinlatter, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2h]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:whinlatter:hihope-rzg2m:
+  stage: test:whinlatter
+  needs: ["build:whinlatter:hihope-rzg2m"]
+  extends: [.test-base, .whinlatter, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2m]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:whinlatter:hihope-rzg2n:
+  stage: test:whinlatter
+  needs: ["build:whinlatter:hihope-rzg2n"]
+  extends: [.test-base, .whinlatter, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2n]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+.test:whinlatter:ek874:
+  stage: test:whinlatter
+  needs: ["build:whinlatter:ek874"]
+  extends: [.test-base, .whinlatter, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .ek874]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:whinlatter:smarc-rzg2l:
+  stage: test:whinlatter
+  needs: ["build:whinlatter:smarc-rzg2l"]
+  extends: [.test-base, .whinlatter, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2l]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:whinlatter:smarc-rzg2lc:
+  stage: test:whinlatter
+  needs: ["build:whinlatter:smarc-rzg2lc"]
+  extends: [.test-base, .whinlatter, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:whinlatter:smarc-rzg2ul:
+  stage: test:whinlatter
+  needs: ["build:whinlatter:smarc-rzg2ul"]
+  extends: [.test-base, .whinlatter, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:whinlatter:smarc-rzv2l:
+  stage: test:whinlatter
+  needs: ["build:whinlatter:smarc-rzv2l"]
+  extends: [.test-base, .whinlatter, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzv2l]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+
+test:sdk:whinlatter:hihope-rzg2h:
+  stage: test:whinlatter
+  needs: ["build:sdk:whinlatter:hihope-rzg2h"]
+  extends: [.test-base-sdk, .whinlatter, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2h]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:whinlatter:hihope-rzg2m:
+  stage: test:whinlatter
+  needs: ["build:sdk:whinlatter:hihope-rzg2m"]
+  extends: [.test-base-sdk, .whinlatter, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2m]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:whinlatter:hihope-rzg2n:
+  stage: test:whinlatter
+  needs: ["build:sdk:whinlatter:hihope-rzg2n"]
+  extends: [.test-base-sdk, .whinlatter, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2n]
+  variables:
+    BUILD_NAME: sdk
+
+.test:sdk:whinlatter:ek874:
+  stage: test:whinlatter
+  needs: ["build:sdk:whinlatter:ek874"]
+  extends: [.test-base-sdk, .whinlatter, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .ek874]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:whinlatter:smarc-rzg2l:
+  stage: test:whinlatter
+  needs: ["build:sdk:whinlatter:smarc-rzg2l"]
+  extends: [.test-base-sdk, .whinlatter, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2l]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:whinlatter:smarc-rzg2lc:
+  stage: test:whinlatter
+  needs: ["build:sdk:whinlatter:smarc-rzg2lc"]
+  extends: [.test-base-sdk, .whinlatter, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:whinlatter:smarc-rzg2ul:
+  stage: test:whinlatter
+  needs: ["build:sdk:whinlatter:smarc-rzg2ul"]
+  extends: [.test-base-sdk, .whinlatter, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:whinlatter:smarc-rzv2l:
+  stage: test:whinlatter
+  needs: ["build:sdk:whinlatter:smarc-rzv2l"]
+  extends: [.test-base-sdk, .whinlatter, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzv2l]
   variables:
     BUILD_NAME: sdk

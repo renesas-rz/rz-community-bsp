@@ -3,9 +3,12 @@
 /.config.yaml
 /.config.yaml.old
 /.kas_shell_history
+/bitbake/
 /build/
 /meta-arm/
 /meta-linux-mainline/
 /meta-openembedded/
 /meta-rz-panfrost/
+/meta-yocto/
+/openembedded-core/
 /poky/
