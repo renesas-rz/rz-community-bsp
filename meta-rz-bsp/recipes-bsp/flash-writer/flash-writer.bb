@@ -22,7 +22,17 @@ inherit deploy
 inherit nopackages
 deltask do_install
 
-S = "${WORKDIR}/git"
+# From Whinlatter (5.2) onwards, S for git sources is set automatically by
+# bitbake.conf and explicitly setting S = "${WORKDIR}/git" causes an error.
+# A python anonymous function is used to set S only on older Yocto versions
+# (Kirkstone, Scarthgap) where UNPACKDIR does not exist and the automatic
+# assignment is not present.
+python () {
+    if not d.getVar('UNPACKDIR'):
+        d.setVar('S', d.getVar('WORKDIR') + '/git')
+}
+
+#S = "${WORKDIR}/git"
 
 do_compile() {
 	cd ${S}
