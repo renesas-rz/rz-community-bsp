@@ -11,8 +11,8 @@ repos:
       meta-rz-bsp:
   poky:
     url: "https://git.yoctoproject.org/git/poky"
-    # kirkstone-4.0.31
-    commit: 04b39e5b7eb19498215d85c88a5fffb460fea1eb
+    # yocto-4.0.34
+    commit: 8334e82e1d85e50557bd3da64054fc9e3eafc495
     layers:
       meta:
       meta-poky:
@@ -22,14 +22,14 @@ repos:
         path: patches/kirkstone-0001-kern-tools-fix-symbol_why-for-v6.18-rc1.patch
   meta-arm:
     url: https://git.yoctoproject.org/meta-arm
-    # yocto-4.0.6
-    commit: 6b2d97cecd1b0e4bf4caee9a65595d279b57a686
+    # kirkstone HEAD
+    commit: c3e9fb12aa31d25e33d8392c4a233ed1275a3278
     layers:
       meta-arm-toolchain:
       meta-arm:
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
     # kirkstone HEAD
-    commit: 07ac1890c843b374c27e150f1a2e53ad3db2a8e4
+    commit: 9d8ef26a9693e2c70ae34abe1a753873d42ec588
     layers:
       meta-oe:
