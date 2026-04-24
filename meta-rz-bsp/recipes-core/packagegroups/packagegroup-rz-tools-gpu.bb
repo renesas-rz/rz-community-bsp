@@ -9,8 +9,8 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 
 inherit packagegroup
 
-RDEPENDS:${PN} = " \
-	glmark2 \
-	gtk+3-demo \
-	kmscube \
+RDEPENDS:${PN} += "\
+	${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'kmscube', '', d)} \
+	${@bb.utils.contains_any('DISTRO_FEATURES', 'opengl dispmanx', 'glmark2', '', d)} \
+	${@bb.utils.contains_any('DISTRO_FEATURES', 'x11 wayland', 'gtk+3-demo', '', d)} \
 "
