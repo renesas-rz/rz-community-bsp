@@ -11,8 +11,8 @@ repos:
       meta-rz-bsp:
   poky:
     url: "https://git.yoctoproject.org/git/poky"
-    # yocto-4.0.34
-    commit: 8334e82e1d85e50557bd3da64054fc9e3eafc495
+    # yocto-4.0.35
+    commit: 93431249a6260da7bd29ee3ca32145d89e5b8259
     layers:
       meta:
       meta-poky:
