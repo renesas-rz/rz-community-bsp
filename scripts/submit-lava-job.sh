@@ -198,7 +198,7 @@ parse_options () {
 		;;
 	-h|--help)
 		print_help
-		exit 1
+		exit 0
 		;;
 	*)
 		print_error "Option '${1}' is unknown."
@@ -212,9 +212,8 @@ parse_options () {
 check_mandatory_arguments () {
 	print_debug "Entering check_mandatory_arguments()"
 
-
 	if [ ${#TEMPLATE_FILES[@]} -eq 0 ]; then
-		print_error "At least one -b|--base-template must be provided (can be given multiple times)."
+		print_error "At least one -l|--lava-template must be provided (can be given multiple times)."
 		print_help
 		exit 1
 	fi
