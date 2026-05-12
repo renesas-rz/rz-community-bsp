@@ -29,9 +29,9 @@ yocto-check-layer:
   stage: yocto-check-layer
   image: ghcr.io/siemens/kas/kas:4.8.2
   tags:
+    - ree-du1sdd1
     - spl2
     - yocto
-    - ree-du1sdd1
   needs: []
   script:
     - kas shell --update --force-checkout ${CI_KAS_CONFIG} -c \
@@ -54,6 +54,9 @@ pre-commit:
 push-to-kirkstone:
   stage: deploy
   image: ubuntu:24.04
+  tags:
+    - small
+    - spl2
   dependencies: []
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
@@ -64,6 +67,22 @@ push-to-kirkstone:
     - git remote remove ci || true
     - git remote add ci "https://CI_DEPLOY_TOKEN:$CI_DEPLOY_TOKEN@gitlab.global.renesas.com/spl2/civil-infrastructure-platform/rz-community-bsp.git"
     - git push -f ci HEAD:kirkstone
+
+deploy-binaries:
+  stage: deploy
+  image: gitlab.global.renesas.com:5005/spl2/continuous-integration/dockerfiles:ubuntu-24.04-latest
+  tags:
+    - small
+    - spl2
+  dependencies: []
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+  script:
+    - mc alias set ${CI_MINIO_ALIAS} ${CI_MINIO_SERVER} ${CI_MINIO_USER} ${CI_MINIO_PASS}
+    - UPLOAD_PATH="latest/${CI_PIPELINE_ID}"
+    - echo "Copying test binaries to production directory on spl2-build-artifacts-be..."
+    - mc mirror --retry --overwrite --remove ${CI_MINIO_ALIAS}/${CI_MINIO_BUCKET}/ci/${CI_PIPELINE_ID}/ myminio/my-bucket/ci/ myminio/my-bucket/latest/
+    - 'echo "Download URL: ${CI_MINIO_BROWSER}/${CI_MINIO_BUCKET}/latest/"'
 
 push-to-github:
   stage: release
