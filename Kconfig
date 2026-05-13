@@ -7,7 +7,7 @@ config KAS_BUILD_SYSTEM
 menu "Yocto"
 choice
 	prompt "Select the Yocto version to use"
-	default YOCTO_SCARTHGAP
+	default YOCTO_WRYNOSE
 
 	config YOCTO_KIRKSTONE
 	bool "Yocto Kirkstone"
