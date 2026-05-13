@@ -22,15 +22,15 @@ official BSPs provided on [renesas.com](https://renesas.com).
 | meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | kirkstone<br>scarthgap | c3e9fb12aa31<br>a81c19915b5b |
 | meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | kirkstone<br>scarthgap | 9d8ef26a9693<br>5124ac4a6588 |
 
-### Whinlatter
+### Whinlatter and Wrynose
 
 | Name | Layers | Repository | Branch | Revision |
 | --- | --- | --- | --- | --- |
-| bitbake | - | https://git.openembedded.org/bitbake | 2.16 | yocto-5.3.3 |
-| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | whinlatter | 4dc2a7bf29c1 |
-| meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | whinlatter | 8bcdb0cc1dab |
-| meta-yocto | meta-poky | https://git.yoctoproject.org/meta-yocto | whinlatter | yocto-5.3.3 |
-| openembedded-core | meta | https://git.openembedded.org/openembedded-core | whinlatter | yocto-5.3.3 |
+| bitbake | - | https://git.openembedded.org/bitbake | 2.16<br>2.18 | yocto-5.3.3<br>yocto-6.0 |
+| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | whinlatter<br>wrynose | 4dc2a7bf29c1<br>052c2cf333ec |
+| meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | whinlatter<br>wrynose | 8bcdb0cc1dab<br>420222862f5a |
+| meta-yocto | meta-poky | https://git.yoctoproject.org/meta-yocto | whinlatter<br>wrynose | yocto-5.3.3<br>yocto-6.0 |
+| openembedded-core | meta | https://git.openembedded.org/openembedded-core | whinlatter<br>wrynose | yocto-5.3.3<br>yocto-6.0 |
 
 ### Optional Dependencies
 
