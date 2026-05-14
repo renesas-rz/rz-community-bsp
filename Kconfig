@@ -28,6 +28,16 @@ choice
 	string
 	depends on YOCTO_SCARTHGAP
 	default "kas/yocto/scarthgap.yml"
+
+	config YOCTO_WHINLATTER
+	bool "Yocto Winlatter"
+	help
+		Select Yocto Winlatter
+
+	config KAS_INCLUDE_YOCTO_WHINLATTER
+	string
+	depends on YOCTO_WHINLATTER
+	default "kas/yocto/whinlatter.yml"
 endchoice
 endmenu
 
@@ -149,7 +159,7 @@ choice
 	default "kas/image/renesas-image-minimal.yml"
 
 	config IMAGE_RENESAS_IMAGE_DEMO
-	depends on MACHINE_SMARC-RZG2L || MACHINE_SMARC-RZG2LC
+	depends on YOCTO_SCARTHGAP && (MACHINE_SMARC-RZG2L || MACHINE_SMARC-RZG2LC)
 	bool "renesas-image-demo"
 	help
 		Build a demo image including Weston/Wayland support.
