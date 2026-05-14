@@ -2,18 +2,15 @@ include:
   - /ci/wrynose.yml
   - /ci/whinlatter.yml
   - /ci/scarthgap.yml
-  - /ci/kirkstone.yml
 
 stages:
   - pre-flight-checks
   - build:wrynose
   - build:whinlatter
   - build:scarthgap
-  - build:kirkstone
   - test:wrynose
   - test:whinlatter
   - test:scarthgap
-  - test:kirkstone
   - yocto-check-layer
   - deploy
   - release
@@ -88,7 +85,6 @@ push-to-github:
     - git push -f github HEAD:wrynose
     - git push -f github HEAD:whinlatter
     - git push -f github HEAD:scarthgap
-    - git push -f github HEAD:kirkstone
 
 ### BUILDING ###
 .build-base:
@@ -257,34 +253,6 @@ push-to-github:
     - kas build --update --force-checkout kas/opt/debug.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/renesas-5.10.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
     - export BUILD_NAME="renesas-5.10"
     - *copy-output
-
-.kirkstone:
-  variables:
-    CI_YOCTO_VER: kirkstone
-
-.build-kirkstone:
-  stage: build:kirkstone
-  extends: .kirkstone
-  variables:
-    CI_KAS_YOCTO: kas/yocto/kirkstone.yml
-
-.kirkstone-g2h-family:
-  extends: .build-kirkstone
-  script:
-    - *build-g2h-family-cip-510
-    - *build-g2h-family-cip-61
-    - *build-g2h-family-cip-612
-    - *build-g2h-family-bsp
-    - *upload-artifacts
-
-.kirkstone-g2l-family:
-  extends: .build-kirkstone
-  script:
-    - *build-g2l-family-cip-510
-    - *build-g2l-family-cip-61
-    - *build-g2l-family-cip-612
-    - *build-g2l-family-bsp
-    - *upload-artifacts
 
 .scarthgap:
   variables:

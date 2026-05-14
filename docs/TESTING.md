@@ -71,46 +71,6 @@ The table below details every build combination that is currently run in CI.
 
 | Yocto | Image | Kernel | U-Boot | TF-A | Machine | Test Cases | Bootloaders Tested |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
-| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname<br>sdk-hello | Yes |
-| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2h | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
-| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname<br>sdk-hello | Yes |
-| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2m | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
-| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname<br>sdk-hello | Yes |
-| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | hihope-rzg2n | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | No |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | No |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | No |
-| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname<br>sdk-hello | No |
-| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | ek874 | uname | No |
-| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
-| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname<br>sdk-hello | Yes |
-| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
-| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname<br>sdk-hello | Yes |
-| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
-| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname<br>sdk-hello | Yes |
-| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
-| Kirkstone | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
-| Kirkstone | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname<br>sdk-hello | Yes |
-| Kirkstone | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
 | Scarthgap | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Scarthgap | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Scarthgap | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
