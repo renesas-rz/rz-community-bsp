@@ -66,9 +66,8 @@ deploy-binaries:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
   script:
     - mc alias set ${CI_MINIO_ALIAS} ${CI_MINIO_SERVER} ${CI_MINIO_USER} ${CI_MINIO_PASS}
-    - UPLOAD_PATH="latest/${CI_PIPELINE_ID}"
     - echo "Copying test binaries to production directory on spl2-build-artifacts-be..."
-    - mc mirror --retry --overwrite --remove ${CI_MINIO_ALIAS}/${CI_MINIO_BUCKET}/ci/${CI_PIPELINE_ID}/ myminio/my-bucket/ci/ myminio/my-bucket/latest/
+    - mc mirror --retry --overwrite --remove ${CI_MINIO_ALIAS}/${CI_MINIO_BUCKET}/ci/${CI_PIPELINE_ID}/ ${CI_MINIO_ALIAS}/${CI_MINIO_BUCKET}/latest/
     - 'echo "Download URL: ${CI_MINIO_BROWSER}/${CI_MINIO_BUCKET}/latest/"'
 
 push-to-github:
