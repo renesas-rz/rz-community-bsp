@@ -1,0 +1,7 @@
+header:
+  version: 14
+
+target: torizon-docker
+local_conf_header:
+  docker: |
+    DISTRO_FEATURES += " docker "
