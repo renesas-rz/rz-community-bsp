@@ -119,11 +119,11 @@ push-to-github:
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${BUILD_OUTPUT_DIR}
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${DTB} ${BUILD_OUTPUT_DIR}
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${FW} ${BUILD_OUTPUT_DIR} || true
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${BL2} ${BUILD_OUTPUT_DIR} || true
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${FIP} ${BUILD_OUTPUT_DIR} || true
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${SA0} ${BUILD_OUTPUT_DIR} || true
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${SA6} ${BUILD_OUTPUT_DIR} || true
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${BL31} ${BUILD_OUTPUT_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/trusted-firmware-a*/${BL2} ${BUILD_OUTPUT_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/trusted-firmware-a*/${FIP} ${BUILD_OUTPUT_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/trusted-firmware-a*/${SA0} ${BUILD_OUTPUT_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/trusted-firmware-a*/${SA6} ${BUILD_OUTPUT_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/trusted-firmware-a*/${BL31} ${BUILD_OUTPUT_DIR} || true
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${UBOOT} ${BUILD_OUTPUT_DIR} || true
     - tar czf licenses.tar.gz build/tmp/deploy/licenses
     - cp licenses.tar.gz ${BUILD_OUTPUT_DIR}

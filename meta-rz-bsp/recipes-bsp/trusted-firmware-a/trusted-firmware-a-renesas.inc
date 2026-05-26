@@ -22,33 +22,46 @@ do_compile:append:rzg2l-family() {
 # For the RZ/G2H family of SoCs we need a number of files not installed by the
 # meta-arm recipe
 do_install:append:rzg2h-family() {
+	install -d ${D}/firmware/${PN}
+
 	echo "Install bl2.srec"
-	install -m 0644 ${BUILD_DIR}/bl2.srec ${D}/firmware/bl2-${MACHINE}.srec
+	install -m 0644 ${BUILD_DIR}/bl2.srec ${D}/firmware/${PN}/bl2-${MACHINE}.srec
 
 	echo "Install bl31.srec"
-	install -m 0644 ${BUILD_DIR}/bl31.srec ${D}/firmware/bl31-${MACHINE}.srec
+	install -m 0644 ${BUILD_DIR}/bl31.srec ${D}/firmware/${PN}/bl31-${MACHINE}.srec
 
 	echo "Install bootparam_sa0.srec"
 	install -m 0644 ${S}/tools/renesas/rzg_layout_create/bootparam_sa0.srec \
-		${D}/firmware/bootparam_sa0.srec
+		${D}/firmware/${PN}/bootparam_sa0.srec
 
 	echo "Install cert_header_sa6.srec"
 	install -m 0644 ${S}/tools/renesas/rzg_layout_create/cert_header_sa6.srec \
-		${D}/firmware/cert_header_sa6.srec
+		${D}/firmware/${PN}/cert_header_sa6.srec
 }
+
+FILES:${PN}:append:rzg2h-family = " \
+	/firmware/${PN}/*.srec \
+"
 
 # Install files we need for the RZ/G2L family of SoCs that are not installed by
 # the meta-arm recipe
 do_install:append:rzg2l-family() {
+	install -d ${D}/firmware/${PN}
+
 	echo "Install bl2_bp.srec"
-	install -m 0644 ${BUILD_DIR}/bl2_bp.srec ${D}/firmware/trusted-firmware-a-renesas/bl2_bp-${MACHINE}.srec
+	install -m 0644 ${BUILD_DIR}/bl2_bp.srec ${D}/firmware/${PN}/bl2_bp-${MACHINE}.srec
 
 	echo "Install bl2_bp.bin"
-	install -m 0644 ${BUILD_DIR}/bl2_bp.bin ${D}/firmware/trusted-firmware-a-renesas/bl2_bp-${MACHINE}.bin
+	install -m 0644 ${BUILD_DIR}/bl2_bp.bin ${D}/firmware/${PN}/bl2_bp-${MACHINE}.bin
 
 	echo "Install fip.srec"
-	install -m 0644 ${BUILD_DIR}/fip.srec ${D}/firmware/trusted-firmware-a-renesas/fip-${MACHINE}.srec
+	install -m 0644 ${BUILD_DIR}/fip.srec ${D}/firmware/${PN}/fip-${MACHINE}.srec
 
 	echo "Install fip.bin"
-	install -m 0644 ${BUILD_DIR}/fip.bin ${D}/firmware/trusted-firmware-a-renesas/fip-${MACHINE}.bin
+	install -m 0644 ${BUILD_DIR}/fip.bin ${D}/firmware/${PN}/fip-${MACHINE}.bin
 }
+
+FILES:${PN}:append:rzg2l-family = " \
+	/firmware/${PN}/*.srec \
+	/firmware/${PN}/*.bin \
+"
