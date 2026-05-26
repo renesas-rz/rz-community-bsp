@@ -11,20 +11,20 @@ repos:
       meta-rz-bsp:
   openembedded-core:
     url: https://git.openembedded.org/openembedded-core
-    # yocto-5.3.3
-    commit: ab57471acad7ce2a037480dc7b301104620f1ebf
+    # yocto-5.3.4
+    commit: 8751ec83421192fc0f8495fb95798f9eb7be77a0
     layers:
       meta:
   bitbake:
     url: https://git.openembedded.org/bitbake
-    # yocto-5.3.3
-    commit: 7af7e04f3adc8ba144d9e2e6b37ed4ddb3b59df0
+    # yocto-5.3.4
+    commit: 713fbbdb9ecc195ceb2216a2345e0d79dbee2135
     layers:
       bitbake: disabled
   meta-yocto:
     url: https://git.yoctoproject.org/meta-yocto
-    # yocto-5.3.3
-    commit: 9b98ec5e6cfb6c9dc74d3c2e6304eeb274f7c487
+    # yocto-5.3.4
+    commit: 3f2e6b6fadfa542f0fe3738375a2f9fcbd4c1f6e
     layers:
       meta-poky:
   meta-arm:
@@ -37,6 +37,6 @@ repos:
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
     # whinlatter HEAD
-    commit: 8bcdb0cc1dab116253b409e78fb868ced7d8397c
+    commit: f52f32952cb9717949f8bc3d3ccf6c4c5a59521f
     layers:
       meta-oe:
