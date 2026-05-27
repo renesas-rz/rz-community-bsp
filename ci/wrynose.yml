@@ -74,10 +74,10 @@ test:wrynose:hihope-rzg2n:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
 
-.test:wrynose:ek874:
+test:wrynose:ek874:
   stage: test:wrynose
   needs: ["build:wrynose:ek874"]
-  extends: [.test-base, .wrynose, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .ek874]
+  extends: [.test-base, .wrynose, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .ek874]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
@@ -136,10 +136,10 @@ test:sdk:wrynose:hihope-rzg2n:
   variables:
     BUILD_NAME: sdk
 
-.test:sdk:wrynose:ek874:
+test:sdk:wrynose:ek874:
   stage: test:wrynose
   needs: ["build:sdk:wrynose:ek874"]
-  extends: [.test-base-sdk, .wrynose, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .ek874]
+  extends: [.test-base-sdk, .wrynose, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .ek874]
   variables:
     BUILD_NAME: sdk
 

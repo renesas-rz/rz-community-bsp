@@ -92,10 +92,10 @@ test:whinlatter:hihope-rzg2n:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
 
-.test:whinlatter:ek874:
+test:whinlatter:ek874:
   stage: test:whinlatter
   needs: ["build:whinlatter:ek874"]
-  extends: [.test-base, .whinlatter, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .ek874]
+  extends: [.test-base, .whinlatter, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .ek874]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
@@ -154,10 +154,10 @@ test:sdk:whinlatter:hihope-rzg2n:
   variables:
     BUILD_NAME: sdk
 
-.test:sdk:whinlatter:ek874:
+test:sdk:whinlatter:ek874:
   stage: test:whinlatter
   needs: ["build:sdk:whinlatter:ek874"]
-  extends: [.test-base-sdk, .whinlatter, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .ek874]
+  extends: [.test-base-sdk, .whinlatter, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .ek874]
   variables:
     BUILD_NAME: sdk
 

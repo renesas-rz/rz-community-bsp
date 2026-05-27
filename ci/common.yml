@@ -441,6 +441,7 @@ push-to-github:
     CI_BITBAKE_MACHINE: ek874
     CI_KAS_MACHINE: kas/machine/ek874.yml
     LAVACLI_IDENTITY: magma
+    FLASH_TEMPLATE: flash-uboot.yaml
 
 .smarc-rzg2l:
   variables:
