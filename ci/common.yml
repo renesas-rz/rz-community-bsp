@@ -1,16 +1,16 @@
 include:
+  - /ci/wrynose.yml
   - /ci/whinlatter.yml
   - /ci/scarthgap.yml
-  - /ci/kirkstone.yml
 
 stages:
   - pre-flight-checks
+  - build:wrynose
   - build:whinlatter
   - build:scarthgap
-  - build:kirkstone
+  - test:wrynose
   - test:whinlatter
   - test:scarthgap
-  - test:kirkstone
   - yocto-check-layer
   - deploy
   - release
@@ -82,9 +82,9 @@ push-to-github:
   script:
     - git remote remove github || true
     - git remote add github "https://GITHUB_DEPLOY_TOKEN:$GITHUB_DEPLOY_TOKEN@github.com/renesas-rz/rz-community-bsp.git"
+    - git push -f github HEAD:wrynose
     - git push -f github HEAD:whinlatter
     - git push -f github HEAD:scarthgap
-    - git push -f github HEAD:kirkstone
 
 ### BUILDING ###
 .build-base:
@@ -119,11 +119,11 @@ push-to-github:
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${ROOTFS} ${BUILD_OUTPUT_DIR}
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${DTB} ${BUILD_OUTPUT_DIR}
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${FW} ${BUILD_OUTPUT_DIR} || true
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${BL2} ${BUILD_OUTPUT_DIR} || true
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${FIP} ${BUILD_OUTPUT_DIR} || true
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${SA0} ${BUILD_OUTPUT_DIR} || true
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${SA6} ${BUILD_OUTPUT_DIR} || true
-    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${BL31} ${BUILD_OUTPUT_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/trusted-firmware-a*/${BL2} ${BUILD_OUTPUT_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/trusted-firmware-a*/${FIP} ${BUILD_OUTPUT_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/trusted-firmware-a*/${SA0} ${BUILD_OUTPUT_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/trusted-firmware-a*/${SA6} ${BUILD_OUTPUT_DIR} || true
+    - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/trusted-firmware-a*/${BL31} ${BUILD_OUTPUT_DIR} || true
     - cp -L build/tmp/deploy/images/${CI_BITBAKE_MACHINE}/${UBOOT} ${BUILD_OUTPUT_DIR} || true
     - tar czf licenses.tar.gz build/tmp/deploy/licenses
     - cp licenses.tar.gz ${BUILD_OUTPUT_DIR}
@@ -254,34 +254,6 @@ push-to-github:
     - export BUILD_NAME="renesas-5.10"
     - *copy-output
 
-.kirkstone:
-  variables:
-    CI_YOCTO_VER: kirkstone
-
-.build-kirkstone:
-  stage: build:kirkstone
-  extends: .kirkstone
-  variables:
-    CI_KAS_YOCTO: kas/yocto/kirkstone.yml
-
-.kirkstone-g2h-family:
-  extends: .build-kirkstone
-  script:
-    - *build-g2h-family-cip-510
-    - *build-g2h-family-cip-61
-    - *build-g2h-family-cip-612
-    - *build-g2h-family-bsp
-    - *upload-artifacts
-
-.kirkstone-g2l-family:
-  extends: .build-kirkstone
-  script:
-    - *build-g2l-family-cip-510
-    - *build-g2l-family-cip-61
-    - *build-g2l-family-cip-612
-    - *build-g2l-family-bsp
-    - *upload-artifacts
-
 .scarthgap:
   variables:
     CI_YOCTO_VER: scarthgap
@@ -340,6 +312,40 @@ push-to-github:
 
 .whinlatter-g2l-family:
   extends: .build-whinlatter
+  script:
+    - *build-g2l-family-mainline
+    - *build-g2l-family-lts-66
+    - *build-g2l-family-lts-612
+    - *build-g2l-family-cip-510
+    - *build-g2l-family-cip-61
+    - *build-g2l-family-cip-612
+    - *build-g2l-family-bsp
+    - *upload-artifacts
+
+.wrynose:
+  variables:
+    CI_YOCTO_VER: wrynose
+
+.build-wrynose:
+  stage: build:wrynose
+  extends: .wrynose
+  variables:
+    CI_KAS_YOCTO: kas/yocto/wrynose.yml
+
+.wrynose-g2h-family:
+  extends: .build-wrynose
+  script:
+    - *build-g2h-family-mainline
+    - *build-g2h-family-lts-66
+    - *build-g2h-family-lts-612
+    - *build-g2h-family-cip-510
+    - *build-g2h-family-cip-61
+    - *build-g2h-family-cip-612
+    - *build-g2h-family-bsp
+    - *upload-artifacts
+
+.wrynose-g2l-family:
+  extends: .build-wrynose
   script:
     - *build-g2l-family-mainline
     - *build-g2l-family-lts-66
@@ -435,6 +441,7 @@ push-to-github:
     CI_BITBAKE_MACHINE: ek874
     CI_KAS_MACHINE: kas/machine/ek874.yml
     LAVACLI_IDENTITY: magma
+    FLASH_TEMPLATE: flash-uboot.yaml
 
 .smarc-rzg2l:
   variables:

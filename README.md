@@ -14,23 +14,23 @@ official BSPs provided on [renesas.com](https://renesas.com).
 
 ## Dependencies
 
-### Kirkstone and Scarthgap
+### Scarthgap
 
 | Name | Layers | Repository | Branch | Revision |
 | --- | --- | --- | --- | --- |
-| poky | meta<br>meta-poky | https://git.yoctoproject.org/poky | kirkstone<br>scarthgap | yocto-4.0.35<br>yocto-5.0.17 |
-| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | kirkstone<br>scarthgap | c3e9fb12aa31<br>a81c19915b5b |
-| meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | kirkstone<br>scarthgap | 9d8ef26a9693<br>5124ac4a6588 |
+| poky | meta<br>meta-poky | https://git.yoctoproject.org/poky | scarthgap | yocto-5.0.17 |
+| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | scarthgap | c3e9fb12aa31<br>a81c19915b5b |
+| meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | scarthgap | 9d8ef26a9693<br>5124ac4a6588 |
 
-### Whinlatter
+### Whinlatter and Wrynose
 
 | Name | Layers | Repository | Branch | Revision |
 | --- | --- | --- | --- | --- |
-| bitbake | - | https://git.openembedded.org/bitbake | 2.16 | yocto-5.3.3 |
-| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | whinlatter | 4dc2a7bf29c1 |
-| meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | whinlatter | 8bcdb0cc1dab |
-| meta-yocto | meta-poky | https://git.yoctoproject.org/meta-yocto | whinlatter | yocto-5.3.3 |
-| openembedded-core | meta | https://git.openembedded.org/openembedded-core | whinlatter | yocto-5.3.3 |
+| bitbake | - | https://git.openembedded.org/bitbake | 2.16<br>2.18 | yocto-5.3.4<br>yocto-6.0 |
+| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | whinlatter<br>wrynose | 4dc2a7bf29c1<br>052c2cf333ec |
+| meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | whinlatter<br>wrynose | f52f32952cb9<br>420222862f5a |
+| meta-yocto | meta-poky | https://git.yoctoproject.org/meta-yocto | whinlatter<br>wrynose | yocto-5.3.4<br>yocto-6.0 |
+| openembedded-core | meta | https://git.openembedded.org/openembedded-core | whinlatter<br>wrynose | yocto-5.3.4<br>yocto-6.0 |
 
 ### Optional Dependencies
 
@@ -192,28 +192,28 @@ Example usage:
 # Make sure we're inside rz-community-bsp (this repository)
 cd rz-community-bsp
 
-# Yocto: kirkstone
+# Yocto: scarthgap
 # Image: renesas-image-minimal
 # Machine: hihope-rzg2h
 # Linux: linux-renesas v5.10
-./kas-container build kas/yocto/kirkstone.yml:kas/opt/debug.yml:kas/image/renesas-image-minimal.yml:kas/machine/hihope-rzg2h.yml:kas/kernel/renesas-5.10.yml
+./kas-container build kas/yocto/scarthgap.yml:kas/opt/debug.yml:kas/image/renesas-image-minimal.yml:kas/machine/hihope-rzg2h.yml:kas/kernel/renesas-5.10.yml
 
-# Yocto: kirkstone
+# Yocto: scarthgap
 # Image: renesas-image-minimal
 # Machine: smarc-rzg2l
 # Linux: linux-cip v6.1
-./kas-container build kas/yocto/kirkstone.yml:kas/opt/debug.yml:kas/image/renesas-image-minimal.yml:kas/machine/smarc-rzg2l.yml:kas/kernel/cip-6.1.yml
+./kas-container build kas/yocto/scarthgap.yml:kas/opt/debug.yml:kas/image/renesas-image-minimal.yml:kas/machine/smarc-rzg2l.yml:kas/kernel/cip-6.1.yml
 
 # If you are re-building in the same directory as a previous build it may be
 # prudent to use --update and --force-checkout to ensure that the dependency
 # repositories are correct
-./kas-container build --update --force-checkout kas/yocto/kirkstone.yml:kas/opt/debug.yml:kas/image/renesas-image-minimal.yml:kas/machine/hihope-rzg2h.yml:kas/kernel/cip-6.1.yml
+./kas-container build --update --force-checkout kas/yocto/scarthgap.yml:kas/opt/debug.yml:kas/image/renesas-image-minimal.yml:kas/machine/hihope-rzg2h.yml:kas/kernel/cip-6.1.yml
 
-# Yocto: scarthgap
+# Yocto: wrynose
 # Image: renesas-image-demo
 # Machine: smarc-rzg2l
 # Linux: linux-cip v6.1
-./kas-container build --update --force-checkout kas/yocto/scarthgap.yml:kas/opt/debug.yml:kas/image/renesas-image-demo.yml:kas/machine/smarc-rzg2l.yml:kas/kernel/cip-6.1.yml
+./kas-container build --update --force-checkout kas/yocto/wrynose.yml:kas/opt/debug.yml:kas/image/renesas-image-demo.yml:kas/machine/smarc-rzg2l.yml:kas/kernel/cip-6.1.yml
 ```
 
 ### Building the SDK

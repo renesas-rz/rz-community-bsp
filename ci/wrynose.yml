@@ -1,0 +1,172 @@
+# Build jobs
+build:wrynose:hihope-rzg2h:
+  extends: [.build-base, .renesas-image-minimal, .wrynose-g2h-family, .hihope-rzg2h]
+
+build:wrynose:hihope-rzg2m:
+  extends: [.build-base, .renesas-image-minimal, .wrynose-g2h-family, .hihope-rzg2m]
+
+build:wrynose:hihope-rzg2n:
+  extends: [.build-base, .renesas-image-minimal, .wrynose-g2h-family, .hihope-rzg2n]
+
+build:wrynose:ek874:
+  extends: [.build-base, .renesas-image-minimal, .wrynose-g2h-family, .ek874]
+
+build:wrynose:smarc-rzg2l:
+  extends: [.build-base, .renesas-image-minimal, .wrynose-g2l-family, .smarc-rzg2l]
+
+build:wrynose:smarc-rzg2lc:
+  extends: [.build-base, .renesas-image-minimal, .wrynose-g2l-family, .smarc-rzg2lc]
+
+build:wrynose:smarc-rzg2ul:
+  extends: [.build-base, .renesas-image-minimal, .wrynose-g2l-family, .smarc-rzg2ul]
+
+build:wrynose:smarc-rzv2l:
+  extends: [.build-base, .renesas-image-minimal, .wrynose-g2l-family, .smarc-rzv2l]
+
+
+build:sdk:wrynose:hihope-rzg2h:
+  extends: [.build-base, .renesas-image-minimal, .build-wrynose, .hihope-rzg2h, .build-sdk]
+
+build:sdk:wrynose:hihope-rzg2m:
+  extends: [.build-base, .renesas-image-minimal, .build-wrynose, .hihope-rzg2m, .build-sdk]
+
+build:sdk:wrynose:hihope-rzg2n:
+  extends: [.build-base, .renesas-image-minimal, .build-wrynose, .hihope-rzg2n, .build-sdk]
+
+build:sdk:wrynose:ek874:
+  extends: [.build-base, .renesas-image-minimal, .build-wrynose, .ek874, .build-sdk]
+
+build:sdk:wrynose:smarc-rzg2l:
+  extends: [.build-base, .renesas-image-minimal, .build-wrynose, .smarc-rzg2l, .build-sdk]
+
+build:sdk:wrynose:smarc-rzg2lc:
+  extends: [.build-base, .renesas-image-minimal, .build-wrynose, .smarc-rzg2lc, .build-sdk]
+
+build:sdk:wrynose:smarc-rzg2ul:
+  extends: [.build-base, .renesas-image-minimal, .build-wrynose, .smarc-rzg2ul, .build-sdk]
+
+build:sdk:wrynose:smarc-rzv2l:
+  extends: [.build-base, .renesas-image-minimal, .build-wrynose, .smarc-rzv2l, .build-sdk]
+
+
+# Test jobs
+test:wrynose:hihope-rzg2h:
+  stage: test:wrynose
+  needs: ["build:wrynose:hihope-rzg2h"]
+  extends: [.test-base, .wrynose, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2h]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:wrynose:hihope-rzg2m:
+  stage: test:wrynose
+  needs: ["build:wrynose:hihope-rzg2m"]
+  extends: [.test-base, .wrynose, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2m]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:wrynose:hihope-rzg2n:
+  stage: test:wrynose
+  needs: ["build:wrynose:hihope-rzg2n"]
+  extends: [.test-base, .wrynose, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2n]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:wrynose:ek874:
+  stage: test:wrynose
+  needs: ["build:wrynose:ek874"]
+  extends: [.test-base, .wrynose, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .ek874]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:wrynose:smarc-rzg2l:
+  stage: test:wrynose
+  needs: ["build:wrynose:smarc-rzg2l"]
+  extends: [.test-base, .wrynose, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2l]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:wrynose:smarc-rzg2lc:
+  stage: test:wrynose
+  needs: ["build:wrynose:smarc-rzg2lc"]
+  extends: [.test-base, .wrynose, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:wrynose:smarc-rzg2ul:
+  stage: test:wrynose
+  needs: ["build:wrynose:smarc-rzg2ul"]
+  extends: [.test-base, .wrynose, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+test:wrynose:smarc-rzv2l:
+  stage: test:wrynose
+  needs: ["build:wrynose:smarc-rzv2l"]
+  extends: [.test-base, .wrynose, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzv2l]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+
+
+test:sdk:wrynose:hihope-rzg2h:
+  stage: test:wrynose
+  needs: ["build:sdk:wrynose:hihope-rzg2h"]
+  extends: [.test-base-sdk, .wrynose, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2h]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:wrynose:hihope-rzg2m:
+  stage: test:wrynose
+  needs: ["build:sdk:wrynose:hihope-rzg2m"]
+  extends: [.test-base-sdk, .wrynose, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2m]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:wrynose:hihope-rzg2n:
+  stage: test:wrynose
+  needs: ["build:sdk:wrynose:hihope-rzg2n"]
+  extends: [.test-base-sdk, .wrynose, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .hihope-rzg2n]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:wrynose:ek874:
+  stage: test:wrynose
+  needs: ["build:sdk:wrynose:ek874"]
+  extends: [.test-base-sdk, .wrynose, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .ek874]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:wrynose:smarc-rzg2l:
+  stage: test:wrynose
+  needs: ["build:sdk:wrynose:smarc-rzg2l"]
+  extends: [.test-base-sdk, .wrynose, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2l]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:wrynose:smarc-rzg2lc:
+  stage: test:wrynose
+  needs: ["build:sdk:wrynose:smarc-rzg2lc"]
+  extends: [.test-base-sdk, .wrynose, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:wrynose:smarc-rzg2ul:
+  stage: test:wrynose
+  needs: ["build:sdk:wrynose:smarc-rzg2ul"]
+  extends: [.test-base-sdk, .wrynose, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:wrynose:smarc-rzv2l:
+  stage: test:wrynose
+  needs: ["build:sdk:wrynose:smarc-rzv2l"]
+  extends: [.test-base-sdk, .wrynose, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzv2l]
+  variables:
+    BUILD_NAME: sdk

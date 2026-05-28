@@ -1,3 +1,21 @@
+push-to-scarthgap:
+  stage: deploy
+  image: ubuntu:24.04
+  tags:
+    - small
+    - spl2
+  dependencies: []
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+  before_script:
+    - apt update && apt install -y git
+    - git config --global --add safe.directory ${CI_PROJECT_DIR}
+  script:
+    - git remote remove ci || true
+    - git remote add ci "https://CI_DEPLOY_TOKEN:$CI_DEPLOY_TOKEN@gitlab.global.renesas.com/spl2/civil-infrastructure-platform/rz-community-bsp.git"
+    - git push -f ci HEAD:scarthgap
+
+
 yocto-check-layer-scarthgap:
   extends: .yocto-check-layer-base
   variables:
@@ -86,10 +104,10 @@ test:scarthgap:hihope-rzg2n:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
 
-.test:scarthgap:ek874:
+test:scarthgap:ek874:
   stage: test:scarthgap
   needs: ["build:scarthgap:ek874"]
-  extends: [.test-base, .scarthgap, .lava-templates-standard, .standard-test-cases, .renesas-image-minimal, .ek874]
+  extends: [.test-base, .scarthgap, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .ek874]
   parallel:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
@@ -164,10 +182,10 @@ test:sdk:scarthgap:hihope-rzg2n:
   variables:
     BUILD_NAME: sdk
 
-.test:sdk:scarthgap:ek874:
+test:sdk:scarthgap:ek874:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:ek874"]
-  extends: [.test-base-sdk, .scarthgap, .lava-templates-standard, .sdk-test-cases, .renesas-image-minimal, .ek874]
+  extends: [.test-base-sdk, .scarthgap, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .ek874]
   variables:
     BUILD_NAME: sdk
 
