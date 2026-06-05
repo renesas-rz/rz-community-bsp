@@ -18,9 +18,9 @@ official BSPs provided on [renesas.com](https://renesas.com).
 
 | Name | Layers | Repository | Branch | Revision |
 | --- | --- | --- | --- | --- |
-| poky | meta<br>meta-poky | https://git.yoctoproject.org/poky | scarthgap | yocto-5.0.17 |
-| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | scarthgap | c3e9fb12aa31<br>a81c19915b5b |
-| meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | scarthgap | 9d8ef26a9693<br>5124ac4a6588 |
+| poky | meta<br>meta-poky | https://git.yoctoproject.org/poky | scarthgap | yocto-5.0.18 |
+| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | scarthgap | c4fd56386ee3 |
+| meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | scarthgap | d8cc4e44001c |
 
 ### Whinlatter and Wrynose
 
