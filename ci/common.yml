@@ -104,7 +104,7 @@ push-to-github:
         fi
       done
   cache:
-    - key: "dependencies"
+    - key: "dependencies-${CI_YOCTO_VER}"
       paths:
         - dependencies
 
