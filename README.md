@@ -22,15 +22,15 @@ official BSPs provided on [renesas.com](https://renesas.com).
 | meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | scarthgap | c4fd56386ee3 |
 | meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | scarthgap | d8cc4e44001c |
 
-### Whinlatter and Wrynose
+### Wrynose
 
 | Name | Layers | Repository | Branch | Revision |
 | --- | --- | --- | --- | --- |
-| bitbake | - | https://git.openembedded.org/bitbake | 2.16<br>2.18 | yocto-5.3.4<br>yocto-6.0 |
-| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | whinlatter<br>wrynose | 4dc2a7bf29c1<br>052c2cf333ec |
-| meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | whinlatter<br>wrynose | f52f32952cb9<br>420222862f5a |
-| meta-yocto | meta-poky | https://git.yoctoproject.org/meta-yocto | whinlatter<br>wrynose | yocto-5.3.4<br>yocto-6.0 |
-| openembedded-core | meta | https://git.openembedded.org/openembedded-core | whinlatter<br>wrynose | yocto-5.3.4<br>yocto-6.0 |
+| bitbake | - | https://git.openembedded.org/bitbake | 2.18 | yocto-6.0 |
+| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | wrynose | 052c2cf333ec |
+| meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | wrynose | 420222862f5a |
+| meta-yocto | meta-poky | https://git.yoctoproject.org/meta-yocto | wrynose | yocto-6.0 |
+| openembedded-core | meta | https://git.openembedded.org/openembedded-core | wrynose | yocto-6.0 |
 
 ### Optional Dependencies
 

@@ -1,15 +1,12 @@
 include:
   - /ci/wrynose.yml
-  - /ci/whinlatter.yml
   - /ci/scarthgap.yml
 
 stages:
   - pre-flight-checks
   - build:wrynose
-  - build:whinlatter
   - build:scarthgap
   - test:wrynose
-  - test:whinlatter
   - test:scarthgap
   - deploy
   - release
@@ -70,7 +67,6 @@ push-to-github:
     - git remote remove github || true
     - git remote add github "https://GITHUB_DEPLOY_TOKEN:$GITHUB_DEPLOY_TOKEN@github.com/renesas-rz/rz-community-bsp.git"
     - git push -f github HEAD:wrynose
-    - git push -f github HEAD:whinlatter
     - git push -f github HEAD:scarthgap
 
 ### BUILDING ###
@@ -265,40 +261,6 @@ push-to-github:
 
 .scarthgap-g2l-family:
   extends: .build-scarthgap
-  script:
-    - *build-g2l-family-mainline
-    - *build-g2l-family-lts-66
-    - *build-g2l-family-lts-612
-    - *build-g2l-family-cip-510
-    - *build-g2l-family-cip-61
-    - *build-g2l-family-cip-612
-    - *build-g2l-family-bsp
-    - *upload-artifacts
-
-.whinlatter:
-  variables:
-    CI_YOCTO_VER: whinlatter
-
-.build-whinlatter:
-  stage: build:whinlatter
-  extends: .whinlatter
-  variables:
-    CI_KAS_YOCTO: kas/yocto/whinlatter.yml
-
-.whinlatter-g2h-family:
-  extends: .build-whinlatter
-  script:
-    - *build-g2h-family-mainline
-    - *build-g2h-family-lts-66
-    - *build-g2h-family-lts-612
-    - *build-g2h-family-cip-510
-    - *build-g2h-family-cip-61
-    - *build-g2h-family-cip-612
-    - *build-g2h-family-bsp
-    - *upload-artifacts
-
-.whinlatter-g2l-family:
-  extends: .build-whinlatter
   script:
     - *build-g2l-family-mainline
     - *build-g2l-family-lts-66

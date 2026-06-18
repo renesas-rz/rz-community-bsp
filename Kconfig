@@ -19,16 +19,6 @@ choice
 	depends on YOCTO_SCARTHGAP
 	default "kas/yocto/scarthgap.yml"
 
-	config YOCTO_WHINLATTER
-	bool "Yocto Winlatter"
-	help
-		Select Yocto Winlatter
-
-	config KAS_INCLUDE_YOCTO_WHINLATTER
-	string
-	depends on YOCTO_WHINLATTER
-	default "kas/yocto/whinlatter.yml"
-
 	config YOCTO_WRYNOSE
 	bool "Yocto Wrynose"
 	help
