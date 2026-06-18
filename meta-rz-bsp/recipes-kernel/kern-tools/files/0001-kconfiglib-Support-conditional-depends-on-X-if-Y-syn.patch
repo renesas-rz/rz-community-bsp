@@ -1,0 +1,42 @@
+From 5dad37003989469e0e535d6314560c65ef2d8725 Mon Sep 17 00:00:00 2001
+From: Chris Paterson <chris.paterson2@renesas.com>
+Date: Thu, 18 Jun 2026 12:29:40 +0100
+Subject: [PATCH] kconfiglib: Support conditional 'depends on X if Y' syntax
+
+Linux 7.1 introduced the following Kconfig syntax in drivers/hv/Kconfig
+(commit 840b740a35bf969734e0f2e44c21289fdd03079e):
+
+    depends on HYPERV_VMBUS if HYPERV_VMBUS
+
+This is valid Kconfig syntax - a conditional dependency meaning 'depend
+on X only when X is present'. However, the kconfiglib parser was calling
+_expect_expr_and_eol() for 'depends on' which treats any trailing tokens
+(including a valid 'if <expr>') as an error.
+
+Fix this by replacing _expect_expr_and_eol() with _parse_expr() followed
+by _parse_cond(), consistent with how other properties such as 'default',
+'select', 'imply' and 'range' handle optional trailing conditionals.
+
+Upstream-Status: Pending
+
+Signed-off-by: Chris Paterson <chris.paterson2@renesas.com>
+---
+ Kconfiglib/kconfiglib.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Kconfiglib/kconfiglib.py b/Kconfiglib/kconfiglib.py
+index e5b37fccd158..b511a9d68b87 100644
+--- a/Kconfiglib/kconfiglib.py
++++ b/Kconfiglib/kconfiglib.py
+@@ -3170,7 +3170,8 @@ class Kconfig(object):
+                     self._parse_error("expected 'on' after 'depends'")
+ 
+                 node.dep = self._make_and(node.dep,
+-                                          self._expect_expr_and_eol())
++                                          self._make_and(self._parse_expr(True),
++                                                         self._parse_cond()))
+ 
+             elif t0 is _T_HELP:
+                 self._parse_help(node)
+-- 
+2.43.0
