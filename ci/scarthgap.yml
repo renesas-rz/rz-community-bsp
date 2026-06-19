@@ -16,12 +16,6 @@ push-to-scarthgap:
     - git push -f ci HEAD:scarthgap
 
 
-yocto-check-layer-scarthgap:
-  extends: .yocto-check-layer-base
-  variables:
-    CI_KAS_CONFIG: kas/yocto/scarthgap.yml
-
-
 # Build jobs
 build:scarthgap:hihope-rzg2h:
   extends: [.build-base, .renesas-image-minimal, .scarthgap-g2h-family, .hihope-rzg2h]
