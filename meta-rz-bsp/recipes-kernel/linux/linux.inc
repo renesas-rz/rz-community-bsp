@@ -12,6 +12,10 @@ KCONFIG_MODE ?= "alldefconfig"
 DEPENDS += "openssl-native util-linux-native"
 DEPENDS += "gmp-native libmpc-native"
 
+# All currently supported RZ machines require the RAVB Ethernet driver built-in
+SRC_URI:append:rzg2h-family = " file://ravb.cfg"
+SRC_URI:append:rzg2l-family = " file://ravb.cfg"
+
 # RZ/G2H family needs firware for USB3
 LICENSE:append:rzg2h-family = " & r8a778x_usb3_fw_license"
 SRC_URI:append:rzg2h-family = " \
