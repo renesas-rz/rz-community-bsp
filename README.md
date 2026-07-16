@@ -26,11 +26,11 @@ official BSPs provided on [renesas.com](https://renesas.com).
 
 | Name | Layers | Repository | Branch | Revision |
 | --- | --- | --- | --- | --- |
-| bitbake | - | https://git.openembedded.org/bitbake | 2.18 | yocto-6.0.1 |
-| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | wrynose | d3b55902fb99 |
-| meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | wrynose | a43f0d532c39 |
-| meta-yocto | meta-poky | https://git.yoctoproject.org/meta-yocto | wrynose | yocto-6.0.1 |
-| openembedded-core | meta | https://git.openembedded.org/openembedded-core | wrynose | yocto-6.0.1 |
+| bitbake | - | https://git.openembedded.org/bitbake | 2.18 | yocto-6.0.2 |
+| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | wrynose | caa36c53f796 |
+| meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | wrynose | d97b5602d7f6 |
+| meta-yocto | meta-poky | https://git.yoctoproject.org/meta-yocto | wrynose | yocto-6.0.2 |
+| openembedded-core | meta | https://git.openembedded.org/openembedded-core | wrynose | yocto-6.0.2 |
 
 ### Optional Dependencies
 
