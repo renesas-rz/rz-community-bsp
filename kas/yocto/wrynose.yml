@@ -11,32 +11,32 @@ repos:
       meta-rz-bsp:
   openembedded-core:
     url: https://git.openembedded.org/openembedded-core
-    # yocto-6.0.1
-    commit: 19892a5fadc1fb0313f443027ecdc65f93e886b6
+    # yocto-6.0.2
+    commit: 5d1aa5c806c061a2994f4decb59016610f093213
     layers:
       meta:
   bitbake:
     url: https://git.openembedded.org/bitbake
-    # yocto-6.0.1
-    commit: d73599e5a8df1303aab2f6964115c3b02e96ed60
+    # yocto-6.0.2
+    commit: acfe02fa38b5da9e6a36c6cedcf91d4fcbefbfbd
     layers:
       bitbake: disabled
   meta-yocto:
     url: https://git.yoctoproject.org/meta-yocto
-    # yocto-6.0.1
-    commit: 904be04379ff70f92221a7e6929f686c44f4e7c6
+    # yocto-6.0.2
+    commit: 24c24cef5d1523fefe43a3e3d34667b37ae551f3
     layers:
       meta-poky:
   meta-arm:
     url: https://git.yoctoproject.org/meta-arm
     # wrynose HEAD
-    commit: d3b55902fb9963978be90d6f283296de456b4b63
+    commit: caa36c53f796beb25d9b9f58b1b7a492e9987e15
     layers:
       meta-arm-toolchain:
       meta-arm:
   meta-openembedded:
     url: https://git.openembedded.org/meta-openembedded
     # wrynose HEAD
-    commit: a43f0d532c399458cae44ce66f3799a220fbb497
+    commit: d97b5602d7f64422c94b7311466cda7f6b1962d5
     layers:
       meta-oe:
