@@ -5,8 +5,8 @@ COMPATIBLE_MACHINE = "rzg2h-family"
 DEPENDS += "gnutls-native"
 
 SRCREV = "f919c3a889f0ec7d63a48b5d0ed064386b0980bd"
-BRANCH = "master"
-UBOOT_URL = "git://source.denx.de/u-boot/u-boot.git"
+BRANCH = "main"
+UBOOT_URL = "git://git.u-boot-project.org/u-boot/u-boot.git"
 
 SRC_URI += " \
 	file://0001-configs-hihope_rzg2-Set-correct-MMC-device-for-U-Boo.patch \
