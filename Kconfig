@@ -346,4 +346,16 @@ menu "Other"
 	string
 	depends on OPT_DEBUG
 	default "kas/opt/debug.yml"
+
+	config OPT_SSTATE
+	bool "SSTATE mirror and hash server"
+	default n
+	help
+		Use the shared, S3-backed sstate mirror and hash equivalence
+		server used by internal CI.
+
+	config KAS_INCLUDE_OPT_SSTATE
+	string
+	depends on OPT_SSTATE
+	default "kas/opt/sstate.yml"
 endmenu

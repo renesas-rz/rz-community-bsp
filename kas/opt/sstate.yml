@@ -1,0 +1,18 @@
+header:
+  version: 14
+
+# Forwarded from the CI/build host environment into bitbake's environment
+# (see BB_ENV_PASSTHROUGH_ADDITIONS).
+env:
+  AWS_ACCESS_KEY_ID: null
+  AWS_SECRET_ACCESS_KEY: null
+  AWS_DEFAULT_REGION: null
+  AWS_EC2_METADATA_DISABLED: null
+
+local_conf_header:
+  sstate: |
+    SSTATE_DIR = "${TOPDIR}/sstate-cache"
+    SSTATE_MIRRORS = "file://.* s3://yocto-sstate/PATH"
+    FETCHCMD_s3 = "aws --endpoint-url=http://10.226.35.98:9000 s3"
+    BB_HASHSERVE = "10.226.35.98:8686"
+    BB_SIGNATURE_HANDLER = "OEEquivHash"
