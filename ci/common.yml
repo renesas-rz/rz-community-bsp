@@ -121,8 +121,11 @@ push-to-github:
     - cp licenses.tar.gz ${BUILD_OUTPUT_DIR}
 
 .upload-artifacts: &upload-artifacts
-    # Install Minio client
-    - curl -Lso mc https://dl.min.io/client/mc/release/linux-amd64/mc
+    # Install Minio client.
+    - export MC_VERSION="RELEASE.2025-08-13T08-35-41Z"
+    - export MC_SHA256="01f866e9c5f9b87c2b09116fa5d7c06695b106242d829a8bb32990c00312e891"
+    - curl -Lso mc "https://github.com/minio/mc/releases/download/${MC_VERSION}/mc.linux-amd64.${MC_VERSION}"
+    - echo "${MC_SHA256}  mc" | sha256sum -c -
     - chmod +x mc
     - ./mc alias set ${CI_MINIO_ALIAS} ${CI_MINIO_SERVER} ${CI_MINIO_USER} ${CI_MINIO_PASS}
     # Upload test artifacts to fileserver
