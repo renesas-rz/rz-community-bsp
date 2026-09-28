@@ -138,7 +138,7 @@ push-to-github:
     # kernel: mainline
     # u-boot: mainline-2024.10
     # tf-a: mainline-2.10.8
-    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/mainline.yml:kas/u-boot/mainline-2024.10.yml:kas/trusted-firmware-a/mainline-2.10.8.yml
+    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:kas/opt/rm-work.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/mainline.yml:kas/u-boot/mainline-2024.10.yml:kas/trusted-firmware-a/mainline-2.10.8.yml
     - export BUILD_NAME="mainline"
     - *copy-output
 
@@ -146,7 +146,7 @@ push-to-github:
     # kernel: lts-6.6
     # u-boot: mainline-2024.10
     # tf-a: mainline-2.10.8
-    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/lts-6.6.yml:kas/u-boot/mainline-2024.10.yml:kas/trusted-firmware-a/mainline-2.10.8.yml
+    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:kas/opt/rm-work.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/lts-6.6.yml:kas/u-boot/mainline-2024.10.yml:kas/trusted-firmware-a/mainline-2.10.8.yml
     - export BUILD_NAME="lts-6.6"
     - *copy-output
 
@@ -154,7 +154,7 @@ push-to-github:
     # kernel: lts-6.12
     # u-boot: mainline-2024.10
     # tf-a: mainline-2.10.8
-    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/lts-6.12.yml:kas/u-boot/mainline-2024.10.yml:kas/trusted-firmware-a/mainline-2.10.8.yml
+    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:kas/opt/rm-work.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/lts-6.12.yml:kas/u-boot/mainline-2024.10.yml:kas/trusted-firmware-a/mainline-2.10.8.yml
     - export BUILD_NAME="lts-6.12"
     - *copy-output
 
@@ -162,7 +162,7 @@ push-to-github:
     # kernel: cip-5.10
     # u-boot: mainline-2024.10
     # tf-a: mainline-2.10.8
-    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-5.10.yml:kas/u-boot/mainline-2024.10.yml:kas/trusted-firmware-a/mainline-2.10.8.yml
+    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:kas/opt/rm-work.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-5.10.yml:kas/u-boot/mainline-2024.10.yml:kas/trusted-firmware-a/mainline-2.10.8.yml
     - export BUILD_NAME="cip-5.10"
     - *copy-output
 
@@ -170,7 +170,7 @@ push-to-github:
     # kernel: cip-6.1
     # u-boot: mainline-2024.10
     # tf-a: mainline-2.10.8
-    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.1.yml:kas/u-boot/mainline-2024.10.yml:kas/trusted-firmware-a/mainline-2.10.8.yml
+    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:kas/opt/rm-work.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.1.yml:kas/u-boot/mainline-2024.10.yml:kas/trusted-firmware-a/mainline-2.10.8.yml
     - export BUILD_NAME="cip-6.1"
     - *copy-output
 
@@ -178,7 +178,7 @@ push-to-github:
     # kernel: cip-6.12
     # u-boot: mainline-2024.10
     # tf-a: mainline-2.10.8
-    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.12.yml:kas/u-boot/mainline-2024.10.yml:kas/trusted-firmware-a/mainline-2.10.8.yml
+    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:kas/opt/rm-work.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.12.yml:kas/u-boot/mainline-2024.10.yml:kas/trusted-firmware-a/mainline-2.10.8.yml
     - export BUILD_NAME="cip-6.12"
     - *copy-output
 
@@ -186,7 +186,7 @@ push-to-github:
     # kernel: renesas-5.10
     # u-boot: renesas-2021.10
     # tf-a: renesas-2.9.0
-    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/renesas-5.10.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
+    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:kas/opt/rm-work.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/renesas-5.10.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
     - export BUILD_NAME="renesas-5.10"
     - *copy-output
 
@@ -195,7 +195,7 @@ push-to-github:
     # kernel: mainline
     # u-boot: renesas-2021.10
     # tf-a: renesas-2.9.0
-    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/mainline.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
+    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:kas/opt/rm-work.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/mainline.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
     - export BUILD_NAME="mainline"
     - *copy-output
 
@@ -204,7 +204,7 @@ push-to-github:
     # kernel: lts-6.6
     # u-boot: renesas-2021.10
     # tf-a: renesas-2.9.0
-    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/lts-6.6.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
+    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:kas/opt/rm-work.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/lts-6.6.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
     - export BUILD_NAME="lts-6.6"
     - *copy-output
 
@@ -213,7 +213,7 @@ push-to-github:
     # kernel: lts-6.12
     # u-boot: renesas-2021.10
     # tf-a: renesas-2.9.0
-    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/lts-6.12.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
+    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:kas/opt/rm-work.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/lts-6.12.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
     - export BUILD_NAME="lts-6.12"
     - *copy-output
 
@@ -221,7 +221,7 @@ push-to-github:
     # kernel: cip-5.10
     # u-boot: renesas-2021.10
     # tf-a: renesas-2.9.0
-    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-5.10.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
+    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:kas/opt/rm-work.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-5.10.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
     - export BUILD_NAME="cip-5.10"
     - *copy-output
 
@@ -229,7 +229,7 @@ push-to-github:
     # kernel: cip-6.1
     # u-boot: renesas-2021.10
     # tf-a: renesas-2.9.0
-    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.1.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
+    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:kas/opt/rm-work.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.1.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
     - export BUILD_NAME="cip-6.1"
     - *copy-output
 
@@ -237,7 +237,7 @@ push-to-github:
     # kernel: cip-6.12
     # u-boot: renesas-2021.10
     # tf-a: renesas-2.9.0
-    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.12.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
+    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:kas/opt/rm-work.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.12.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
     - export BUILD_NAME="cip-6.12"
     - *copy-output
 
@@ -245,7 +245,7 @@ push-to-github:
     # kernel: renesas-5.10
     # u-boot: renesas-2021.10
     # tf-a: renesas-2.9.0
-    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/renesas-5.10.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
+    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:kas/opt/rm-work.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/renesas-5.10.yml:kas/u-boot/renesas-2021.10.yml:kas/trusted-firmware-a/renesas-2.9.0.yml
     - export BUILD_NAME="renesas-5.10"
     - *copy-output
 
@@ -339,7 +339,7 @@ push-to-github:
     # kernel: default
     # u-boot: default
     # tf-a: default
-    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE} --cmd populate_sdk
+    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:kas/opt/rm-work.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE} --cmd populate_sdk
     - export BUILD_OUTPUT_DIR=${BUILD_OUTPUT_DIR_TOP}/${CI_BITBAKE_MACHINE}/${CI_BITBAKE_IMAGE}/${BUILD_NAME}
     - mkdir -p ${BUILD_OUTPUT_DIR}
     - cp -r build/conf ${BUILD_OUTPUT_DIR}
@@ -348,7 +348,7 @@ push-to-github:
     # kernel: default
     # u-boot: default
     # tf-a: default
-    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}
+    - kas build --update --force-checkout kas/opt/debug.yml:kas/opt/sstate.yml:kas/opt/rm-work.yml:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}
     - *copy-output
     # Install SDK
     - rm -rf ${SDK_TMP}
