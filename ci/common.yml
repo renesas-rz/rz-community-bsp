@@ -51,7 +51,7 @@ pre-commit:
 
 deploy-binaries:
   stage: deploy
-  image: gitlab.global.renesas.com:5005/spl2/continuous-integration/dockerfiles:ubuntu-24.04-latest
+  image: spl2-257:5050/spl2/dockerfiles:ubuntu-24.04-latest
   tags:
     - small
     - spl2
@@ -441,7 +441,7 @@ push-to-github:
 
 ### TESTING ###
 .test-base:
-  image: gitlab.global.renesas.com:5005/spl2/continuous-integration/dockerfiles:ubuntu-24.04-latest
+  image: spl2-257:5050/spl2/dockerfiles:ubuntu-24.04-latest
   tags:
     - spl2
     - lava-job
