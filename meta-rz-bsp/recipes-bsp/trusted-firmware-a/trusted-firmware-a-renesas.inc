@@ -5,6 +5,9 @@ PROVIDES = "virtual/trusted-firmware-a"
 
 EXTRA_OEMAKE:append = "${TFA_EXTRA_OEMAKE}"
 
+# Load address of bl2_bp.srec, machines can override it
+BL2_ADJUST_VMA ?= "0x00011E00"
+
 # For the RZ/G2L family of SoCs we need a version of bl2 with a special header
 # We also need to use SREC files
 do_compile:append:rzg2l-family() {
@@ -13,7 +16,7 @@ do_compile:append:rzg2l-family() {
 	cat ${BUILD_DIR}/bl2.bin >> ${BUILD_DIR}/bl2_bp.bin
 
 	echo "Convert bl2_bp.bin to bl2_bp.srec"
-	objcopy -O srec --adjust-vma=0x00011E00 --srec-forceS3 -I binary ${BUILD_DIR}/bl2_bp.bin ${BUILD_DIR}/bl2_bp.srec
+	objcopy -O srec --adjust-vma=${BL2_ADJUST_VMA} --srec-forceS3 -I binary ${BUILD_DIR}/bl2_bp.bin ${BUILD_DIR}/bl2_bp.srec
 
 	echo "Convert fip.bin to fip.srec"
 	objcopy -I binary -O srec --adjust-vma=0x0000 --srec-forceS3 ${BUILD_DIR}/fip.bin ${BUILD_DIR}/fip.srec
