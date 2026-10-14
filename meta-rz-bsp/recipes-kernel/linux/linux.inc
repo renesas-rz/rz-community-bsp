@@ -16,6 +16,9 @@ DEPENDS += "gmp-native libmpc-native"
 SRC_URI:append:rzg2h-family = " file://ravb.cfg"
 SRC_URI:append:rzg2l-family = " file://ravb.cfg"
 
+# RZ/V2H uses GBETH instead of RAVB, built-in for NFS root
+SRC_URI:append:rzv2h-evk = " file://gbeth.cfg"
+
 # RZ/G2H family needs firware for USB3
 # Scarthgap and Wrynose only support the legacy LICENSE syntax, newer releases
 # expect SPDX license expressions.
