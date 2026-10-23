@@ -28,6 +28,16 @@ choice
 	string
 	depends on YOCTO_WRYNOSE
 	default "kas/yocto/wrynose.yml"
+
+	config YOCTO_BLACKSAIL
+	bool "Yocto Blacksail"
+	help
+		Select Yocto Blacksail
+
+	config KAS_INCLUDE_YOCTO_BLACKSAIL
+	string
+	depends on YOCTO_BLACKSAIL
+	default "kas/yocto/blacksail.yml"
 endchoice
 endmenu
 
