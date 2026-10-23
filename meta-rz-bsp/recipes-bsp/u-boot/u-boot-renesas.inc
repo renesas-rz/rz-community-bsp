@@ -6,6 +6,10 @@ PROVIDES += "u-boot"
 
 SRC_URI = "${UBOOT_URL};protocol=https;branch=${BRANCH}"
 
+# OpenSSL 4.0 (Blacksail) removed the ENGINE API. Use its link-time stubs so
+# the host tools (mkimage etc.) still build.
+BUILD_CFLAGS:append = " -DOPENSSL_ENGINE_STUBS"
+
 UBOOT_SREC_SUFFIX = "srec"
 UBOOT_SREC ?= "u-boot-elf.${UBOOT_SREC_SUFFIX}"
 UBOOT_SREC_IMAGE ?= "u-boot-elf-${MACHINE}-${PV}-${PR}.${UBOOT_SREC_SUFFIX}"
