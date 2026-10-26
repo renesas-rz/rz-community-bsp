@@ -37,7 +37,7 @@ official BSPs provided on [renesas.com](https://renesas.com).
 | Name | Layers | Repository | Branch | Revision |
 | --- | --- | --- | --- | --- |
 | bitbake | - | https://git.openembedded.org/bitbake | 2.20 | yocto-6.1 |
-| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | master | c0a3d1ab0e04 |
+| meta-arm | meta-arm-toolchain<br>meta-arm | https://git.yoctoproject.org/meta-arm | blacksail | a19f2dba816a |
 | meta-openembedded | meta-oe | https://git.openembedded.org/meta-openembedded | blacksail | ca3cf5fe14bd |
 | meta-yocto | meta-poky | https://git.yoctoproject.org/meta-yocto | blacksail | yocto-6.1 |
 | openembedded-core | meta | https://git.openembedded.org/openembedded-core | blacksail | yocto-6.1 |
