@@ -1,11 +1,14 @@
 include:
+  - /ci/blacksail.yml
   - /ci/wrynose.yml
   - /ci/scarthgap.yml
 
 stages:
   - pre-flight-checks
+  - build:blacksail
   - build:wrynose
   - build:scarthgap
+  - test:blacksail
   - test:wrynose
   - test:scarthgap
   - deploy
@@ -76,6 +79,7 @@ push-to-github:
   script:
     - git remote remove github || true
     - git remote add github "https://GITHUB_DEPLOY_TOKEN:$GITHUB_DEPLOY_TOKEN@github.com/renesas-rz/rz-community-bsp.git"
+    - git push -f github HEAD:blacksail
     - git push -f github HEAD:wrynose
     - git push -f github HEAD:scarthgap
 
@@ -275,6 +279,42 @@ push-to-github:
 
 .scarthgap-g2l-family:
   extends: .build-scarthgap
+  script:
+    - *build-g2l-family-mainline
+    - *build-g2l-family-lts-66
+    - *build-g2l-family-lts-612
+    - *build-g2l-family-cip-510
+    - *build-g2l-family-cip-61
+    - *build-g2l-family-cip-612
+    - *build-g2l-family-bsp
+    - *sstate_sync_cmd
+    - *upload-artifacts
+
+.blacksail:
+  variables:
+    CI_YOCTO_VER: blacksail
+
+.build-blacksail:
+  stage: build:blacksail
+  extends: .blacksail
+  variables:
+    CI_KAS_YOCTO: kas/yocto/blacksail.yml
+
+.blacksail-g2h-family:
+  extends: .build-blacksail
+  script:
+    - *build-g2h-family-mainline
+    - *build-g2h-family-lts-66
+    - *build-g2h-family-lts-612
+    - *build-g2h-family-cip-510
+    - *build-g2h-family-cip-61
+    - *build-g2h-family-cip-612
+    - *build-g2h-family-bsp
+    - *sstate_sync_cmd
+    - *upload-artifacts
+
+.blacksail-g2l-family:
+  extends: .build-blacksail
   script:
     - *build-g2l-family-mainline
     - *build-g2l-family-lts-66

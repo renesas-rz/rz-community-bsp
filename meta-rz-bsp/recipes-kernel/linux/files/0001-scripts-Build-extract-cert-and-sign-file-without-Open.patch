@@ -1,0 +1,86 @@
+From c7620b6fce47f9e91144eadf8ce929f9c4cd5940 Mon Sep 17 00:00:00 2001
+From: Chris Paterson <chris.paterson2@renesas.com>
+Date: Fri, 23 Oct 2026 14:49:20 +0100
+Subject: [PATCH] scripts: Build extract-cert and sign-file without OpenSSL
+ ENGINE
+
+OpenSSL 4.0 removes the ENGINE API and defines OPENSSL_NO_ENGINE, which
+makes extract-cert and sign-file fail to link. Only use ENGINE for
+PKCS#11 URIs when it is available.
+
+Upstream kernel has since reworked this code; this is a minimal
+backport for the CIP 5.10 kernel.
+
+Upstream-Status: Inappropriate [CIP 5.10 specific backport]
+Signed-off-by: Chris Paterson <chris.paterson2@renesas.com>
+---
+ scripts/extract-cert.c | 6 ++++++
+ scripts/sign-file.c    | 6 ++++++
+ 2 files changed, 12 insertions(+)
+
+diff --git a/scripts/extract-cert.c b/scripts/extract-cert.c
+index 79ecbbfe37cd..1154c3a1f7af 100644
+--- a/scripts/extract-cert.c
++++ b/scripts/extract-cert.c
+@@ -21,7 +21,9 @@
+ #include <openssl/bio.h>
+ #include <openssl/pem.h>
+ #include <openssl/err.h>
++#ifndef OPENSSL_NO_ENGINE
+ #include <openssl/engine.h>
++#endif
+ 
+ /*
+  * OpenSSL 3.0 deprecates the OpenSSL's ENGINE API.
+@@ -119,6 +121,9 @@ int main(int argc, char **argv)
+ 		fclose(f);
+ 		exit(0);
+ 	} else if (!strncmp(cert_src, "pkcs11:", 7)) {
++#ifdef OPENSSL_NO_ENGINE
++		errx(1, "PKCS#11 ENGINE support is not available in this OpenSSL");
++#else
+ 		ENGINE *e;
+ 		struct {
+ 			const char *cert_id;
+@@ -141,6 +146,7 @@ int main(int argc, char **argv)
+ 		ENGINE_ctrl_cmd(e, "LOAD_CERT_CTRL", 0, &parms, NULL, 1);
+ 		ERR(!parms.cert, "Get X.509 from PKCS#11");
+ 		write_cert(parms.cert);
++#endif
+ 	} else {
+ 		BIO *b;
+ 		X509 *x509;
+diff --git a/scripts/sign-file.c b/scripts/sign-file.c
+index 12acc70e5a7a..1d77cce47495 100644
+--- a/scripts/sign-file.c
++++ b/scripts/sign-file.c
+@@ -27,7 +27,9 @@
+ #include <openssl/evp.h>
+ #include <openssl/pem.h>
+ #include <openssl/err.h>
++#ifndef OPENSSL_NO_ENGINE
+ #include <openssl/engine.h>
++#endif
+ 
+ /*
+  * OpenSSL 3.0 deprecates the OpenSSL's ENGINE API.
+@@ -144,6 +146,9 @@ static EVP_PKEY *read_private_key(const char *private_key_name)
+ 	EVP_PKEY *private_key;
+ 
+ 	if (!strncmp(private_key_name, "pkcs11:", 7)) {
++#ifdef OPENSSL_NO_ENGINE
++		errx(1, "PKCS#11 ENGINE support is not available in this OpenSSL");
++#else
+ 		ENGINE *e;
+ 
+ 		ENGINE_load_builtin_engines();
+@@ -160,6 +165,7 @@ static EVP_PKEY *read_private_key(const char *private_key_name)
+ 		private_key = ENGINE_load_private_key(e, private_key_name,
+ 						      NULL, NULL);
+ 		ERR(!private_key, "%s", private_key_name);
++#endif
+ 	} else {
+ 		BIO *b;
+ 
+-- 
+2.43.0

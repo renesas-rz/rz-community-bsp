@@ -8,3 +8,6 @@ KBRANCH = "rz-5.10-cip54"
 SRCREV = "e2055fbbd7d71b6b3f4793f615aff62ed16c5e77"
 
 LINUX_VERSION = "5.10.229-cip54"
+
+# OpenSSL 4.0 (Yocto Blacksail) removes the ENGINE API
+SRC_URI += "${@bb.utils.contains('LAYERSERIES_CORENAMES', 'blacksail', 'file://0001-scripts-Build-extract-cert-and-sign-file-without-Open.patch', '', d)}"
