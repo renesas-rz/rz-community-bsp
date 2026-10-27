@@ -29,8 +29,8 @@ repos:
       meta-poky:
   meta-arm:
     url: https://git.yoctoproject.org/meta-arm
-    # master HEAD
-    commit: c0a3d1ab0e04e852a7e9c40cb2e67259418773ad
+    # blacksail HEAD
+    commit: a19f2dba816a211c699cb1318b7dbb818da4e32c
     layers:
       meta-arm-toolchain:
       meta-arm:
