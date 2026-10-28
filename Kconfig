@@ -243,6 +243,19 @@ choice
 	depends on KERNEL_LTS_6.12
 	default "kas/kernel/lts-6.12.yml"
 
+	config KERNEL_LTS_6.18
+	bool "LTS v6.18"
+	help
+		Use the latest LTS v6.18 kernel.
+
+		The meta-linux-mainline layer is used to provide the kernel
+		recipe.
+
+	config KAS_INCLUDE_KERNEL_LTS_6.18
+	string
+	depends on KERNEL_LTS_6.18
+	default "kas/kernel/lts-6.18.yml"
+
 	config KERNEL_MAINLINE
 	bool "Mainline"
 	help

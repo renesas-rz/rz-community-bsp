@@ -74,7 +74,7 @@ test:blacksail:hihope-rzg2h:
   extends: [.test-base, .blacksail, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2h]
   parallel:
     matrix:
-      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, lts-6.18, mainline]
 
 test:blacksail:hihope-rzg2m:
   stage: test:blacksail
@@ -82,7 +82,7 @@ test:blacksail:hihope-rzg2m:
   extends: [.test-base, .blacksail, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2m]
   parallel:
     matrix:
-      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, lts-6.18, mainline]
 
 test:blacksail:hihope-rzg2n:
   stage: test:blacksail
@@ -90,7 +90,7 @@ test:blacksail:hihope-rzg2n:
   extends: [.test-base, .blacksail, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .hihope-rzg2n]
   parallel:
     matrix:
-      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, lts-6.18, mainline]
 
 test:blacksail:ek874:
   stage: test:blacksail
@@ -98,7 +98,7 @@ test:blacksail:ek874:
   extends: [.test-base, .blacksail, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .ek874]
   parallel:
     matrix:
-      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, lts-6.18, mainline]
 
 test:blacksail:smarc-rzg2l:
   stage: test:blacksail
@@ -106,7 +106,7 @@ test:blacksail:smarc-rzg2l:
   extends: [.test-base, .blacksail, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2l]
   parallel:
     matrix:
-      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, lts-6.18, mainline]
 
 test:blacksail:smarc-rzg2lc:
   stage: test:blacksail
@@ -114,7 +114,7 @@ test:blacksail:smarc-rzg2lc:
   extends: [.test-base, .blacksail, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2lc]
   parallel:
     matrix:
-      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, lts-6.18, mainline]
 
 test:blacksail:smarc-rzg2ul:
   stage: test:blacksail
@@ -122,7 +122,7 @@ test:blacksail:smarc-rzg2ul:
   extends: [.test-base, .blacksail, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzg2ul]
   parallel:
     matrix:
-      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, lts-6.18, mainline]
 
 test:blacksail:smarc-rzv2l:
   stage: test:blacksail
@@ -130,7 +130,7 @@ test:blacksail:smarc-rzv2l:
   extends: [.test-base, .blacksail, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .smarc-rzv2l]
   parallel:
     matrix:
-      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, mainline]
+      - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, lts-6.18, mainline]
 
 
 test:sdk:blacksail:hihope-rzg2h:
