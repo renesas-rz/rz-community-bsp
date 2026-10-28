@@ -74,6 +74,7 @@ The table below details every build combination that is currently run in CI.
 | Scarthgap | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Scarthgap | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Scarthgap | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.18 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
@@ -82,6 +83,7 @@ The table below details every build combination that is currently run in CI.
 | Scarthgap | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
 | Scarthgap | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
 | Scarthgap | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.18 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
@@ -90,6 +92,7 @@ The table below details every build combination that is currently run in CI.
 | Scarthgap | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
 | Scarthgap | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
 | Scarthgap | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.18 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
@@ -98,6 +101,7 @@ The table below details every build combination that is currently run in CI.
 | Scarthgap | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
 | Scarthgap | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
 | Scarthgap | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.18 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
@@ -106,6 +110,7 @@ The table below details every build combination that is currently run in CI.
 | Scarthgap | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Scarthgap | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Scarthgap | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.18 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
@@ -114,6 +119,7 @@ The table below details every build combination that is currently run in CI.
 | Scarthgap | renesas-image-demo | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Scarthgap | renesas-image-demo | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Scarthgap | renesas-image-demo | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Scarthgap | renesas-image-demo | LTS v6.18 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Scarthgap | renesas-image-demo | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Scarthgap | renesas-image-demo | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Scarthgap | renesas-image-demo | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
@@ -121,6 +127,7 @@ The table below details every build combination that is currently run in CI.
 | Scarthgap | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Scarthgap | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Scarthgap | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.18 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
@@ -129,6 +136,7 @@ The table below details every build combination that is currently run in CI.
 | Scarthgap | renesas-image-demo | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Scarthgap | renesas-image-demo | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Scarthgap | renesas-image-demo | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Scarthgap | renesas-image-demo | LTS v6.18 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Scarthgap | renesas-image-demo | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Scarthgap | renesas-image-demo | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Scarthgap | renesas-image-demo | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
@@ -136,6 +144,7 @@ The table below details every build combination that is currently run in CI.
 | Scarthgap | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
 | Scarthgap | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
 | Scarthgap | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.18 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
@@ -144,6 +153,7 @@ The table below details every build combination that is currently run in CI.
 | Scarthgap | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
 | Scarthgap | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
 | Scarthgap | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.18 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
 | Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
@@ -152,6 +162,7 @@ The table below details every build combination that is currently run in CI.
 | Wrynose | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Wrynose | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Wrynose | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
+| Wrynose | renesas-image-minimal | LTS v6.18 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
@@ -160,6 +171,7 @@ The table below details every build combination that is currently run in CI.
 | Wrynose | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
 | Wrynose | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
 | Wrynose | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
+| Wrynose | renesas-image-minimal | LTS v6.18 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
@@ -168,6 +180,7 @@ The table below details every build combination that is currently run in CI.
 | Wrynose | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
 | Wrynose | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
 | Wrynose | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
+| Wrynose | renesas-image-minimal | LTS v6.18 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
@@ -176,6 +189,7 @@ The table below details every build combination that is currently run in CI.
 | Wrynose | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
 | Wrynose | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
 | Wrynose | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
+| Wrynose | renesas-image-minimal | LTS v6.18 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
@@ -184,6 +198,7 @@ The table below details every build combination that is currently run in CI.
 | Wrynose | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Wrynose | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Wrynose | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Wrynose | renesas-image-minimal | LTS v6.18 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
@@ -192,6 +207,7 @@ The table below details every build combination that is currently run in CI.
 | Wrynose | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Wrynose | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Wrynose | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Wrynose | renesas-image-minimal | LTS v6.18 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
@@ -200,6 +216,7 @@ The table below details every build combination that is currently run in CI.
 | Wrynose | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
 | Wrynose | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
 | Wrynose | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Wrynose | renesas-image-minimal | LTS v6.18 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
@@ -208,6 +225,7 @@ The table below details every build combination that is currently run in CI.
 | Wrynose | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
 | Wrynose | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
 | Wrynose | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Wrynose | renesas-image-minimal | LTS v6.18 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
 | Wrynose | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
@@ -216,6 +234,7 @@ The table below details every build combination that is currently run in CI.
 | Blacksail | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Blacksail | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Blacksail | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
+| Blacksail | renesas-image-minimal | LTS v6.18 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
@@ -224,6 +243,7 @@ The table below details every build combination that is currently run in CI.
 | Blacksail | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
 | Blacksail | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
 | Blacksail | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
+| Blacksail | renesas-image-minimal | LTS v6.18 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2m | uname | Yes |
@@ -232,6 +252,7 @@ The table below details every build combination that is currently run in CI.
 | Blacksail | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
 | Blacksail | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
 | Blacksail | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
+| Blacksail | renesas-image-minimal | LTS v6.18 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2n | uname | Yes |
@@ -240,6 +261,7 @@ The table below details every build combination that is currently run in CI.
 | Blacksail | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
 | Blacksail | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
 | Blacksail | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
+| Blacksail | renesas-image-minimal | LTS v6.18 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v5.10 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v6.1 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | ek874 | uname | Yes |
@@ -248,6 +270,7 @@ The table below details every build combination that is currently run in CI.
 | Blacksail | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Blacksail | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Blacksail | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
+| Blacksail | renesas-image-minimal | LTS v6.18 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2l | uname | Yes |
@@ -256,6 +279,7 @@ The table below details every build combination that is currently run in CI.
 | Blacksail | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Blacksail | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Blacksail | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
+| Blacksail | renesas-image-minimal | LTS v6.18 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2lc | uname | Yes |
@@ -264,6 +288,7 @@ The table below details every build combination that is currently run in CI.
 | Blacksail | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
 | Blacksail | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
 | Blacksail | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
+| Blacksail | renesas-image-minimal | LTS v6.18 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzg2ul | uname | Yes |
@@ -272,6 +297,7 @@ The table below details every build combination that is currently run in CI.
 | Blacksail | renesas-image-minimal | Mainline | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
 | Blacksail | renesas-image-minimal | LTS v6.6 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
 | Blacksail | renesas-image-minimal | LTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Blacksail | renesas-image-minimal | LTS v6.18 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
 | Blacksail | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
