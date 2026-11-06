@@ -1,0 +1,65 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Haiyue Wang <haiyuewa@163.com>
+Date: Thu, 29 Oct 2026 10:12:30 +0800
+Subject: [PATCH] platform: arm64: drop the vacuous THERMAL dependency from
+ EC_ASUS_GLYMUR
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+'depends on THERMAL || THERMAL=n' is always true and is semantically a
+no-op, but it couples NEW_LEDS, which is selected here, to THERMAL and
+closes a Kconfig dependency loop. The C tools stay silent because they
+fold the always-true expression to 'y' before running dependency loop
+detection; kconfiglib, used by the Yocto kernel config audit, does not
+fold and rejects the config at parse time.
+
+The loop is easy to expose with the in-tree tools, using the technique
+from commit b33a654a5bd6 ("drm/tiny: Kconfig: Remove always-y THERMAL
+dep. from TINYDRM_REPAPER"),
+https://git.kernel.org/linus/b33a654a5bd6: temporarily make THERMAL
+tristate so the folding stops, then any config target reports it:
+
+  $ sed -i 's/bool "Thermal drivers"/tristate "Thermal drivers"/' \
+      drivers/thermal/Kconfig
+  $ make allnoconfig
+  error: recursive dependency detected!
+	symbol POWER_SUPPLY is selected by HID_ASUS
+	symbol HID_ASUS depends on LEDS_CLASS
+	symbol LEDS_CLASS depends on NEW_LEDS
+	symbol NEW_LEDS is selected by EC_ASUS_GLYMUR
+	symbol EC_ASUS_GLYMUR depends on THERMAL
+	symbol THERMAL is selected by AB8500_BM
+	symbol AB8500_BM depends on POWER_SUPPLY
+
+Drop the vacuous line to break the loop; the driver still builds both
+with and without THERMAL.
+
+Fixes: db3a9dddab5f ("platform: arm64: Add a driver for the EC found on ASUS Glymur machines")
+Signed-off-by: Haiyue Wang <haiyuewa@163.com>
+Assisted-by: LLM
+Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Link: https://patch.msgid.link/20261029021330.460192-1-haiyuewa@163.com
+Reviewed-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+Signed-off-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
+
+Upstream-Status: Backport [https://git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/commit/?id=6cea839b2de04818e1b638b68993a1b94eb17081]
+Signed-off-by: Chris Paterson <chris.paterson2@renesas.com>
+---
+ drivers/platform/arm64/Kconfig | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/drivers/platform/arm64/Kconfig b/drivers/platform/arm64/Kconfig
+index 2a84775a13a9..3f879410b311 100644
+--- a/drivers/platform/arm64/Kconfig
++++ b/drivers/platform/arm64/Kconfig
+@@ -40,7 +40,6 @@ config EC_ASUS_GLYMUR
+ 	depends on HWMON
+ 	depends on INPUT
+ 	depends on PM
+-	depends on THERMAL || THERMAL=n
+ 	select NEW_LEDS
+ 	select LEDS_CLASS
+ 	help
+-- 
+2.43.0

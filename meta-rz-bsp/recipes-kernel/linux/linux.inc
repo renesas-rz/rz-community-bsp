@@ -17,7 +17,12 @@ SRC_URI:append:rzg2h-family = " file://ravb.cfg"
 SRC_URI:append:rzg2l-family = " file://ravb.cfg"
 
 # RZ/G2H family needs firware for USB3
-LICENSE:append:rzg2h-family = " & r8a778x_usb3_fw_license"
+# Scarthgap and Wrynose only support the legacy LICENSE syntax, newer releases
+# expect SPDX license expressions.
+LICENSE:append:rzg2h-family = "${@bb.utils.contains_any( \
+	'LAYERSERIES_CORENAMES', 'scarthgap wrynose', \
+	' & r8a778x-usb3-fw-license', \
+	' AND LicenseRef-r8a778x-usb3-fw-license', d)}"
 SRC_URI:append:rzg2h-family = " \
 	file://r8a779x_usb3_v3.dlmem \
 	file://usb3.cfg \
