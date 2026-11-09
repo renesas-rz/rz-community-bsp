@@ -271,6 +271,38 @@ push-to-github:
     - export BUILD_NAME="renesas-5.10"
     - *copy-output
 
+.build-v2h-family-mainline: &build-v2h-family-mainline
+    # kernel: mainline
+    # u-boot: renesas-2024.07
+    # tf-a: renesas-2.10.5
+    - kas build --update --force-checkout ${CI_KAS_OPTS}:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/mainline.yml:kas/u-boot/renesas-2024.07.yml:kas/trusted-firmware-a/renesas-2.10.5.yml
+    - export BUILD_NAME="mainline"
+    - *copy-output
+
+.build-v2h-family-cip-61: &build-v2h-family-cip-61
+    # kernel: cip-6.1
+    # u-boot: renesas-2024.07
+    # tf-a: renesas-2.10.5
+    - kas build --update --force-checkout ${CI_KAS_OPTS}:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.1.yml:kas/u-boot/renesas-2024.07.yml:kas/trusted-firmware-a/renesas-2.10.5.yml
+    - export BUILD_NAME="cip-6.1"
+    - *copy-output
+
+.build-v2h-family-cip-612: &build-v2h-family-cip-612
+    # kernel: cip-6.12
+    # u-boot: renesas-2024.07
+    # tf-a: renesas-2.10.5
+    - kas build --update --force-checkout ${CI_KAS_OPTS}:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/cip-6.12.yml:kas/u-boot/renesas-2024.07.yml:kas/trusted-firmware-a/renesas-2.10.5.yml
+    - export BUILD_NAME="cip-6.12"
+    - *copy-output
+
+.build-v2h-family-lts-618: &build-v2h-family-lts-618
+    # kernel: lts-6.18
+    # u-boot: renesas-2024.07
+    # tf-a: renesas-2.10.5
+    - kas build --update --force-checkout ${CI_KAS_OPTS}:${CI_KAS_YOCTO}:${CI_KAS_IMAGE}:${CI_KAS_MACHINE}:kas/kernel/lts-6.18.yml:kas/u-boot/renesas-2024.07.yml:kas/trusted-firmware-a/renesas-2.10.5.yml
+    - export BUILD_NAME="lts-6.18"
+    - *copy-output
+
 .scarthgap:
   variables:
     CI_YOCTO_VER: scarthgap
@@ -306,6 +338,16 @@ push-to-github:
     - *build-g2l-family-cip-61
     - *build-g2l-family-cip-612
     - *build-g2l-family-bsp
+    - *sstate_sync_cmd
+    - *upload-artifacts
+
+.scarthgap-v2h-family:
+  extends: .build-scarthgap
+  script:
+    - *build-v2h-family-mainline
+    - *build-v2h-family-cip-61
+    - *build-v2h-family-cip-612
+    - *build-v2h-family-lts-618
     - *sstate_sync_cmd
     - *upload-artifacts
 
@@ -347,6 +389,16 @@ push-to-github:
     - *sstate_sync_cmd
     - *upload-artifacts
 
+.blacksail-v2h-family:
+  extends: .build-blacksail
+  script:
+    - *build-v2h-family-mainline
+    - *build-v2h-family-cip-61
+    - *build-v2h-family-cip-612
+    - *build-v2h-family-lts-618
+    - *sstate_sync_cmd
+    - *upload-artifacts
+
 .wrynose:
   variables:
     CI_YOCTO_VER: wrynose
@@ -382,6 +434,16 @@ push-to-github:
     - *build-g2l-family-cip-61
     - *build-g2l-family-cip-612
     - *build-g2l-family-bsp
+    - *sstate_sync_cmd
+    - *upload-artifacts
+
+.wrynose-v2h-family:
+  extends: .build-wrynose
+  script:
+    - *build-v2h-family-mainline
+    - *build-v2h-family-cip-61
+    - *build-v2h-family-cip-612
+    - *build-v2h-family-lts-618
     - *sstate_sync_cmd
     - *upload-artifacts
 
@@ -498,6 +560,13 @@ push-to-github:
   variables:
     CI_BITBAKE_MACHINE: smarc-rzv2l
     CI_KAS_MACHINE: kas/machine/smarc-rzv2l.yml
+    LAVACLI_IDENTITY: magma
+    FLASH_TEMPLATE: flash-fip.yaml
+
+.rzv2h-evk:
+  variables:
+    CI_BITBAKE_MACHINE: rzv2h-evk
+    CI_KAS_MACHINE: kas/machine/rzv2h-evk.yml
     LAVACLI_IDENTITY: magma
     FLASH_TEMPLATE: flash-fip.yaml
 
