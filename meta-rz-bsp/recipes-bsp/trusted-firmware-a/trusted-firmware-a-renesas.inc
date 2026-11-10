@@ -5,18 +5,44 @@ PROVIDES = "virtual/trusted-firmware-a"
 
 EXTRA_OEMAKE:append = "${TFA_EXTRA_OEMAKE}"
 
-# For the RZ/G2L family of SoCs we need a version of bl2 with a special header
-# We also need to use SREC files
+# Load address of bl2_bp.srec, machines can override it
+BL2_ADJUST_VMA ?= "0x00011E00"
+
+# Boot parameter destination address and boot mode used by the RZ/V2H bptool
+BL2_BP_DEST ?= "0x08103000"
+BL2_BP_MODE ?= "spi"
+
+# For the RZ/G2L and RZ/V2H families of SoCs we need a version of bl2 with a
+# special header. We also need to use SREC files
+create_bl2_srec_and_fip_srec() {
+	echo "Convert bl2_bp.bin to bl2_bp.srec"
+	objcopy -O srec --adjust-vma=${BL2_ADJUST_VMA} --srec-forceS3 -I binary ${BUILD_DIR}/bl2_bp.bin ${BUILD_DIR}/bl2_bp.srec
+
+	echo "Convert fip.bin to fip.srec"
+	objcopy -I binary -O srec --adjust-vma=0x0000 --srec-forceS3 ${BUILD_DIR}/fip.bin ${BUILD_DIR}/fip.srec
+}
+
 do_compile:append:rzg2l-family() {
 	echo "Create bl2_bp.bin"
 	bootparameter ${BUILD_DIR}/bl2.bin ${BUILD_DIR}/bl2_bp.bin
 	cat ${BUILD_DIR}/bl2.bin >> ${BUILD_DIR}/bl2_bp.bin
 
-	echo "Convert bl2_bp.bin to bl2_bp.srec"
-	objcopy -O srec --adjust-vma=0x00011E00 --srec-forceS3 -I binary ${BUILD_DIR}/bl2_bp.bin ${BUILD_DIR}/bl2_bp.srec
+	create_bl2_srec_and_fip_srec
+}
 
-	echo "Convert fip.bin to fip.srec"
-	objcopy -I binary -O srec --adjust-vma=0x0000 --srec-forceS3 ${BUILD_DIR}/fip.bin ${BUILD_DIR}/fip.srec
+# The RZ/V2H boot parameter has a different layout to the RZ/G2L one so use
+# the bptool provided by TF-A
+do_compile:append:rzv2h-family() {
+	echo "Build bptool"
+	${BUILD_CC} -O2 -std=c99 -D_GNU_SOURCE -D_XOPEN_SOURCE=700 \
+		${S}/tools/renesas/rz_boot_param/bptool.c -o ${B}/bptool
+
+	echo "Create bl2_bp.bin"
+	${B}/bptool ${BUILD_DIR}/bl2.bin ${BUILD_DIR}/bp.bin \
+		${BL2_BP_DEST} ${BL2_BP_MODE}
+	cat ${BUILD_DIR}/bp.bin ${BUILD_DIR}/bl2.bin > ${BUILD_DIR}/bl2_bp.bin
+
+	create_bl2_srec_and_fip_srec
 }
 
 # For the RZ/G2H family of SoCs we need a number of files not installed by the
@@ -43,9 +69,9 @@ FILES:${PN}:append:rzg2h-family = " \
 	/firmware/${PN}/*.srec \
 "
 
-# Install files we need for the RZ/G2L family of SoCs that are not installed by
-# the meta-arm recipe
-do_install:append:rzg2l-family() {
+# Install files we need for the RZ/G2L and RZ/V2H families of SoCs that are not
+# installed by the meta-arm recipe
+install_bl2_bp_and_fip() {
 	install -d ${D}/firmware/${PN}
 
 	echo "Install bl2_bp.srec"
@@ -61,7 +87,20 @@ do_install:append:rzg2l-family() {
 	install -m 0644 ${BUILD_DIR}/fip.bin ${D}/firmware/${PN}/fip-${MACHINE}.bin
 }
 
+do_install:append:rzg2l-family() {
+	install_bl2_bp_and_fip
+}
+
+do_install:append:rzv2h-family() {
+	install_bl2_bp_and_fip
+}
+
 FILES:${PN}:append:rzg2l-family = " \
+	/firmware/${PN}/*.srec \
+	/firmware/${PN}/*.bin \
+"
+
+FILES:${PN}:append:rzv2h-family = " \
 	/firmware/${PN}/*.srec \
 	/firmware/${PN}/*.bin \
 "

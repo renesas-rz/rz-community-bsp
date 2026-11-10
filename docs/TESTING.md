@@ -159,6 +159,11 @@ The table below details every build combination that is currently run in CI.
 | Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
 | Scarthgap | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname<br>sdk-hello | Yes |
 | Scarthgap | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Scarthgap | renesas-image-minimal | Mainline | Renesas BSP v2024.07 | Renesas BSP v2.10.5 | rzv2h-evk | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2024.07 | Renesas BSP v2.10.5 | rzv2h-evk | uname | Yes |
+| Scarthgap | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2024.07 | Renesas BSP v2.10.5 | rzv2h-evk | uname | Yes |
+| Scarthgap | renesas-image-minimal | LTS v6.18 | Renesas BSP v2024.07 | Renesas BSP v2.10.5 | rzv2h-evk | uname | Yes |
+| Scarthgap | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2024.07 | Renesas BSP v2.10.5 | rzv2h-evk | uname<br>sdk-hello | Yes |
 | Wrynose | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Wrynose | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Wrynose | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
@@ -231,6 +236,11 @@ The table below details every build combination that is currently run in CI.
 | Wrynose | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
 | Wrynose | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname<br>sdk-hello | Yes |
 | Wrynose | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Wrynose | renesas-image-minimal | Mainline | Renesas BSP v2024.07 | Renesas BSP v2.10.5 | rzv2h-evk | uname | Yes |
+| Wrynose | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2024.07 | Renesas BSP v2.10.5 | rzv2h-evk | uname | Yes |
+| Wrynose | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2024.07 | Renesas BSP v2.10.5 | rzv2h-evk | uname | Yes |
+| Wrynose | renesas-image-minimal | LTS v6.18 | Renesas BSP v2024.07 | Renesas BSP v2.10.5 | rzv2h-evk | uname | Yes |
+| Wrynose | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2024.07 | Renesas BSP v2.10.5 | rzv2h-evk | uname<br>sdk-hello | Yes |
 | Blacksail | renesas-image-minimal | Mainline | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Blacksail | renesas-image-minimal | LTS v6.6 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
 | Blacksail | renesas-image-minimal | LTS v6.12 | Mainline v2023.10 | Mainline v2.9.0 | hihope-rzg2h | uname | Yes |
@@ -303,3 +313,8 @@ The table below details every build combination that is currently run in CI.
 | Blacksail | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
 | Blacksail | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname<br>sdk-hello | Yes |
 | Blacksail | renesas-image-minimal | Renesas BSP v5.10 | Renesas BSP v2021.10 | Renesas BSP v2.9.0 | smarc-rzv2l | uname | Yes |
+| Blacksail | renesas-image-minimal | Mainline | Renesas BSP v2024.07 | Renesas BSP v2.10.5 | rzv2h-evk | uname | Yes |
+| Blacksail | renesas-image-minimal | CIP SLTS v6.1 | Renesas BSP v2024.07 | Renesas BSP v2.10.5 | rzv2h-evk | uname | Yes |
+| Blacksail | renesas-image-minimal | CIP SLTS v6.12 | Renesas BSP v2024.07 | Renesas BSP v2.10.5 | rzv2h-evk | uname | Yes |
+| Blacksail | renesas-image-minimal | LTS v6.18 | Renesas BSP v2024.07 | Renesas BSP v2.10.5 | rzv2h-evk | uname | Yes |
+| Blacksail | renesas-image-minimal (with SDK) | CIP SLTS v6.1 | Renesas BSP v2024.07 | Renesas BSP v2.10.5 | rzv2h-evk | uname<br>sdk-hello | Yes |

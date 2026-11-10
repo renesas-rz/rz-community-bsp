@@ -23,6 +23,9 @@ build:wrynose:smarc-rzg2ul:
 build:wrynose:smarc-rzv2l:
   extends: [.build-base, .renesas-image-minimal, .wrynose-g2l-family, .smarc-rzv2l]
 
+build:wrynose:rzv2h-evk:
+  extends: [.build-base, .renesas-image-minimal, .wrynose-v2h-family, .rzv2h-evk]
+
 
 build:sdk:wrynose:hihope-rzg2h:
   extends: [.build-base, .renesas-image-minimal, .build-wrynose, .hihope-rzg2h, .build-sdk]
@@ -47,6 +50,9 @@ build:sdk:wrynose:smarc-rzg2ul:
 
 build:sdk:wrynose:smarc-rzv2l:
   extends: [.build-base, .renesas-image-minimal, .build-wrynose, .smarc-rzv2l, .build-sdk]
+
+build:sdk:wrynose:rzv2h-evk:
+  extends: [.build-base, .renesas-image-minimal, .build-wrynose, .rzv2h-evk, .build-sdk]
 
 
 # Test jobs
@@ -114,6 +120,14 @@ test:wrynose:smarc-rzv2l:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, lts-6.18, mainline]
 
+test:wrynose:rzv2h-evk:
+  stage: test:wrynose
+  needs: ["build:wrynose:rzv2h-evk"]
+  extends: [.test-base, .wrynose, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .rzv2h-evk]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-6.1, cip-6.12, lts-6.18, mainline]
+
 
 test:sdk:wrynose:hihope-rzg2h:
   stage: test:wrynose
@@ -168,5 +182,12 @@ test:sdk:wrynose:smarc-rzv2l:
   stage: test:wrynose
   needs: ["build:sdk:wrynose:smarc-rzv2l"]
   extends: [.test-base-sdk, .wrynose, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzv2l]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:wrynose:rzv2h-evk:
+  stage: test:wrynose
+  needs: ["build:sdk:wrynose:rzv2h-evk"]
+  extends: [.test-base-sdk, .wrynose, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .rzv2h-evk]
   variables:
     BUILD_NAME: sdk

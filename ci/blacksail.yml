@@ -41,6 +41,9 @@ build:blacksail:smarc-rzg2ul:
 build:blacksail:smarc-rzv2l:
   extends: [.build-base, .renesas-image-minimal, .blacksail-g2l-family, .smarc-rzv2l]
 
+build:blacksail:rzv2h-evk:
+  extends: [.build-base, .renesas-image-minimal, .blacksail-v2h-family, .rzv2h-evk]
+
 
 build:sdk:blacksail:hihope-rzg2h:
   extends: [.build-base, .renesas-image-minimal, .build-blacksail, .hihope-rzg2h, .build-sdk]
@@ -65,6 +68,9 @@ build:sdk:blacksail:smarc-rzg2ul:
 
 build:sdk:blacksail:smarc-rzv2l:
   extends: [.build-base, .renesas-image-minimal, .build-blacksail, .smarc-rzv2l, .build-sdk]
+
+build:sdk:blacksail:rzv2h-evk:
+  extends: [.build-base, .renesas-image-minimal, .build-blacksail, .rzv2h-evk, .build-sdk]
 
 
 # Test jobs
@@ -132,6 +138,14 @@ test:blacksail:smarc-rzv2l:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, lts-6.18, mainline]
 
+test:blacksail:rzv2h-evk:
+  stage: test:blacksail
+  needs: ["build:blacksail:rzv2h-evk"]
+  extends: [.test-base, .blacksail, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .rzv2h-evk]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-6.1, cip-6.12, lts-6.18, mainline]
+
 
 test:sdk:blacksail:hihope-rzg2h:
   stage: test:blacksail
@@ -186,5 +200,12 @@ test:sdk:blacksail:smarc-rzv2l:
   stage: test:blacksail
   needs: ["build:sdk:blacksail:smarc-rzv2l"]
   extends: [.test-base-sdk, .blacksail, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzv2l]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:blacksail:rzv2h-evk:
+  stage: test:blacksail
+  needs: ["build:sdk:blacksail:rzv2h-evk"]
+  extends: [.test-base-sdk, .blacksail, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .rzv2h-evk]
   variables:
     BUILD_NAME: sdk

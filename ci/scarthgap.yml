@@ -47,6 +47,9 @@ build:scarthgap:smarc-rzg2ul:
 build:scarthgap:smarc-rzv2l:
   extends: [.build-base, .renesas-image-minimal, .scarthgap-g2l-family, .smarc-rzv2l]
 
+build:scarthgap:rzv2h-evk:
+  extends: [.build-base, .renesas-image-minimal, .scarthgap-v2h-family, .rzv2h-evk]
+
 
 build:sdk:scarthgap:hihope-rzg2h:
   extends: [.build-base, .renesas-image-minimal, .build-scarthgap, .hihope-rzg2h, .build-sdk]
@@ -71,6 +74,9 @@ build:sdk:scarthgap:smarc-rzg2ul:
 
 build:sdk:scarthgap:smarc-rzv2l:
   extends: [.build-base, .renesas-image-minimal, .build-scarthgap, .smarc-rzv2l, .build-sdk]
+
+build:sdk:scarthgap:rzv2h-evk:
+  extends: [.build-base, .renesas-image-minimal, .build-scarthgap, .rzv2h-evk, .build-sdk]
 
 
 # Test jobs
@@ -154,6 +160,14 @@ test:scarthgap:smarc-rzv2l:
     matrix:
       - BUILD_NAME: [cip-5.10, cip-6.1, cip-6.12, renesas-5.10, lts-6.6, lts-6.12, lts-6.18, mainline]
 
+test:scarthgap:rzv2h-evk:
+  stage: test:scarthgap
+  needs: ["build:scarthgap:rzv2h-evk"]
+  extends: [.test-base, .scarthgap, .lava-templates-bootloader, .standard-test-cases, .renesas-image-minimal, .rzv2h-evk]
+  parallel:
+    matrix:
+      - BUILD_NAME: [cip-6.1, cip-6.12, lts-6.18, mainline]
+
 
 test:sdk:scarthgap:hihope-rzg2h:
   stage: test:scarthgap
@@ -208,5 +222,12 @@ test:sdk:scarthgap:smarc-rzv2l:
   stage: test:scarthgap
   needs: ["build:sdk:scarthgap:smarc-rzv2l"]
   extends: [.test-base-sdk, .scarthgap, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .smarc-rzv2l]
+  variables:
+    BUILD_NAME: sdk
+
+test:sdk:scarthgap:rzv2h-evk:
+  stage: test:scarthgap
+  needs: ["build:sdk:scarthgap:rzv2h-evk"]
+  extends: [.test-base-sdk, .scarthgap, .lava-templates-bootloader, .sdk-test-cases, .renesas-image-minimal, .rzv2h-evk]
   variables:
     BUILD_NAME: sdk

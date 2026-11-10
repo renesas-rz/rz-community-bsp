@@ -47,6 +47,9 @@ bool
 config FAMILY_G2L
 bool
 
+config FAMILY_V2H
+bool
+
 menu "Machine"
 choice
 	prompt "Select the machine to build for"
@@ -140,6 +143,17 @@ choice
 	depends on MACHINE_SMARC-RZV2L
 	default "kas/machine/smarc-rzv2l.yml"
 
+	config MACHINE_RZV2H-EVK
+	bool "rzv2h-evk"
+	select FAMILY_V2H
+	help
+		Select the Renesas RZ/V2H Evaluation Kit
+
+	config KAS_INCLUDE_MACHINE_RZV2H-EVK
+	string
+	depends on MACHINE_RZV2H-EVK
+	default "kas/machine/rzv2h-evk.yml"
+
 endchoice
 endmenu
 
@@ -177,8 +191,10 @@ choice
 	prompt "Select the Linux kernel version to use"
 	default KERNEL_CIP_6.1
 
+	# RZ/V2H is only supported by CIP v6.1, CIP v6.12, LTS v6.18 and Mainline kernels
 	config KERNEL_RENESAS_5.10
 	bool "Renesas v5.10"
+	depends on !FAMILY_V2H
 	help
 		Use the Linux kernel from the Renesas BSP based on CIP SLTS v5.10
 
@@ -189,6 +205,7 @@ choice
 
 	config KERNEL_CIP_5.10
 	bool "CIP SLTS v5.10"
+	depends on !FAMILY_V2H
 	help
 		Use the CIP SLTS Linux kernel v5.10
 
@@ -219,6 +236,7 @@ choice
 
 	config KERNEL_LTS_6.6
 	bool "LTS v6.6"
+	depends on !FAMILY_V2H
 	help
 		Use the latest LTS v6.6 kernel.
 
@@ -232,6 +250,7 @@ choice
 
 	config KERNEL_LTS_6.12
 	bool "LTS v6.12"
+	depends on !FAMILY_V2H
 	help
 		Use the latest LTS v6.12 kernel.
 
@@ -278,10 +297,12 @@ menu "Bootloaders"
 	choice
 		prompt "Select the U-Boot version to use"
 		default UBOOT_MAINLINE_2024.10 if FAMILY_G2H
+		default UBOOT_RENESAS_2024.07 if FAMILY_V2H
 		default UBOOT_RENESAS_2021.10
 
 		config UBOOT_RENESAS_2021.10
 		bool "Renesas v2021.10"
+		depends on !FAMILY_V2H
 		help
 			Use the U-Boot from the Renesas BSP based on v2021.10
 
@@ -289,6 +310,17 @@ menu "Bootloaders"
 		string
 		depends on UBOOT_RENESAS_2021.10
 		default "kas/u-boot/renesas-2021.10.yml"
+
+		config UBOOT_RENESAS_2024.07
+		bool "Renesas v2024.07"
+		depends on FAMILY_V2H
+		help
+			Use the U-Boot from the Renesas BSP based on v2024.07
+
+		config KAS_INCLUDE_UBOOT_RENESAS_2024.07
+		string
+		depends on UBOOT_RENESAS_2024.07
+		default "kas/u-boot/renesas-2024.07.yml"
 
 		config UBOOT_MAINLINE_2024.10
 		bool "Mainline v2024.10"
@@ -307,10 +339,12 @@ menu "Bootloaders"
 	choice
 		prompt "Select the Trusted-Firmware-A version to use"
 		default TFA_MAINLINE_2.10.8 if FAMILY_G2H
+		default TFA_RENESAS_2.10.5 if FAMILY_V2H
 		default TFA_RENESAS_2.9.0
 
 		config TFA_RENESAS_2.9.0
 		bool "Renesas v2.9.0"
+		depends on !FAMILY_V2H
 		help
 			Use the Trusted-Firmware-A v2.9.0 from the Renesas BSP
 
@@ -318,6 +352,17 @@ menu "Bootloaders"
 		string
 		depends on TFA_RENESAS_2.9.0
 		default "kas/trusted-firmware-a/renesas-2.9.0.yml"
+
+		config TFA_RENESAS_2.10.5
+		bool "Renesas v2.10.5"
+		depends on FAMILY_V2H
+		help
+			Use the Trusted-Firmware-A v2.10.5 from the Renesas BSP
+
+		config KAS_INCLUDE_TFA_RENESAS_2.10.5
+		string
+		depends on TFA_RENESAS_2.10.5
+		default "kas/trusted-firmware-a/renesas-2.10.5.yml"
 
 		config TFA_MAINLINE_2.10.8
 		bool "Mainline v2.10.8 LTS"
